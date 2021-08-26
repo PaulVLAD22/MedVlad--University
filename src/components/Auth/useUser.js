@@ -14,7 +14,7 @@ export const useUser = () => {
     const [pageToDisplay, setPageToDisplay] = useState("login");
 
     const logIn = async (details) => {
-        let url = "http://localhost:8080/test/cox";
+        let url = "https://medvlad.herokuapp.com/test/cox";
     const agent = new https.Agent({
       rejectUnauthorized: false
     });
