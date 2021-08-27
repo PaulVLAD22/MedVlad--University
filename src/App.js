@@ -8,13 +8,11 @@ import LoginForm from './components/login/LoginForm';
 import SignupForm from './components/login/SignupForm';
 import Dashboard from './components/Dashboard'
 import './App.css';
-import axios from "axios"
-import https from 'https'
+import ForgotPasswordForm from './components/login/ForgotPasswordForm';
 
 export const UserContext = createContext(null);
 
 function App() {
-
   const context = useUser();
 
   useEffect(() => {
@@ -56,6 +54,7 @@ function App() {
                 <Switch>
                   <Route exact path="/login" component={LoginForm} />
                   <Route exact path="/register" component={SignupForm} />
+                  <Route exact path="/forgotPassword" component={ForgotPasswordForm}/>
                   <Route exact path="/" component={LoginForm} />
                   <Route exact path="*">
                     <NotFoundPage />

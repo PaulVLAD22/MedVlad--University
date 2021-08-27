@@ -6,11 +6,11 @@ import {
     Input,
     Link,
     Text,
+    Center
 } from "@chakra-ui/react";
 import { GiPlagueDoctorProfile } from 'react-icons/gi'
 import { primaryColor, secondaryColor, backgroundColorCode, backgroundImageGradient, errorColor } from "../utils/colors"
 import React, { useContext, useState } from "react";
-import { useHistory } from "react-router";
 import { UserContext } from "../../App";
 import { apiClient } from "../utils/apiClient";
 
@@ -21,35 +21,18 @@ const SignupForm = () => {
         password: "",
         confirmPassword: "",
     });
-    const history = useHistory();
+    
     const context = useContext(UserContext);
 
-    const submitHandler = async () => {
-        if (details.password != details.confirmPassword) {
-
-            context.setError("Passwords don't match");
-        } else {
-            try {
-                const res = await apiClient.post("/api/Account/Register", {
-                    Email: details.email,
-                    Username: details.username,
-                    Password: details.password,
-                    ConfirmPassword: details.confirmPassword,
-                });
-
-                context?.setError("");
-                history.push("/login");
-                history.go(0);
-            } catch (err) {
-                console.log(err.response.data.Message);
-
-                context?.setError(err.response.data.Message ?? "An error has occcured");
-            }
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        if (details.password == details.confirmPassword) {
+            context.signUp(details)
         }
     };
 
     return (
-        <div
+        <Center
             style={{
                 width: "100vw",
                 height: "100vh",
@@ -74,11 +57,16 @@ const SignupForm = () => {
                         borderRadius="10"
                         centerContent={true}
                         border="1px"
-                        borderColor = "white"
+                        borderColor="white"
                         backgroundColor="white"
                     >
+                        {context.error != "" && (
+                            <Text my={1} fontSize="lg" color={errorColor}>
+                                {context.error}
+                            </Text>
+                        )}
                         <Text
-                            letterSpacing="5px"
+                            letterSpacing="8px"
                             p="5"
                             fontWeight="semibold"
                             fontSize="4xl"
@@ -86,24 +74,12 @@ const SignupForm = () => {
                         >
                             MedLine<GiPlagueDoctorProfile style={{ display: "inline-block", position: "relative", top: '-3px' }}></GiPlagueDoctorProfile>
                         </Text>
-
-                        {
-                            //@ts-ignore
-                            context.error != "" && (
-                                <Text fontSize="lg" color={errorColor}>
-                                    {
-                                        //@ts-ignore
-                                        context.error
-                                    }
-                                </Text>
-                            )
-                        }
                         <FormControl>
                             <FormLabel htmlFor="email">Email:</FormLabel>
                             <Input
                                 required={true}
                                 size="md"
-                                variant="filled"
+                                variant="flushed"
                                 type="email"
                                 name="email"
                                 id="email"
@@ -118,7 +94,7 @@ const SignupForm = () => {
                             <Input
                                 required={true}
                                 size="md"
-                                variant="filled"
+                                variant="flushed"
                                 name="usename"
                                 id="usename"
                                 onChange={(e) => {
@@ -129,26 +105,16 @@ const SignupForm = () => {
                         </FormControl>
                         <FormControl>
                             <FormLabel htmlFor="password">Password</FormLabel>
-                            {
-                                // !genericPasswordRegex.test(details.password) && (
-                                //   <Text color="red.600">
-                                //     Your password must contain at least 8 characters, a number,
-                                //     uppercase and lowercase letters and a special character.
-                                //   </Text>
-                                //)
-                            }
-
                             <Input
                                 required={true}
                                 size="md"
-                                variant="filled"
+                                variant="flushed"
                                 type="password"
                                 name="password"
                                 id="password"
                                 onChange={(e) => {
                                     setDetails({ ...details, password: e.target.value });
                                 }}
-                                error={details.password !== details.confirmPassword}
                                 value={details.password}
                             />
                         </FormControl>
@@ -160,7 +126,7 @@ const SignupForm = () => {
                             <Input
                                 required={true}
                                 size="md"
-                                variant="filled"
+                                variant="flushed"
                                 type="password"
                                 name="confirmPassword"
                                 id="confirmPassword"
@@ -171,7 +137,7 @@ const SignupForm = () => {
                                 value={details.confirmPassword}
                             />
                         </FormControl>
-                        <Button mt={4} colorScheme={secondaryColor} size="md" onClick={submitHandler}>
+                        <Button mt={4} colorScheme={secondaryColor} size="md" type="submit">
                             Sign up
                         </Button>
 
@@ -181,7 +147,7 @@ const SignupForm = () => {
                     </Container>
                 </form>
             </div>
-        </div>
+        </Center>
     );
 };
 

@@ -6,29 +6,30 @@ import {
 	Input,
 	Link,
 	Text,
+	Center
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import { GiPlagueDoctorProfile } from 'react-icons/gi'
-import { primaryColor, secondaryColor,backgroundColorCode,backgroundImageGradient, errorColor } from "../utils/colors"
+import { primaryColor, secondaryColor, backgroundColorCode, backgroundImageGradient, errorColor } from "../utils/colors"
 
-const LoginForm = ({ Login, error }) => {
-	console.log(backgroundColorCode)
-	const [details, setDetails] = useState({ email: "", password: "" });
+const LoginForm = () => {
+
+	const [error, setError] = useState("")
+	const [details, setDetails] = useState({ username: "", password: "" });
 	const context = useContext(UserContext);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		Login(details);
-	};
-
-	const handleLogin = () => {
-
-		context.logIn(details);
+		if (details.username && details.password)
+			context.logIn(details);
+		else
+			setError("Both fields must be completed");
+	
 	};
 
 	return (
-		<div
+		<Center
 			style={{
 				width: "100vw",
 				height: "100vh",
@@ -50,11 +51,14 @@ const LoginForm = ({ Login, error }) => {
 						p="10"
 						borderRadius="10"
 						centerContent={true}
-						border="1px"
-						borderColor = "white"
 						backgroundColor="white">
+						{error != "" && (
+							<Text my={1} fontSize="lg" color={errorColor}>
+								{error}
+							</Text>
+						)}
 						<Text
-							letterSpacing="5px"
+							letterSpacing="8px"
 							p="5"
 							fontWeight="semibold"
 							fontSize="4xl"
@@ -63,30 +67,25 @@ const LoginForm = ({ Login, error }) => {
 							<GiPlagueDoctorProfile style={{ display: "inline-block", position: "relative", top: '-3px' }}></GiPlagueDoctorProfile>
 						</Text>
 
-						{error != "" && (
-							<Text fontSize="lg" color={errorColor}>
-								{error}
-							</Text>
-						)}
+
 						<FormControl>
-							<FormLabel htmlFor="email">Username:</FormLabel>
+							<FormLabel htmlFor="username">Username / Email:</FormLabel>
 							<Input
 								required={true}
 								size="md"
-								variant="filled"
-								type="email"
-								name="email"
-								id="email"
+								variant="flushed"
+								name="username"
+								id="username"
 								onChange={(e) => {
-									setDetails({ ...details, email: e.target.value });
+									setDetails({ ...details, username: e.target.value });
 								}}
-								value={details.email}
+								value={details.username}
 							/>
 							<FormLabel htmlFor="password">Password</FormLabel>
 							<Input
 								required={true}
 								size="md"
-								variant="filled"
+								variant="flushed"
 								type="password"
 								name="password"
 								id="password"
@@ -96,17 +95,18 @@ const LoginForm = ({ Login, error }) => {
 								value={details.password}
 							/>
 						</FormControl>
-						<Button mt={4} colorScheme={secondaryColor} size="md" onClick={handleLogin}>
+						<Button mt={4} colorScheme={secondaryColor} size="md" type="submit">
 							Log in
 						</Button>
 
 						<Link href="/register" my={2}>
 							Sign Up
 						</Link>
+						<Link href="/forgotPassword" my={2}>Forgot Password</Link>
 					</Container>
 				</form>
 			</div>
-		</div>
+		</Center>
 	);
 };
 

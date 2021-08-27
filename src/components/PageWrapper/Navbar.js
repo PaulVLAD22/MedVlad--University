@@ -13,8 +13,9 @@ import {
 import React, { useContext } from "react";
 import { useHistory } from "react-router";
 import { UserContext } from "../../App";
+import { backgroundImageGradient } from "../utils/colors";
 
-export const Navbar  = () => {
+export const Navbar = () => {
 	const history = useHistory();
 
 	const context = useContext(UserContext);
@@ -40,12 +41,12 @@ export const Navbar  = () => {
 	// };
 
 	const handleLogout = () => {
-		context?.logOut();
+		context.logOut();
 		history.push("/");
 	};
 	return (
 		<Flex
-			bgGradient="linear-gradient(180deg, rgb(21, 73, 60) 0%, rgba(20,99,89,1) 100%)"
+			bgGradient={backgroundImageGradient}
 			width="100vw"
 			height="60px"
 			borderBottom="2px solid black"
@@ -103,61 +104,24 @@ export const Navbar  = () => {
 				</Button> */}
 			</Flex>
 
-			{/* <Menu>
-				<MenuButton as={Button} mx={6}>
-					{
-		
-						context?.userInfo?.userName
-					}
+			<Menu>
+				<Flex>
 
-					<TriangleDownIcon height="14px" ml={2} />
-				</MenuButton>
+					<Divider />
 
-				<MenuList>
-					<Flex width="100%" alignItems="center" direction="column">
-						<Avatar
-							size="lg"
-							py={3}
-							name={
-								
-								context.userInfo.userName
-							}
-							src={
-								//@ts-ignore
-								context.userInfo.profilePicture
-							}
-						/>
-
-						<Text fontWeight="bold" fontSize="18px" my={3}>
-							{
-								//@ts-ignore
-								context.userInfo.userName
-							}
+					<MenuItem>
+						<Text
+							fontSize="18px"
+							width="100%"
+							display="flex"
+							justifyContent="center"
+							onClick={handleLogout}>
+							Log out
 						</Text>
+					</MenuItem>
+				</Flex>
 
-						<Text fontSize="18px" my={3}>
-							Coins:{" "}
-							{
-								//@ts-ignore
-								parseInt(context.userInfo.balance)
-							}
-						</Text>
-
-						<Divider />
-
-						<MenuItem>
-							<Text
-								fontSize="18px"
-								width="100%"
-								display="flex"
-								justifyContent="center"
-								onClick={handleLogout}>
-								Log out
-							</Text>
-						</MenuItem>
-					</Flex>
-				</MenuList>
-			</Menu> */}
+			</Menu>
 		</Flex>
 	);
 };

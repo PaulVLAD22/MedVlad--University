@@ -1,6 +1,7 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Button, Center, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 import { useHistory } from "react-router";
+import {backgroundImageGradient} from '../utils/colors'
 
 export const NotFoundPage  = () => {
   const history = useHistory();
@@ -8,37 +9,33 @@ export const NotFoundPage  = () => {
     history.goBack();
   };
   return (
-    <Flex
-      width="100%"
-      height="100%"
-      alignItems="center"
-      justifyContent="center"
+    <Center
+      width="100vw"
+      height="90vh"
     >
       <Flex
         direction="column"
-        minW="400px"
-        padding={6}
-        bgGradient="linear-gradient(45deg, rgba(12,24,21,1) 0%, rgba(20,99,89,1) 100%)"
-        border="2px solid black"
-        borderRadius="lg"
+        padding={3}
+        bgGradient= {backgroundImageGradient}
+        borderRadius="10"
       >
-        <Text fontWeight="bold" fontSize="28" color="white">
+      <Text fontWeight="semibold" fontSize="24" color="white" fontFamily="cursive">
           Error 404: Page not found
         </Text>
 
         <Text fontSize="18px" color="white">
-          The page you are currently looking for does not exist. Click{" "}
+          This page doesn't exist. Click{" "}
           <Button
             variant="link"
             onClick={goBack}
-            color="#76ddcf"
+            color={"black"}
             fontSize="18px"
           >
             here
           </Button>{" "}
-          to go back to the previous page.
+          to go back.
         </Text>
       </Flex>
-    </Flex>
+    </Center>
   );
 };
