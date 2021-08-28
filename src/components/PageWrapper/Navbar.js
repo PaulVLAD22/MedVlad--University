@@ -13,7 +13,7 @@ import {
 import React, { useContext } from "react";
 import { useHistory } from "react-router";
 import { UserContext } from "../../App";
-import { backgroundImageGradient } from "../utils/colors";
+import { backgroundImageGradient, secondaryColor } from "../utils/colors";
 
 export const Navbar = () => {
 	const history = useHistory();
@@ -23,22 +23,16 @@ export const Navbar = () => {
 	const goHome = () => {
 		history.push("/");
 	};
-
-	// const goToSnake = () => {
-	// 	history.push("/snake");
-	// };
-
-	// const goToSudoku = () => {
-	// 	history.push("/sudoku");
-	// };
-
-	// const goToInventory = () => {
-	// 	history.push("/inventory");
-	// };
-
-	// const goToShop = () => {
-	// 	history.push("/shop");
-	// };
+  
+  const goToChat = () => {
+    history.push("/chat");
+  }
+  const goToMail = () => {
+    history.push("/mail");
+  }
+  const goToInfostation = () =>{
+    history.push("/infostation");
+  }
 
 	const handleLogout = () => {
 		context.logOut();
@@ -46,62 +40,60 @@ export const Navbar = () => {
 	};
 	return (
 		<Flex
-			bgGradient={backgroundImageGradient}
+      background={backgroundImageGradient}
 			width="100vw"
 			height="60px"
-			borderBottom="2px solid black"
+			borderBottom="0.5px solid black"
 			justifyContent="space-between"
-			alignItems="center">
-			<Flex>
-				<Button variant="link" mx={2} onClick={goHome}>
-					<Text
+			alignItems="center"
+      paddingLeft="5">
+			<Flex 
+      >
+				<Button 
+        background="white"
+        colorScheme={secondaryColor} mx={3} onClick={goHome}
+          fontFamily="sans-serif"
 						fontSize="24"
 						fontWeight="bold"
-						color="white"
-						alignSelf="center">
-						HOME
-					</Text>
+						color="black"
+						alignSelf="center"
+            >
+						Home
 				</Button>
 
-				{/* <Button variant="link" mx={2} onClick={goToSudoku}>
-					<Text
+        <Button 
+        background="white"
+        colorScheme={secondaryColor} mx={3} onClick={goToInfostation}
+          fontFamily="sans-serif"
 						fontSize="24"
 						fontWeight="bold"
-						color="white"
-						alignSelf="center">
-						SUDOKU
-					</Text>
+						color="black"
+						alignSelf="center"
+            >
+						Infostation
 				</Button>
-
-				<Button variant="link" mx={2} onClick={goToSnake}>
-					<Text
+        <Button 
+        background="white"
+        colorScheme={secondaryColor} mx={3} onClick={goToChat}
+          fontFamily="sans-serif"
 						fontSize="24"
 						fontWeight="bold"
-						color="white"
-						alignSelf="center">
-						SNAKE
-					</Text>
+						color="black"
+						alignSelf="center"
+            >
+						Live Chat
 				</Button>
-
-				<Button variant="link" mx={2} onClick={goToInventory}>
-					<Text
+        <Button 
+        background="white"
+        colorScheme={secondaryColor} mx={3} onClick={goToMail}
+          fontFamily="sans-serif"
 						fontSize="24"
 						fontWeight="bold"
-						color="white"
-						alignSelf="center">
-						INVENTORY
-					</Text>
+						color="black"
+						alignSelf="center"
+            >
+						Mail 
 				</Button>
-
-				<Button variant="link" mx={2} onClick={goToShop}>
-					<Text
-						fontSize="24"
-						fontWeight="bold"
-						color="white"
-						alignSelf="center">
-						SHOP
-					</Text>
-				</Button> */}
 			</Flex>
 
 			<Menu>
@@ -110,14 +102,14 @@ export const Navbar = () => {
 					<Divider />
 
 					<MenuItem>
-						<Text
+						<Button
 							fontSize="18px"
 							width="100%"
 							display="flex"
 							justifyContent="center"
 							onClick={handleLogout}>
 							Log out
-						</Text>
+						</Button>
 					</MenuItem>
 				</Flex>
 

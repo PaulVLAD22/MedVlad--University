@@ -6,9 +6,12 @@ import { useUser } from "./components/Auth/useUser";
 import { PageWrapper } from "./components/PageWrapper";
 import LoginForm from './components/login/LoginForm';
 import SignupForm from './components/login/SignupForm';
-import Dashboard from './components/Dashboard'
+import HomePage from "./components/pages/HomePage"
 import './App.css';
 import ForgotPasswordForm from './components/login/ForgotPasswordForm';
+import InfostationPage from './components/pages/InfostationPage';
+import ChatPage from './components/pages/ChatPage';
+import MailPage from './components/pages/MailPage';
 
 export const UserContext = createContext(null);
 
@@ -35,9 +38,24 @@ function App() {
               <>
                 {console.log(!!context.jwt)}
                 <Switch>
+                  <Route exact path="/infostation">
+                    <PageWrapper>
+                      <InfostationPage/>
+                    </PageWrapper>
+                  </Route>
+                  <Route exact path="/chat">
+                    <PageWrapper>
+                      <ChatPage/>
+                    </PageWrapper>
+                  </Route>
+                  <Route exact path="/mail">
+                    <PageWrapper>
+                      <MailPage/>
+                    </PageWrapper>
+                  </Route>
                   <Route exact path="/">
                     <PageWrapper>
-                      <Dashboard />
+                      <HomePage/>
                     </PageWrapper>
                   </Route>
 
