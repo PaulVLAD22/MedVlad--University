@@ -2,6 +2,7 @@ import{
 	Button,
 	Flex,
 	Menu,
+  Text
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import styled from "styled-components";
@@ -96,10 +97,20 @@ export const Navbar = ({toggle}) => {
 			</LeftNavMenu>
 
 			<Menu>
-				<Flex>
+				<Flex justifyContent="space-between"
+        alignItems="center">
+            <Text
+            fontSize="20"
+            color="black"
+            padding="3"
+            px="5"
+            fontWeight="bold"
+            fontFamily="sans-serif">
+              Hello{" "}{context.userInfo.username}
+            </Text>
 						<Button
 							fontSize="18px"
-							width="100%"
+							width="100px"
 							display="flex"
 							justifyContent="center"
 							onClick={handleLogout}>

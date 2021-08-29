@@ -16,7 +16,7 @@ export const useUser = () => {
     console.log("LOGIN")
 
     const token = "1134135315135135"
-    const userObj = JSON.stringify({access_token:"123",email:"paulvlad34@gmail.com",
+    const userObj = JSON.stringify({access_token:"123",username:"vlad",email:"paulvlad34@gmail.com",
     role:"user"})
     const parsedUserObj = JSON.parse(userObj)
 
