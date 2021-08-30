@@ -8,10 +8,11 @@ const ChatBox = () => {
       flexDirection="column"
       border="0px black solid"
       width="min(450px,100%)"
-      height="70%"
+      height="min(70%,500px)"
       padding="4"
       boxShadow="dark-lg"
       borderRadius="10"
+      backgroundColor="white"
     >
       <Flex justifyItems="center" alignItems="center" width="100%"
       height="100px">

@@ -1,4 +1,10 @@
+import { Center } from "@chakra-ui/layout";
+import QuestionsBox from "../QuestionsBox"
 const InfostationPage = () =>{
-  return <h2>Infostation</h2>
+  return (
+    <Center width="100%">
+      <QuestionsBox/>
+    </Center>
+  );
 }
 export default InfostationPage
