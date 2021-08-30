@@ -1,4 +1,4 @@
-import { Center, Flex, Img, Text,Input,Button } from "@chakra-ui/react";
+import { Center, Flex, Img, Text,Input,Button,Textarea } from "@chakra-ui/react";
 import ChatMessage from "./ChatMessage";
 import {secondaryColor} from "../utils/colors"
 import {FiSend} from "react-icons/fi"
@@ -7,13 +7,14 @@ const ChatBox = () => {
     <Flex
       flexDirection="column"
       border="0px black solid"
-      width="min(400px,100%)"
-      height="50%"
+      width="min(450px,100%)"
+      height="70%"
       padding="4"
       boxShadow="dark-lg"
       borderRadius="10"
     >
-      <Flex justifyItems="center" alignItems="center" width="100%" height="20%">
+      <Flex justifyItems="center" alignItems="center" width="100%"
+      height="100px">
         <Img
           src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
           width="100px"
@@ -23,15 +24,35 @@ const ChatBox = () => {
           Doctor Marin Johnson
         </Text>
       </Flex>
-      <Flex padding="2" flexDirection="column" border="1px black solid">
+      <Flex padding="2" flexDirection="column" 
+      height="80%">
+        <Flex
+        flexDir="column"
+        overflowY="auto"
+        marginBottom="2"
+        >
         <ChatMessage content="Hi John, What's your problem you retard? Trying to copy me?" />
         <ChatMessage content="Hi John, What's your problem you retard?" />
-        <Flex>
-        <Input width="100%"
-        placeholder="..."
+        <ChatMessage content="Hi John, What's your problem you retard?" />
+        <ChatMessage content="Hi John, What's your problem you retard?" />
+        <ChatMessage content="Hi John, What's your problem you retard?" />
+        <ChatMessage content="Hi John, What's your problem you retard?" />
+        <ChatMessage content="Hi John, What's your problem you retard?" />
+        <ChatMessage content="Hi John, What's your problem you retard?" />
+        <ChatMessage content="Hi John, What's your problem you retard?" />
+        <ChatMessage content="Hi John, What's your problem you retard?" />
+        
+        </Flex>
+        <Flex position="relative" m="1" marginTop="2">
+        <Textarea width="85%"
+        resize="none"
+        placeholder="Send a message"
         variant="filled"
-        ></Input>
-        <Button width="20px">
+        ></Textarea>
+        <Button
+        position="absolute"
+        right="0.5" 
+        width="20px">
           <FiSend/>
         </Button>
         </Flex>
