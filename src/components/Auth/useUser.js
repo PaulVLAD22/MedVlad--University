@@ -4,7 +4,7 @@ import { apiClient } from "../utils/apiClient"
 
 export const useUser = () => {
   const [jwt, setJwt] = useState("");
-  console.log("USUSEER")
+
   const history = useHistory();
 
   const [userInfo, setUserInfo] = useState({})
@@ -16,16 +16,21 @@ export const useUser = () => {
     console.log("LOGIN")
 
     const token = "1134135315135135"
-    const userObj = JSON.stringify({access_token:"123",username:"vlad",email:"paulvlad34@gmail.com",
-    role:"user"})
+
+    const userObj = JSON.stringify({
+      access_token: "123", username: "vlad", email: "paulvlad34@gmail.com",
+      role: "user"
+    })
+
     const parsedUserObj = JSON.parse(userObj)
 
     await localStorage.setItem("JWTToken", token);
     await localStorage.setItem("userInfo", userObj);
-    setJwt(token);
+
     setUserInfo(parsedUserObj);
-    
-    
+    setJwt(token);
+
+
     // nu merge - history.go(0)
 
     // let url = "http://localhost:8080/test/cox";
