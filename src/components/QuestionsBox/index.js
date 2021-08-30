@@ -14,6 +14,8 @@ const QuestionsBox = () => {
                 alignItems="center"
                 p={5}>
                 <InfostationDescription/>
+                <Text>This is a search bar</Text>
+                <Input></Input>
                 <Question content="Intrebare lunga lunga lunga lunga lunga lunga lunga lunga?" answerB={{content:"Raspuns Corect",author:"Doctor Marian",numberOfLikes:20}} />
                 <Question content="Intrebare lunga lunga lunga lunga lunga lunga lunga lunga?" answerB={{content:"Raspuns Corect",author:"Doctor Marian",numberOfLikes:20}}/>
                 <Flex m="5" width="70%" flexDirection="column" alignItems="center">

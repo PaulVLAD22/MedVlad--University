@@ -4,6 +4,7 @@ const Answer = ({content,author,numberOfLikes}) => {
         <Flex border="1px solid black" 
         alignItems="center"
         width="100%"
+        padding="2"
         >
             <Button width="10%">{numberOfLikes}</Button>
             <Text width="70%" m="2">{content}</Text>
