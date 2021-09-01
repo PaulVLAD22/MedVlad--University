@@ -1,4 +1,10 @@
+import MailBox from "../MailBox"
+import { Center } from "@chakra-ui/layout"
 const MailPage = () =>{
-  return <h2>Mail</h2>
+  return (
+    <Center width="100%" height="100%">
+      <MailBox/>
+    </Center>
+  )
 }
 export default MailPage
