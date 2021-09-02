@@ -34,7 +34,17 @@ const QuestionsBox = () => {
           "Intrebare lunga lunga lunga lunga lunga lunga lunga lunga?".includes(searchWord) &&
         <Question
           content="Intrebare lunga lunga lunga lunga lunga lunga lunga lunga?"
+          answerA={{
+            content: "Raspuns Corect",
+            author: "Doctor Marian",
+            numberOfLikes: 20,
+          }}
           answerB={{
+            content: "Raspuns Corect",
+            author: "Doctor Marian",
+            numberOfLikes: 20,
+          }}
+          answerC={{
             content: "Raspuns Corect",
             author: "Doctor Marian",
             numberOfLikes: 20,
@@ -45,8 +55,18 @@ const QuestionsBox = () => {
           "Intrebare lunga lunga lunga lunga lunga lunga lunga lunga?".includes(searchWord) &&
         
         <Question
-          content="Intrebare lunga lunga lunga lunga lunga lunga lunga lunga?"
+          content="Intrebare lunga lunga lunga lunga lunga lunga lunga lunga?Intrebare lunga lunga lunga lunga lunga lunga lunga lunga"
+          answerA={{
+            content: "Raspuns Corect",
+            author: "Doctor Marian",
+            numberOfLikes: 20,
+          }}
           answerB={{
+            content: "Raspuns Corect Raspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns CorectRaspuns Corect",
+            author: "Doctor Marian",
+            numberOfLikes: 20,
+          }}
+          answerC={{
             content: "Raspuns Corect",
             author: "Doctor Marian",
             numberOfLikes: 20,

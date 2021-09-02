@@ -5,13 +5,13 @@ const Question = ({content,answerA,answerB,answerC}) => {
     return (
         <Flex width="80%" flexDirection="column" alignItems="center"
         border="1px solid black" m="3">
-            <Text fontSize="lg"
-            fontWeight="bold">{content}</Text>
+            <Text fontSize="medium" p="2"
+            fontWeight="semibold">{content}</Text>
             <Flex width="100%" alignItems="center"
             justifyContent="center" flexDirection="column" >
-                <Answer content="Raspuns A raspuns lung cu multe cuvinte si o gramdade de litere poate chiar cifre daca vorbeste de gramaj doctorul" author="Doctor Marin" numberOfLikes={20} />
+                <Answer content={answerA.content} author={answerA.author} numberOfLikes={answerA.numberOfLikes} />
                 <Answer content={answerB.content} author={answerB.author} numberOfLikes={answerB.numberOfLikes} />
-                <Answer content="Raspuns A" author="Doctor Marin" numberOfLikes={20} />
+                <Answer content={answerC.content} author={answerC.author} numberOfLikes={answerC.numberOfLikes} />
             </Flex>
         </Flex>
     )

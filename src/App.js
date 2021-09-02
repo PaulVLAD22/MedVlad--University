@@ -12,6 +12,8 @@ import ForgotPasswordForm from './components/login/ForgotPasswordForm';
 import InfostationPage from './components/pages/InfostationPage';
 import ChatPage from './components/pages/ChatPage';
 import MailPage from './components/pages/MailPage';
+import AcceptUsersPage from './components/pages/admin/AcceptUsersPage';
+import AcceptDoctorsPage from './components/pages/admin/AcceptDoctorsPage';
 
 export const UserContext = createContext(null);
 
@@ -23,7 +25,7 @@ function App() {
     let token = localStorage.getItem("JWTToken");
     if (token != null) {
       if (!context.jwt) {
-        context.setJwt(token); 
+        context.setJwt(token);
         context.setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
       }
     }
@@ -34,28 +36,28 @@ function App() {
       <UserContext.Provider value={context}>
         <div className="App">
           <Router>
-            {!!context.jwt ? (
+            {(!!context.jwt && context.userInfo.role == "user") &&
               <>
                 {console.log(!!context.jwt)}
                 <Switch>
                   <Route exact path="/infostation">
                     <PageWrapper>
-                      <InfostationPage/>
+                      <InfostationPage />
                     </PageWrapper>
                   </Route>
                   <Route exact path="/chat">
                     <PageWrapper>
-                      <ChatPage/>
+                      <ChatPage />
                     </PageWrapper>
                   </Route>
                   <Route exact path="/mail">
                     <PageWrapper>
-                      <MailPage/>
+                      <MailPage />
                     </PageWrapper>
                   </Route>
                   <Route exact path="/">
                     <PageWrapper>
-                      <HomePage/>
+                      <HomePage />
                     </PageWrapper>
                   </Route>
 
@@ -66,20 +68,42 @@ function App() {
                   </Route>
                 </Switch>
               </>
-            ) : (
+            }
+            {(!!context.jwt && context.userInfo.role == "admin") &&
+              <Switch>
+                <Route exact path="/acceptUsers">
+                  <PageWrapper>
+                    <AcceptUsersPage />
+                  </PageWrapper>
+                </Route>
+                <Route exact path="/acceptDoctors">
+                  <PageWrapper>
+                    <AcceptDoctorsPage />
+                  </PageWrapper>
+                </Route>
+                <Route exact path="*">
+                  <PageWrapper>
+                    <NotFoundPage />
+                  </PageWrapper>
+                </Route>
+              </Switch>
+            }
+
+            {(!context.jwt) &&
               <>
                 {console.log(!!context.jwt, "from false")}
                 <Switch>
                   <Route exact path="/login" component={LoginForm} />
                   <Route exact path="/register" component={SignupForm} />
-                  <Route exact path="/forgotPassword" component={ForgotPasswordForm}/>
+                  <Route exact path="/forgotPassword" component={ForgotPasswordForm} />
                   <Route exact path="/" component={LoginForm} />
                   <Route exact path="*">
                     <NotFoundPage />
                   </Route>
                 </Switch>
               </>
-            )}
+            }
+
           </Router>
         </div>
       </UserContext.Provider>

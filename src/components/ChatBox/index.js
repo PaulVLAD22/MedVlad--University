@@ -32,16 +32,16 @@ const ChatBox = () => {
         overflowY="auto"
         marginBottom="2"
         >
-        <ChatMessage content="Hi John, What's your problem you retard? Trying to copy me?" />
-        <ChatMessage content="Hi John, What's your problem you retard?" />
-        <ChatMessage content="Hi John, What's your problem you retard?" />
-        <ChatMessage content="Hi John, What's your problem you retard?" />
-        <ChatMessage content="Hi John, What's your problem you retard?" />
-        <ChatMessage content="Hi John, What's your problem you retard?" />
-        <ChatMessage content="Hi John, What's your problem you retard?" />
-        <ChatMessage content="Hi John, What's your problem you retard?" />
-        <ChatMessage content="Hi John, What's your problem you retard?" />
-        <ChatMessage content="Hi John, What's your problem you retard?" />
+        <ChatMessage time="12:23" content="Hi John, What's your problem you retard? Trying to copy me?" />
+        <ChatMessage time="12:23" content="Hi John, What's your problem you retard?" />
+        <ChatMessage time="12:23" content="Hi John, What's your problem you retard?" />
+        <ChatMessage time="12:23" content="Hi John, What's your problem you retard?" />
+        <ChatMessage time="12:24" content="Hi John, What's your problem you retard?" />
+        <ChatMessage time="12:24" content="Hi John, What's your problem you retard?" />
+        <ChatMessage time="12:24" content="Hi John, What's your problem you retard?" />
+        <ChatMessage time="12:24" content="Hi John, What's your problem you retard?" />
+        <ChatMessage time="12:24" content="Hi John, What's your problem you retard?" />
+        <ChatMessage time="12:25" content="Hi John, What's your problem you retard?" />
         
         </Flex>
         <Flex position="relative" m="1" marginTop="2">
