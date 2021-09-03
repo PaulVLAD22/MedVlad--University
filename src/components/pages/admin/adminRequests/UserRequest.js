@@ -8,7 +8,7 @@ const UserRequest = ({ name, nationality, username, email }) => {
             <Text>{name}</Text>
             <Text>{nationality}</Text>
             <Text>{username}</Text>
-            <Text>email@email.com</Text>
+            <Text>{email}</Text>
             <Button>
                 <AiOutlineStop></AiOutlineStop>
             </Button>

@@ -137,6 +137,12 @@ const SignupForm = () => {
                                 value={details.confirmPassword}
                             />
                         </FormControl>
+                        <FormControl>
+                            <FormLabel htmlFor="profilePicture">Profile Picture:</FormLabel>
+                            <Input
+                            type="file" id="profilePicture" name="profilePicture" accept="image/png, image/jpeg">
+                            </Input>
+                        </FormControl>
                         <Button mt={4} colorScheme={secondaryColor} size="md" type="submit">
                             Sign up
                         </Button>

@@ -15,6 +15,7 @@ import MailPage from './components/pages/MailPage';
 import AcceptUsersPage from './components/pages/admin/AcceptUsersPage';
 import AcceptDoctorsPage from './components/pages/admin/AcceptDoctorsPage';
 import HistoryPage from './components/pages/admin/HistoryPage';
+import AcceptQuestionsPage from './components/pages/admin/AcceptQuestionsPage';
 
 export const UserContext = createContext(null);
 
@@ -87,6 +88,13 @@ function App() {
                     <HistoryPage />
                   </PageWrapper>
                 </Route>
+                <Route exact path="/acceptQuestions">
+                  <PageWrapper>
+                    <AcceptQuestionsPage></AcceptQuestionsPage>
+                  </PageWrapper>
+                </Route>
+                {//TODO: Pagina de acceptat intrebari
+                }
                 <Route exact path="*">
                   <PageWrapper>
                     <NotFoundPage />

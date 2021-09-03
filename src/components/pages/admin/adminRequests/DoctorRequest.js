@@ -1,7 +1,7 @@
-import { Flex, Center, Box, Text, Button, Img } from "@chakra-ui/react"
+import { Flex, Center, Box, Text, Button, Img,Input } from "@chakra-ui/react"
 import { TiTick } from "react-icons/ti"
 import { AiFillStop, AiOutlineStop } from "react-icons/ai"
-const DoctorRequest = ({imgLink,name,nationality, hospital, profession}) => {
+const DoctorRequest = ({ imgLink, name, nationality, hospital, profession }) => {
     return (
         <Flex height="400px" width="min(100%,720px)" flexDir="column">
             <Flex width="100%" mb="10">
@@ -16,13 +16,20 @@ const DoctorRequest = ({imgLink,name,nationality, hospital, profession}) => {
                 </Flex>
             </Flex>
 
-            <Flex width="100%" justifyContent="space-between" fontSize="larger">
-                <Button>
-                    <AiFillStop></AiFillStop>
-                </Button>
-                <Button >
-                    <TiTick></TiTick>
-                </Button>
+            <Flex width="100%" flexDir="column" alignItems="center" >
+                
+
+                <Flex width="100%" justifyContent="space-between" fontSize="larger">
+                    <Button>
+                        <AiFillStop></AiFillStop>
+                    </Button>
+                    <Button >
+                        <TiTick></TiTick>
+                    </Button>
+                </Flex>
+                <Input width="50%" placeholder="comment...">
+
+                </Input>
 
 
             </Flex>
