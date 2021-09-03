@@ -24,9 +24,11 @@ const SideBar = ({isOpen,toggle}) =>{
     history.push("/acceptUsers")
   }
   const goToAcceptDoctors = () =>{
-    history.push("acceptDoctors")
+    history.push("/acceptDoctors")
   }
-
+  const goToAcceptanceHistory = () =>{
+    history.push("/acceptanceHistory")
+  }
   return (
     <SidebarContainer isOpen={isOpen} onClick={toggle}>
       <Icon onClick={toggle}>
@@ -46,6 +48,7 @@ const SideBar = ({isOpen,toggle}) =>{
           <>
           <SidebarLink onClick={goToAcceptUsers}>Users</SidebarLink>
           <SidebarLink onClick={goToAcceptDoctors}>Doctors</SidebarLink>
+          <SidebarLink onClick={goToAcceptanceHistory}>History</SidebarLink>
           </>}
           
         </SidebarMenu>

@@ -32,6 +32,9 @@ export const Navbar = ({ toggle }) => {
   const goAcceptDoctors = () => {
     history.push("/acceptDoctors")
   }
+  const goAcceptanceHistory = () => {
+    history.push("/acceptanceHistory")
+  }
   const handleLogout = () => {
     context.logOut();
     history.push("/");
@@ -74,6 +77,20 @@ export const Navbar = ({ toggle }) => {
           >
             Doctors
           </Button>
+          <Button
+            background="white"
+            colorScheme={secondaryColor}
+            mx={3}
+            onClick={goAcceptanceHistory}
+            fontFamily="sans-serif"
+            fontSize="20"
+            fontWeight="bold"
+            color="black"
+            alignSelf="center"
+          >
+            History
+          </Button>
+          
           
         </LeftNavMenu>
       }
