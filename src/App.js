@@ -18,7 +18,6 @@ import HistoryPage from './components/pages/admin/HistoryPage';
 import AcceptQuestionsPage from './components/pages/admin/AcceptQuestionsPage';
 import AdminHome from './components/pages/admin/AdminHome';
 import DoctorHome from "./components/pages/doctor/DoctorHome"
-import AnswerQuestions from './components/pages/doctor/AnswerQuestions';
 
 export const UserContext = createContext(null);
 
@@ -112,7 +111,8 @@ function App() {
               <Switch>
               <Route exact path="/answerQuestions">
                 <PageWrapper>
-                  <AnswerQuestions></AnswerQuestions>
+                
+                  <InfostationPage></InfostationPage>
                 </PageWrapper>
               </Route>
               <Route exact path="/mail">

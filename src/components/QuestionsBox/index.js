@@ -2,11 +2,21 @@ import { Flex, Center, Box, Text, Input, Button } from "@chakra-ui/react";
 import Question from "./Question";
 import InfostationDescription from "./InfostationDescription";
 import {BsSearch} from "react-icons/bs"
-import { useState } from "react";
+import { useState, useContext } from "react";
+import {UserContext} from "../../App"
 const QuestionsBox = () => {
+  const context = useContext(UserContext);
   const [searchWord,setSearchWord] = useState("")
   return (
     <Center>
+    {context.userInfo.role=="doctor" &&
+    <>
+    <h2>SUNT UN DOCTOR</h2>
+    <h2>ADAUGA SA POT DA LIKE LA COMMENT-URI SI SA ADAUG RASPUNS</h2>
+    <h2>Doctorii pot sa vada toate raspunsurile</h2>
+    <h2>Userii doar pe primele 3 cele mai populare</h2>
+    </>
+}
       <Flex
         position="relative"
         flexDirection="column"
