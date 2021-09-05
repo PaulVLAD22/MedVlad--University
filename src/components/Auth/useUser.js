@@ -19,7 +19,7 @@ export const useUser = () => {
 
     const userObj = JSON.stringify({
       access_token: "123", username: "vlad", email: "paulvlad34@gmail.com",
-      role: "admin"
+      role: "doctor"
     })
 
     const parsedUserObj = JSON.parse(userObj)

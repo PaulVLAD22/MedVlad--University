@@ -16,6 +16,9 @@ import AcceptUsersPage from './components/pages/admin/AcceptUsersPage';
 import AcceptDoctorsPage from './components/pages/admin/AcceptDoctorsPage';
 import HistoryPage from './components/pages/admin/HistoryPage';
 import AcceptQuestionsPage from './components/pages/admin/AcceptQuestionsPage';
+import AdminHome from './components/pages/admin/AdminHome';
+import DoctorHome from "./components/pages/doctor/DoctorHome"
+import AnswerQuestions from './components/pages/doctor/AnswerQuestions';
 
 export const UserContext = createContext(null);
 
@@ -93,14 +96,47 @@ function App() {
                     <AcceptQuestionsPage></AcceptQuestionsPage>
                   </PageWrapper>
                 </Route>
-                {//TODO: Pagina de acceptat intrebari
-                }
+                <Route exact path="/">
+                  <PageWrapper>
+                    <AdminHome/>
+                  </PageWrapper>
+                </Route>
                 <Route exact path="*">
                   <PageWrapper>
                     <NotFoundPage />
                   </PageWrapper>
                 </Route>
               </Switch>
+            }
+            {(!!context.jwt && context.userInfo.role == "doctor") &&
+              <Switch>
+              <Route exact path="/answerQuestions">
+                <PageWrapper>
+                  <AnswerQuestions></AnswerQuestions>
+                </PageWrapper>
+              </Route>
+              <Route exact path="/mail">
+                <PageWrapper>
+                  <MailPage></MailPage>
+                </PageWrapper>
+              </Route>
+              <Route exact path="/chat">
+                <PageWrapper>
+                  <ChatPage></ChatPage>
+                </PageWrapper>
+              </Route>
+              <Route exact path="/">
+                  <PageWrapper>
+                    <DoctorHome/>
+                  </PageWrapper>
+                </Route>
+                <Route exact path="*">
+                  <PageWrapper>
+                    <NotFoundPage />
+                  </PageWrapper>
+                </Route>
+              </Switch>
+
             }
 
             {(!context.jwt) &&
