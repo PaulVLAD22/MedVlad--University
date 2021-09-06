@@ -1,5 +1,9 @@
 import {Flex, Text, Button} from "@chakra-ui/react"
+import { useContext } from "react"
+import { UserContext} from "../../App"
 const Answer = ({content,author,numberOfLikes}) => {
+    const context = useContext(UserContext);
+
     return(
         <Flex border="1px solid black" 
         alignItems="center"
@@ -8,7 +12,12 @@ const Answer = ({content,author,numberOfLikes}) => {
         textAlign="left"
         fontSize="sm"
         >
+            {context.userInfo.role=="doctor" &&
             <Button width="10%">{numberOfLikes}</Button>
+            }
+            {context.userInfo.role=="user" &&
+            <Text width="10%">{numberOfLikes}</Text>
+            }
             <Text width="70%" m="2">{content}</Text>
             <Text width="20%">{author}</Text>
         </Flex>
