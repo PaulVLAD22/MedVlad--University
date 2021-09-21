@@ -85,6 +85,11 @@ const QuestionsBox = () => {
           />
         }
         <Flex m="5" width="70%" flexDirection="column" alignItems="center">
+          {context.userInfo.role=="user" && 
+          <>
+          <Text>Submit Your Own Question</Text>
+          <Input></Input>
+          </>}
         </Flex>
       </Flex>
     </Center>
