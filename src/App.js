@@ -27,7 +27,6 @@ function App() {
   useEffect(() => {
     console.log(context.jwt);
     let token = localStorage.getItem("JWTToken");
-    console.log("AICI UITETE")
     console.log(token)
     if (token != null) {
       if (!context.jwt) {
@@ -36,6 +35,7 @@ function App() {
       }
     }
     console.log(context)
+    console.log("MA EXECUT")
   }, []);
 
   return (
@@ -44,7 +44,6 @@ function App() {
         <div className="App">
           <Router>
           {console.log(context)}
-          {console.log(context.userInfo.role)}
             {(!!context.jwt && context.userInfo.role == "USER") &&
               <>
                 {console.log(!!context.jwt)}

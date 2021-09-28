@@ -39,8 +39,8 @@ export const Navbar = ({ toggle }) => {
     history.push("/acceptQuestions");
   };
   const goAnswerQuestions = () => {
-    history.push("/answerQuestions")
-  }
+    history.push("/answerQuestions");
+  };
 
   const handleLogout = () => {
     context.logOut();
@@ -56,164 +56,164 @@ export const Navbar = ({ toggle }) => {
       alignItems="center"
       paddingX="5"
     >
-      {context.userInfo.role == "DOCTOR" && (
-        <LeftNavMenu>
-          <Button
-            background="white"
-            colorScheme={secondaryColor}
-            mx={3}
-            onClick={goAnswerQuestions}
-            fontFamily="sans-serif"
-            fontSize="20"
-            fontWeight="bold"
-            color="black"
-            alignSelf="center"
-          >
-            Answer Questions
-          </Button>
-          <Button
-            background="white"
-            colorScheme={secondaryColor}
-            mx={3}
-            onClick={goToChat}
-            fontFamily="sans-serif"
-            fontSize="20"
-            fontWeight="bold"
-            color="black"
-            alignSelf="center"
-          >
-            Live message
-          </Button>
-          <Button
-            background="white"
-            colorScheme={secondaryColor}
-            mx={3}
-            onClick={goToMail}
-            fontFamily="sans-serif"
-            fontSize="20"
-            fontWeight="bold"
-            color="black"
-            alignSelf="center"
-          >
-            Mail
-          </Button>
-          
-        </LeftNavMenu>
-      )}
-      {context.userInfo.role == "ADMIN" && (
-        <LeftNavMenu>
-          <Button
-            background="white"
-            colorScheme={secondaryColor}
-            mx={3}
-            onClick={goAcceptUsers}
-            fontFamily="sans-serif"
-            fontSize="20"
-            fontWeight="bold"
-            color="black"
-            alignSelf="center"
-          >
-            Users
-          </Button>
-          <Button
-            background="white"
-            colorScheme={secondaryColor}
-            mx={3}
-            onClick={goAcceptDoctors}
-            fontFamily="sans-serif"
-            fontSize="20"
-            fontWeight="bold"
-            color="black"
-            alignSelf="center"
-          >
-            Doctors
-          </Button>
-          <Button
-            background="white"
-            colorScheme={secondaryColor}
-            mx={3}
-            onClick={goAcceptQuestions}
-            fontFamily="sans-serif"
-            fontSize="20"
-            fontWeight="bold"
-            color="black"
-            alignSelf="center"
-          >
-            Questions
-          </Button>
+      <LeftNavMenu>
+        <Button
+          background="white"
+          colorScheme={secondaryColor}
+          mx={3}
+          onClick={goHome}
+          fontFamily="sans-serif"
+          fontSize="20"
+          fontWeight="bold"
+          color="black"
+          alignSelf="center"
+        >
+          Home
+        </Button>
+        {context.userInfo.role == "DOCTOR" && (
+          <>
+            <Button
+              background="white"
+              colorScheme={secondaryColor}
+              mx={3}
+              onClick={goAnswerQuestions}
+              fontFamily="sans-serif"
+              fontSize="20"
+              fontWeight="bold"
+              color="black"
+              alignSelf="center"
+            >
+              Answer Questions
+            </Button>
+            <Button
+              background="white"
+              colorScheme={secondaryColor}
+              mx={3}
+              onClick={goToChat}
+              fontFamily="sans-serif"
+              fontSize="20"
+              fontWeight="bold"
+              color="black"
+              alignSelf="center"
+            >
+              Live message
+            </Button>
+            <Button
+              background="white"
+              colorScheme={secondaryColor}
+              mx={3}
+              onClick={goToMail}
+              fontFamily="sans-serif"
+              fontSize="20"
+              fontWeight="bold"
+              color="black"
+              alignSelf="center"
+            >
+              Mail
+            </Button>
+          </>
+        )}
+        {context.userInfo.role == "ADMIN" && (
+          <>
+            <Button
+              background="white"
+              colorScheme={secondaryColor}
+              mx={3}
+              onClick={goAcceptUsers}
+              fontFamily="sans-serif"
+              fontSize="20"
+              fontWeight="bold"
+              color="black"
+              alignSelf="center"
+            >
+              Users
+            </Button>
+            <Button
+              background="white"
+              colorScheme={secondaryColor}
+              mx={3}
+              onClick={goAcceptDoctors}
+              fontFamily="sans-serif"
+              fontSize="20"
+              fontWeight="bold"
+              color="black"
+              alignSelf="center"
+            >
+              Doctors
+            </Button>
+            <Button
+              background="white"
+              colorScheme={secondaryColor}
+              mx={3}
+              onClick={goAcceptQuestions}
+              fontFamily="sans-serif"
+              fontSize="20"
+              fontWeight="bold"
+              color="black"
+              alignSelf="center"
+            >
+              Questions
+            </Button>
 
-          <Button
-            background="white"
-            colorScheme={secondaryColor}
-            mx={3}
-            onClick={goAcceptanceHistory}
-            fontFamily="sans-serif"
-            fontSize="20"
-            fontWeight="bold"
-            color="black"
-            alignSelf="center"
-          >
-            History
-          </Button>
-        </LeftNavMenu>
-      )}
-      {context.userInfo.role == "USER" && (
-        <LeftNavMenu>
-          <Button
-            background="white"
-            colorScheme={secondaryColor}
-            mx={3}
-            onClick={goHome}
-            fontFamily="sans-serif"
-            fontSize="20"
-            fontWeight="bold"
-            color="black"
-            alignSelf="center"
-          >
-            Home
-          </Button>
-
-          <Button
-            background="white"
-            colorScheme={secondaryColor}
-            mx={3}
-            onClick={goToInfostation}
-            fontFamily="sans-serif"
-            fontSize="20"
-            fontWeight="bold"
-            color="black"
-            alignSelf="center"
-          >
-            Infostation
-          </Button>
-          <Button
-            background="white"
-            colorScheme={secondaryColor}
-            mx={3}
-            onClick={goToChat}
-            fontFamily="sans-serif"
-            fontSize="20"
-            fontWeight="bold"
-            color="black"
-            alignSelf="center"
-          >
-            Live Chat
-          </Button>
-          <Button
-            background="white"
-            colorScheme={secondaryColor}
-            mx={3}
-            onClick={goToMail}
-            fontFamily="sans-serif"
-            fontSize="20"
-            fontWeight="bold"
-            color="black"
-            alignSelf="center"
-          >
-            Mail
-          </Button>
-        </LeftNavMenu>
-      )}
+            <Button
+              background="white"
+              colorScheme={secondaryColor}
+              mx={3}
+              onClick={goAcceptanceHistory}
+              fontFamily="sans-serif"
+              fontSize="20"
+              fontWeight="bold"
+              color="black"
+              alignSelf="center"
+            >
+              History
+            </Button>
+          </>
+        )}
+        {context.userInfo.role == "USER" && (
+          <>
+            <Button
+              background="white"
+              colorScheme={secondaryColor}
+              mx={3}
+              onClick={goToInfostation}
+              fontFamily="sans-serif"
+              fontSize="20"
+              fontWeight="bold"
+              color="black"
+              alignSelf="center"
+            >
+              Infostation
+            </Button>
+            <Button
+              background="white"
+              colorScheme={secondaryColor}
+              mx={3}
+              onClick={goToChat}
+              fontFamily="sans-serif"
+              fontSize="20"
+              fontWeight="bold"
+              color="black"
+              alignSelf="center"
+            >
+              Live Chat
+            </Button>
+            <Button
+              background="white"
+              colorScheme={secondaryColor}
+              mx={3}
+              onClick={goToMail}
+              fontFamily="sans-serif"
+              fontSize="20"
+              fontWeight="bold"
+              color="black"
+              alignSelf="center"
+            >
+              Mail
+            </Button>
+          </>
+        )}
+      </LeftNavMenu>
 
       <Flex justifyContent="space-between" alignItems="center">
         <Flex width="100%" alignItems="center">
@@ -226,7 +226,9 @@ export const Navbar = ({ toggle }) => {
             fontFamily={primaryFont}
             letterSpacing="wider"
           >
-            {capitalizeFirstLetter(context.userInfo.role)+" "+context.userInfo.username}
+            {capitalizeFirstLetter(context.userInfo.role) +
+              " " +
+              context.userInfo.username}
           </Text>
           <Img
             maxH="50px"

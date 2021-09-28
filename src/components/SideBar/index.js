@@ -29,6 +29,9 @@ const SideBar = ({isOpen,toggle}) =>{
   const goToAcceptanceHistory = () =>{
     history.push("/acceptanceHistory")
   }
+  const goToAnswerQuestion = () => {
+    history.push("/answerQuestions")
+  }
   return (
     <SidebarContainer isOpen={isOpen} onClick={toggle}>
       <Icon onClick={toggle}>
@@ -37,9 +40,9 @@ const SideBar = ({isOpen,toggle}) =>{
       </Icon>
       <SidebarWrapper>
         <SidebarMenu>
+        <SidebarLink onClick={goHome}>Home</SidebarLink>
           {context.userInfo.role=="USER" &&
           <> 
-          <SidebarLink onClick={goHome}>Home</SidebarLink>
           <SidebarLink onClick={goToChat}>Live Chat</SidebarLink>
           <SidebarLink onClick={goToInfostation}>Infostation</SidebarLink>
           <SidebarLink onClick={goToMail}>Mail</SidebarLink>
@@ -50,7 +53,13 @@ const SideBar = ({isOpen,toggle}) =>{
           <SidebarLink onClick={goToAcceptDoctors}>Doctors</SidebarLink>
           <SidebarLink onClick={goToAcceptanceHistory}>History</SidebarLink>
           </>}
-          {// mai ai de facut pentru doctor
+
+          {context.userInfo.role=="DOCTOR" &&
+          <>
+          <SidebarLink onClick={goToAnswerQuestion}>Answer Questions</SidebarLink>
+          <SidebarLink onClick={goToChat}>Chat</SidebarLink>
+          <SidebarLink onClick={goToMail}>Mail</SidebarLink>
+          </>
           }
           
         </SidebarMenu>

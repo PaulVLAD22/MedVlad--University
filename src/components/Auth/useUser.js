@@ -76,8 +76,10 @@ export const useUser = () => {
           console.log(parsedUserObj)
           await localStorage.setItem("JWTToken", token);
           await localStorage.setItem("userInfo", userObj);
+          console.log("ASta e nukll :" + token)
           setJwt(token);
           setUserInfo(parsedUserObj);
+
           
       }catch(err){
           console.log(err)
