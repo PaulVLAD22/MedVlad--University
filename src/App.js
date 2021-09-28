@@ -27,12 +27,15 @@ function App() {
   useEffect(() => {
     console.log(context.jwt);
     let token = localStorage.getItem("JWTToken");
+    console.log("AICI UITETE")
+    console.log(token)
     if (token != null) {
       if (!context.jwt) {
         context.setJwt(token);
         context.setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
       }
     }
+    console.log(context)
   }, []);
 
   return (
@@ -40,7 +43,9 @@ function App() {
       <UserContext.Provider value={context}>
         <div className="App">
           <Router>
-            {(!!context.jwt && context.userInfo.role == "user") &&
+          {console.log(context)}
+          {console.log(context.userInfo.role)}
+            {(!!context.jwt && context.userInfo.role == "USER") &&
               <>
                 {console.log(!!context.jwt)}
                 <Switch>
@@ -73,7 +78,7 @@ function App() {
                 </Switch>
               </>
             }
-            {(!!context.jwt && context.userInfo.role == "admin") &&
+            {(!!context.jwt && context.userInfo.role == "ADMIN") &&
               <Switch>
                 <Route exact path="/acceptUsers">
                   <PageWrapper>
@@ -107,7 +112,7 @@ function App() {
                 </Route>
               </Switch>
             }
-            {(!!context.jwt && context.userInfo.role == "doctor") &&
+            {(!!context.jwt && context.userInfo.role == "DOCTOR") &&
               <Switch>
               <Route exact path="/answerQuestions">
                 <PageWrapper>

@@ -56,7 +56,7 @@ export const Navbar = ({ toggle }) => {
       alignItems="center"
       paddingX="5"
     >
-      {context.userInfo.role == "doctor" && (
+      {context.userInfo.role == "DOCTOR" && (
         <LeftNavMenu>
           <Button
             background="white"
@@ -100,7 +100,7 @@ export const Navbar = ({ toggle }) => {
           
         </LeftNavMenu>
       )}
-      {context.userInfo.role == "admin" && (
+      {context.userInfo.role == "ADMIN" && (
         <LeftNavMenu>
           <Button
             background="white"
@@ -157,7 +157,7 @@ export const Navbar = ({ toggle }) => {
           </Button>
         </LeftNavMenu>
       )}
-      {context.userInfo.role == "user" && (
+      {context.userInfo.role == "USER" && (
         <LeftNavMenu>
           <Button
             background="white"

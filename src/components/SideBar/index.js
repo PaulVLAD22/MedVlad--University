@@ -37,19 +37,21 @@ const SideBar = ({isOpen,toggle}) =>{
       </Icon>
       <SidebarWrapper>
         <SidebarMenu>
-          {context.userInfo.role=="user" &&
+          {context.userInfo.role=="USER" &&
           <> 
           <SidebarLink onClick={goHome}>Home</SidebarLink>
           <SidebarLink onClick={goToChat}>Live Chat</SidebarLink>
           <SidebarLink onClick={goToInfostation}>Infostation</SidebarLink>
           <SidebarLink onClick={goToMail}>Mail</SidebarLink>
           </>}
-          {context.userInfo.role=="admin" &&
+          {context.userInfo.role=="ADMIN" &&
           <>
           <SidebarLink onClick={goToAcceptUsers}>Users</SidebarLink>
           <SidebarLink onClick={goToAcceptDoctors}>Doctors</SidebarLink>
           <SidebarLink onClick={goToAcceptanceHistory}>History</SidebarLink>
           </>}
+          {// mai ai de facut pentru doctor
+          }
           
         </SidebarMenu>
       </SidebarWrapper>

@@ -21,6 +21,7 @@ const LoginForm = () => {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
+    console.log(details)
 		if (details.username && details.password)
 			context.logIn(details);
 		else
