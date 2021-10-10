@@ -70,7 +70,7 @@ const LoginForm = () => {
 
 
 						<FormControl>
-							<FormLabel htmlFor="username">Username / Email:</FormLabel>
+							<FormLabel htmlFor="username">Username:</FormLabel>
 							<Input
 								required={true}
 								size="md"

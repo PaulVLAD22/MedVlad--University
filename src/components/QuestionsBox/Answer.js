@@ -12,10 +12,10 @@ const Answer = ({content,author,numberOfLikes}) => {
         textAlign="left"
         fontSize="sm"
         >
-            {context.userInfo.role=="doctor" &&
+            {context.userInfo.role=="DOCTOR" &&
             <Button width="10%">{numberOfLikes}</Button>
             }
-            {context.userInfo.role=="user" &&
+            {context.userInfo.role=="USER" &&
             <Text width="10%">{numberOfLikes}</Text>
             }
             <Text width="70%" m="2">{content}</Text>
