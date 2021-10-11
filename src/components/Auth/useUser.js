@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { apiClient } from "../utils/apiClient"
-import axios from 'axios'
-import https from 'https'
+import { apiClient } from "../utils/apiClient";
+import axios from "axios";
+import https from "https";
 
 export const useUser = () => {
   const [jwt, setJwt] = useState("");
+  const [refreshToken, setRefreshToken] = useState("");
 
   const history = useHistory();
 
-  const [userInfo, setUserInfo] = useState({})
+  const [userInfo, setUserInfo] = useState({});
 
   const [error, setError] = useState("");
   const [pageToDisplay, setPageToDisplay] = useState("login");
@@ -32,60 +33,82 @@ export const useUser = () => {
   //   // setUserInfo(parsedUserObj);
   //   // setJwt(token);
 
-
   //   //nu merge - history.go(0)
   // }
 
-    const logIn = async (details) => {
-      let url = "/login";
-      const params = new URLSearchParams();
-      params.append("grant_type", "password");
-      params.append("username", details.username);
-      params.append("password", details.password);
-  
-      const config = {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Access-Control-Allow-Origin": "*",
-        },
-      };
+  const logIn = async (details) => {
+    let url = "/login";
+    const params = new URLSearchParams();
+    params.append("grant_type", "password");
+    params.append("username", details.username);
+    params.append("password", details.password);
 
-      try{
-          const res = await axios.post(url, params, config);
-          let token = res.data.access_token;
-          console.log(res)  
-          res.data.userInfo.role=res.data.userInfo.role.name
-          const userInfoJson = res.data.userInfo
-          const userObj = JSON.stringify({
-            access_token:token,
-            refresh_token:res.data.refresh_token,
-            firstName:userInfoJson.firstName,
-            lastName:userInfoJson.lastName,
-            dateOfRegistration:userInfoJson.dateOfRegistration,
-            adminPoints:userInfoJson.adminPoints,
-            doctorPoints:userInfoJson.doctorPoints,
-            profilePicture:userInfoJson.profilePicture,
-            role:userInfoJson.role,
-            username:userInfoJson.username
-          });
-          
-          // mai lucreaza la forma datelor in functie de ce iti trebuie
-          console.log("aici")
-          const parsedUserObj = JSON.parse(userObj)
-          console.log("acolo")
-          console.log(parsedUserObj)
-          await localStorage.setItem("JWTToken", token);
-          await localStorage.setItem("userInfo", userObj);
-          console.log("ASta e nukll :" + token)
-          setJwt(token);
-          setUserInfo(parsedUserObj);
+    const config = {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
 
-          
-      }catch(err){
-          console.log(err)
+    try {
+      const res = await axios.post(url, params, config);
+      let token = res.data.access_token;
+      console.log(res);
+      res.data.userInfo.role = res.data.userInfo.role.name;
+      const userInfoJson = res.data.userInfo;
+      const userObj = JSON.stringify({
+        access_token: token,
+        refresh_token: res.data.refresh_token,
+        firstName: userInfoJson.firstName,
+        lastName: userInfoJson.lastName,
+        dateOfRegistration: userInfoJson.dateOfRegistration,
+        adminPoints: userInfoJson.adminPoints,
+        doctorPoints: userInfoJson.doctorPoints,
+        profilePicture: userInfoJson.profilePicture,
+        role: userInfoJson.role,
+        username: userInfoJson.username,
+      });
+
+      // mai lucreaza la forma datelor in functie de ce iti trebuie
+      console.log("aici");
+      const parsedUserObj = JSON.parse(userObj);
+      console.log("acolo");
+      console.log(res.data.refresh_token);
+      console.log(parsedUserObj);
+      await localStorage.setItem("JWTToken", token);
+      await localStorage.setItem("refresh_token", res.data.refresh_token);
+      await localStorage.setItem("userInfo", userObj);
+      console.log("ASta e nukll :" + token);
+      setJwt(token);
+      setRefreshToken(res.data.refresh_token);
+      setUserInfo(parsedUserObj);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const refreshAuthToken = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: "Bearer " +refreshToken,
+      },
+    };
+    await axios({
+      method: "GET",
+      url: "/token/refresh",
+      headers: config.headers,
+    }).then(
+      (response) => {
+        setJwt(response.data.access_token)
+        console.log(response)
+      },
+      (getError) => {
+        console.log(getError)
       }
-      
-  }
+    );
+  };
 
   // let url = "/test/cox";
   // const agent = new https.Agent({
@@ -112,15 +135,6 @@ export const useUser = () => {
   //   console.log(err)
   // }
 
-
-
-
-
-
-
-
-
-
   const signUp = async (details) => {
     // try {
     //   const res = await apiClient.post("/api/Account/Register", {
@@ -129,24 +143,37 @@ export const useUser = () => {
     //     Password: details.password,
     //     ConfirmPassword: details.confirmPassword,
     //   });
-
     //   setError("");
     //   history.push("/login");
     //   history.go(0);
     // } catch (err) {
     //   console.log(err.response.data.Message);
-
     //   setError(err.response.data.Message ?? "An error has occcured");
     // }
-  }
+  };
 
   const logOut = () => {
-    console.log("logging out")
+    console.log("logging out");
     localStorage.removeItem("JWTToken");
-    localStorage.removeItem("userInfo")
-    setJwt(null)
-    setUserInfo(null)
-  }
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("userInfo");
+    setJwt(null);
+    setUserInfo(null);
+  };
 
-  return { jwt, setJwt, userInfo, setUserInfo, error, setError, pageToDisplay, setPageToDisplay, logOut, logIn }
-}
+  return {
+    jwt,
+    setJwt,
+    refreshToken,
+    setRefreshToken,
+    refreshAuthToken,
+    userInfo,
+    setUserInfo,
+    error,
+    setError,
+    pageToDisplay,
+    setPageToDisplay,
+    logOut,
+    logIn,
+  };
+};

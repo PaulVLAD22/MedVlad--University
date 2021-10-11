@@ -27,10 +27,12 @@ function App() {
   useEffect(() => {
     console.log(context.jwt);
     let token = localStorage.getItem("JWTToken");
+    let refreshToken = localStorage.getItem("refresh_token");
     console.log(token)
     if (token != null) {
       if (!context.jwt) {
         context.setJwt(token);
+        context.setRefreshToken(refreshToken)
         context.setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
       }
     }

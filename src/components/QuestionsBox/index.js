@@ -9,6 +9,7 @@ const QuestionsBox = () => {
   const context = useContext(UserContext);
   const [searchWord, setSearchWord] = useState("");
   const [questions, setQuestions] = useState([]);
+  const [doRerender,setDoRerender] = useState(0);
 
   useEffect(async () => {
     //console.log(context.jwt);
@@ -32,11 +33,14 @@ const QuestionsBox = () => {
         console.log(response);
         setQuestions(response.data);
       },
-      (getError) => {
-        console.log(getError);
+      async (getError) => {
+        if(getError.response.status===403){
+          context.refreshAuthToken();     
+        }
       }
     );
   });
+  //TODO:: PROBLEMA ESTE CA SE RERENDER-UIESTE LA INFINIT
 
   return (
     <Center>
