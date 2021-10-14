@@ -12,6 +12,7 @@ const Answer = ({content,author,numberOfLikes}) => {
         textAlign="left"
         fontSize="sm"
         >
+        {console.log(author)}
             {context.userInfo.role=="DOCTOR" &&
             <Button width="10%">{numberOfLikes}</Button>
             }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router";
 import { apiClient } from "../utils/apiClient";
 import axios from "axios";
 import https from "https";
@@ -56,32 +56,25 @@ export const useUser = () => {
       console.log(res);
       res.data.userInfo.role = res.data.userInfo.role.name;
       const userInfoJson = res.data.userInfo;
-      const userObj = JSON.stringify({
-        access_token: token,
-        refresh_token: res.data.refresh_token,
-        firstName: userInfoJson.firstName,
-        lastName: userInfoJson.lastName,
-        dateOfRegistration: userInfoJson.dateOfRegistration,
-        adminPoints: userInfoJson.adminPoints,
-        doctorPoints: userInfoJson.doctorPoints,
-        profilePicture: userInfoJson.profilePicture,
-        role: userInfoJson.role,
-        username: userInfoJson.username,
-      });
+      const userObj = JSON.stringify(userInfoJson);
 
       // mai lucreaza la forma datelor in functie de ce iti trebuie
-      console.log("aici");
+    
       const parsedUserObj = JSON.parse(userObj);
-      console.log("acolo");
-      console.log(res.data.refresh_token);
-      console.log(parsedUserObj);
+      
+      console.log(userObj)
       await localStorage.setItem("JWTToken", token);
       await localStorage.setItem("refresh_token", res.data.refresh_token);
       await localStorage.setItem("userInfo", userObj);
-      console.log("ASta e nukll :" + token);
+      
       setJwt(token);
       setRefreshToken(res.data.refresh_token);
       setUserInfo(parsedUserObj);
+
+      history.push("/");
+      // nu merge history push / 
+      // TODO:: TREBUIE SA FACI SA SE RENDERUIASCA ( pe app.js sunt NULL valorile pentru ca nu se executa useEffect) 
+
     } catch (err) {
       console.log(err);
     }
@@ -101,7 +94,13 @@ export const useUser = () => {
       headers: config.headers,
     }).then(
       (response) => {
+        console.log(jwt)
+        console.log("acces:"+response.data.access_token)
         setJwt(response.data.access_token)
+        setRefreshToken(response.data.refresh_token)
+        localStorage.setItem("JWTToken", response.data.access_token);
+        localStorage.setItem("refresh_token", response.data.refresh_token);
+        console.log(jwt)
         console.log(response)
       },
       (getError) => {

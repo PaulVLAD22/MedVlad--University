@@ -9,16 +9,17 @@ const QuestionsBox = () => {
   const context = useContext(UserContext);
   const [searchWord, setSearchWord] = useState("");
   const [questions, setQuestions] = useState([]);
-  const [doRerender,setDoRerender] = useState(0);
+  const [render,setRender] = useState(0);
+  const [postQuestionResponse,setPostQuestionResponse] = useState("")
+  const [postingQuestion,setPostingQuestion] = useState("")
 
   useEffect(async () => {
     //console.log(context.jwt);
-
+    console.log("jwt:" + context.jwt)
     let url = "/getQuestions";
 
     const config = {
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
         "Access-Control-Allow-Origin": "*",
         Authorization: "Bearer " + context.jwt,
       },
@@ -30,20 +31,59 @@ const QuestionsBox = () => {
       headers: config.headers,
     }).then(
       (response) => {
-        console.log(response);
+        console.log(response.data)
         setQuestions(response.data);
+      
       },
       async (getError) => {
-        if(getError.response.status===403){
-          context.refreshAuthToken();     
+        if (getError.response.status === 403) {
+          console.log("SE CHEAMA REFRESH TOKEN")
+          context.refreshAuthToken();
+          setRender(render+1);
         }
       }
     );
-  });
-  //TODO:: PROBLEMA ESTE CA SE RERENDER-UIESTE LA INFINIT
+  },[render]);
+  // TODO:: nu primesc VALORILE
+
+  const postQuestion = async (e) => {
+    e.preventDefault();
+    
+    let url = "/user/postQuestion"; //TODO:: Not Found
+
+    const config = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        Authorization: "Bearer " + context.jwt,
+      },
+    };
+
+    await axios({
+      method: "POST",
+      url: url,
+      headers: config.headers,
+      params:{"content":postingQuestion}
+    }).then(
+      (response) => {
+        console.log(response.data)
+        setPostQuestionResponse("Question sent for verification");
+      },
+      async (getError) => {
+        if (getError.response.status === 403) {
+          console.log("SE CHEAMA REFRESH TOKEN")
+          context.refreshAuthToken();
+          setRender(render+1);
+        }
+      }
+    );
+    };
+  
+
 
   return (
+    
     <Center>
+    {console.log(context.jwt)}
       <Flex
         position="relative"
         flexDirection="column"
@@ -79,61 +119,31 @@ const QuestionsBox = () => {
           </Button>
         </Flex>
         {questions.map((question, index) => {
-          <Question
-            author={question.userDto}
-            content={question.content}
-            answers={question.questionAnswersList}
-          />;
+          console.log(question)
+          if (question.content.includes(searchWord))
+            return (
+              <Question
+                key={index}
+                author={question.userDto}
+                content={question.content}
+                answers={question.questionAnswerList}
+              />
+            );
         })}
-        {"Intrebare lunga lunga lunga lunga lunga lunga lunga lunga?".includes(
-          searchWord
-        ) && (
-          <Question
-            author={{
-              active: false,
-              adminPoints: 0,
-              dateOfRegistration: null,
-              doctorPoints: 0,
-              firstName: null,
-              id: 0,
-              lastName: null,
-              profilePicture: null,
-              role: { id: 1, name: "USER" },
-              token: 0,
-              username: "user5",
-            }}
-            content="Intrebare lunga lunga lunga lunga lunga lunga lunga lunga?"
-            answers={[
-            {
-              content: "Raspuns Corect",
-              author: "Doctor Marian",
-              numberOfLikes: 20,
-            },
-            {
-              content: "Raspuns Corect",
-              author: "Doctor Marian",
-              numberOfLikes: 20,
-            },
-            {
-              content: "Raspuns Corect",
-              author: "Doctor Marian",
-              numberOfLikes: 20,
-            } 
-            ]}
-          />
-        )}
+      
         <Flex m="5" width="70%" flexDirection="column" alignItems="center">
-          {context.userInfo.role == "user" && (
-            <>
+          {context.userInfo.role == "USER" && (
+            <form onSubmit={postQuestion}>
               <Text>Submit Your Own Question</Text>
-              <Input></Input>
-            </>
+              <Input margin="2" onChange={(e) => {setPostingQuestion(e.target.value)}} value={postingQuestion}></Input>
+              <Button type="submit">Submit</Button>
+              {postQuestionResponse}
+            </form>
           )}
         </Flex>
       </Flex>
     </Center>
     //TODO:: FA CA DIN BACK END SA PRIMESC DOAR CELE MAI BUNE RASPUINSURI SI SA FIE ORDONATE BINE,
-    // SI FA QUESTIONANSWERLIST SA AIBA PROPRIETEATILE PE CARE LE VREA Answer.js
   );
 };
 export default QuestionsBox;

@@ -43,8 +43,8 @@ const SideBar = ({isOpen,toggle}) =>{
         <SidebarLink onClick={goHome}>Home</SidebarLink>
           {context.userInfo.role=="USER" &&
           <> 
-          <SidebarLink onClick={goToChat}>Live Chat</SidebarLink>
           <SidebarLink onClick={goToInfostation}>Infostation</SidebarLink>
+          <SidebarLink onClick={goToChat}>Live Chat</SidebarLink>
           <SidebarLink onClick={goToMail}>Mail</SidebarLink>
           </>}
           {context.userInfo.role=="ADMIN" &&

@@ -25,6 +25,7 @@ function App() {
   const context = useUser();
 
   useEffect(() => {
+    console.log("USE EFFECT")
     console.log(context.jwt);
     let token = localStorage.getItem("JWTToken");
     let refreshToken = localStorage.getItem("refresh_token");
@@ -45,7 +46,6 @@ function App() {
       <UserContext.Provider value={context}>
         <div className="App">
           <Router>
-          {console.log(context)}
             {(!!context.jwt && context.userInfo.role == "USER") &&
               <>
                 {console.log(!!context.jwt)}

@@ -24,7 +24,8 @@ const Question = ({ author,content, answers }) => {
             <Flex width="100%" alignItems="center"
                 justifyContent="center" flexDirection="column" >
                 {answers.map((answer,index)=>{
-                  return <Answer key={index} content={answer.content} author={answer.author} numberOfLikes={answer.numberOfLikes} />
+                  console.log(answer)
+                  return <Answer key={index} content={answer.content} author={"Doctor "+answer.doctor.firstName+" "+answer.doctor.lastName} numberOfLikes={answer.numberOfLikes} />
                 })}
                 </Flex>
         </Flex>
