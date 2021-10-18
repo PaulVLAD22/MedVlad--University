@@ -49,7 +49,7 @@ const QuestionsBox = () => {
   const postQuestion = async (e) => {
     e.preventDefault();
     
-    let url = "/user/postQuestion"; //TODO:: Not Found
+    let url = "/user/postQuestion"; 
 
     const config = {
       headers: {
@@ -67,6 +67,7 @@ const QuestionsBox = () => {
       (response) => {
         console.log(response.data)
         setPostQuestionResponse("Question sent for verification");
+        setRender(render+1)
       },
       async (getError) => {
         if (getError.response.status === 403) {
@@ -76,6 +77,7 @@ const QuestionsBox = () => {
         }
       }
     );
+    setPostingQuestion("");
     };
   
 
@@ -137,7 +139,7 @@ const QuestionsBox = () => {
               <Text>Submit Your Own Question</Text>
               <Input margin="2" onChange={(e) => {setPostingQuestion(e.target.value)}} value={postingQuestion}></Input>
               <Button type="submit">Submit</Button>
-              {postQuestionResponse}
+              <Text color="orange.500">{postQuestionResponse}</Text>
             </form>
           )}
         </Flex>

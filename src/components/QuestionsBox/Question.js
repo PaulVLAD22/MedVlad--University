@@ -1,10 +1,16 @@
 import { Flex, Box, Text, Input, Button, Img } from "@chakra-ui/react"
 import Answer from "./Answer"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { UserContext } from "../../App"
 const Question = ({ author,content, answers }) => {
     const context = useContext(UserContext)
-    console.log(content)
+    const [questionAnswer,setQuestionAnswer] = useState("");
+
+    const sendQuestionAnswer = () => {
+      console.log(questionAnswer);
+    }
+    
+    
     return (
         <Flex width="80%" flexDirection="column" alignItems="center"
             border="1px solid black" m="3">
@@ -14,10 +20,10 @@ const Question = ({ author,content, answers }) => {
             </Flex>
             <Text fontSize="medium" p="2"
                 fontWeight="semibold">{content}</Text>
-            {context.userInfo.role == "doctor" &&
+            {context.userInfo.role == "DOCTOR" &&
                 <>
                     <Text>Write a response</Text>
-                    <Input m="1" variant="filled"></Input>
+                    <Input m="1" variant="filled" onChange={(e) => {setQuestionAnswer(e.target.value)}}></Input>
                     <Button m="2">Submit</Button>
                 </>
             }

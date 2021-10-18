@@ -4,6 +4,10 @@ import { UserContext} from "../../App"
 const Answer = ({content,author,numberOfLikes}) => {
     const context = useContext(UserContext);
 
+    const likeQuestionAnswer = () =>{
+      console.log("Like")
+    }
+
     return(
         <Flex border="1px solid black" 
         alignItems="center"
@@ -14,7 +18,7 @@ const Answer = ({content,author,numberOfLikes}) => {
         >
         {console.log(author)}
             {context.userInfo.role=="DOCTOR" &&
-            <Button width="10%">{numberOfLikes}</Button>
+            <Button width="10%" onClick={likeQuestionAnswer}>{numberOfLikes}</Button>
             }
             {context.userInfo.role=="USER" &&
             <Text width="10%">{numberOfLikes}</Text>

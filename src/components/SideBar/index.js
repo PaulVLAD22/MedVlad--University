@@ -29,6 +29,9 @@ const SideBar = ({isOpen,toggle}) =>{
   const goToAcceptanceHistory = () =>{
     history.push("/acceptanceHistory")
   }
+  const goToAcceptQuestions = () =>{
+    history.push("/acceptQuestions")
+  }
   const goToAnswerQuestion = () => {
     history.push("/answerQuestions")
   }
@@ -51,6 +54,7 @@ const SideBar = ({isOpen,toggle}) =>{
           <>
           <SidebarLink onClick={goToAcceptUsers}>Users</SidebarLink>
           <SidebarLink onClick={goToAcceptDoctors}>Doctors</SidebarLink>
+          <SidebarLink onClick={goToAcceptQuestions}>Questions</SidebarLink>
           <SidebarLink onClick={goToAcceptanceHistory}>History</SidebarLink>
           </>}
 

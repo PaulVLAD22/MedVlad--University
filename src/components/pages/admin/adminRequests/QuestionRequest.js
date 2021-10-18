@@ -1,28 +1,70 @@
-import { Button, Flex, Text, Input } from "@chakra-ui/react"
-import { AiFillStop } from "react-icons/ai"
-import { TiTick } from "react-icons/ti"
+import { Button, Flex, Text, Input } from "@chakra-ui/react";
+import { useContext, useState } from "react";
+import { AiFillStop } from "react-icons/ai";
+import { TiTick } from "react-icons/ti";
+import axios from "axios";
+import { UserContext } from "../../../../App";
 
-const QuestionRequest = () => {
-    return (
-        <Flex flexDir="column" width="100%" p="2" borderBottom="1px solid black">
-            <Text>
-                For how long should I take nurofen?
-            </Text>
+const QuestionRequest = ({ question }) => {
+  const context = useContext(UserContext);
+  const [render, setRender] = useState(0);
+  const [comment, setComment] = useState("");
 
-            <Flex width="100%" flexDir="column" alignItems="center" >
+  const sendQuestionResponse = async (verdict) => {
+    let url = "/admin/acceptQuestion";
 
-                <Flex width="100%" justifyContent="space-between" fontSize="larger">
-                    <Button>
-                        <AiFillStop></AiFillStop>
-                    </Button>
-                    <Button >
-                        <TiTick></TiTick>
-                    </Button>
-                </Flex>
-                <Input width="50%" placeholder="comment...">
-                </Input>
-            </Flex>
+    const config = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        Authorization: "Bearer " + context.jwt,
+      },
+    };
+
+    await axios({
+      method: "POST",
+      url: url,
+      headers: config.headers,
+      params: {id:question.id, comment:comment, verdict:verdict},
+    }).then(
+      (response) => {
+        console.log(response.data);
+        setRender(render + 1);
+        window.location.reload()
+      },
+      async (getError) => {
+        if (getError.response.status === 403) {
+          console.log("SE CHEAMA REFRESH TOKEN");
+          context.refreshAuthToken();
+          setRender(render + 1);
+        }
+      }
+    );
+  };
+
+  return (
+    <Flex flexDir="column" width="100%" p="2" borderBottom="1px solid black">
+      <Text>{question.content}</Text>
+
+      <Flex width="100%" flexDir="column" alignItems="center">
+        <Flex width="100%" justifyContent="space-between" fontSize="larger">
+          <Button>
+            <AiFillStop
+              onClick={() => sendQuestionResponse(false)}
+            ></AiFillStop>
+          </Button>
+          <Button>
+            <TiTick onClick={() => sendQuestionResponse(true)}></TiTick>
+          </Button>
         </Flex>
-    )
-}
-export default QuestionRequest
+        <Input
+          width="50%"
+          placeholder="comment..."
+          onChange={(e) => {
+            setComment(e.target.value);
+          }}
+        ></Input>
+      </Flex>
+    </Flex>
+  );
+};
+export default QuestionRequest;
