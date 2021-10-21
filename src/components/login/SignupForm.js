@@ -20,6 +20,7 @@ const SignupForm = () => {
         username: "",
         password: "",
         confirmPassword: "",
+        licensePicture:""
     });
     
     const context = useContext(UserContext);
@@ -27,7 +28,7 @@ const SignupForm = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
         if (details.password == details.confirmPassword) {
-            context.signUp(details)
+            context.signUp(details,"USER")
         }
     };
 
@@ -137,18 +138,21 @@ const SignupForm = () => {
                                 value={details.confirmPassword}
                             />
                         </FormControl>
-                        <FormControl>
+                        {/* <FormControl>
                             <FormLabel htmlFor="profilePicture">Profile Picture:</FormLabel>
                             <Input
                             type="file" id="profilePicture" name="profilePicture" accept="image/png, image/jpeg">
                             </Input>
-                        </FormControl>
+                        </FormControl> */}
                         <Button mt={4} colorScheme={secondaryColor} size="md" type="submit">
                             Sign up
                         </Button>
 
                         <Link href="/login" my={2}>
                             Log in
+                        </Link>
+                        <Link href="/doctorSignup" my={2}>
+                            Doctor Registration
                         </Link>
                     </Container>
                 </form>

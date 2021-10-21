@@ -134,22 +134,33 @@ export const useUser = () => {
   //   console.log(err)
   // }
 
-  const signUp = async (details) => {
-    // try {
-    //   const res = await apiClient.post("/api/Account/Register", {
-    //     Email: details.email,
-    //     Username: details.username,
-    //     Password: details.password,
-    //     ConfirmPassword: details.confirmPassword,
-    //   });
-    //   setError("");
-    //   history.push("/login");
-    //   history.go(0);
-    // } catch (err) {
-    //   console.log(err.response.data.Message);
-    //   setError(err.response.data.Message ?? "An error has occcured");
-    // }
-  };
+  
+  const signUp = async (details,role) => {
+
+    let url = "/register";
+
+    await axios({
+      method: "POST",
+      url: url,
+      params:{
+        "email": details.email,
+        "username": details.username,
+        "password": details.password,
+        "licensePicture": details.licensePicture,
+        "role":role
+      }
+    }).then(
+      (response) => {
+        console.log(response.data)
+      },
+      async (getError) => {
+        console.log(getError)
+      }
+    );
+
+  }
+
+
 
   const logOut = () => {
     console.log("logging out");
@@ -169,6 +180,7 @@ export const useUser = () => {
     userInfo,
     setUserInfo,
     error,
+    signUp,
     setError,
     pageToDisplay,
     setPageToDisplay,
