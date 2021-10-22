@@ -72,8 +72,8 @@ export const useUser = () => {
       setUserInfo(parsedUserObj);
 
       history.push("/");
-      // nu merge history push / 
-      // TODO:: TREBUIE SA FACI SA SE RENDERUIASCA ( pe app.js sunt NULL valorile pentru ca nu se executa useEffect) 
+      //TODO:: nu merge history push / 
+
 
     } catch (err) {
       console.log(err);
@@ -102,6 +102,7 @@ export const useUser = () => {
         localStorage.setItem("refresh_token", response.data.refresh_token);
         console.log(jwt)
         console.log(response)
+        
       },
       (getError) => {
         console.log(getError)
@@ -136,7 +137,7 @@ export const useUser = () => {
 
   
   const signUp = async (details,role) => {
-
+    
     let url = "/register";
 
     await axios({
@@ -152,6 +153,8 @@ export const useUser = () => {
     }).then(
       (response) => {
         console.log(response.data)
+        //TODO :: redirect to login
+        
       },
       async (getError) => {
         console.log(getError)

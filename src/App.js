@@ -1,6 +1,11 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import React, { createContext, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import { NotFoundPage } from "./components/404";
 import { useUser } from "./components/Auth/useUser";
 import { PageWrapper } from "./components/PageWrapper";
@@ -160,7 +165,13 @@ function App() {
                     path="/forgotPassword"
                     component={ForgotPasswordForm}
                   />
-                  <Route exact path="/" component={LoginForm} />
+                  <Route exact path="/">
+                    <Redirect
+                      to={{
+                        pathname: "/login"
+                      }}
+                    />
+                  </Route>
                   <Route exact path="*">
                     <NotFoundPage />
                   </Route>

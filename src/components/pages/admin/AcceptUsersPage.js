@@ -1,5 +1,5 @@
-import { Flex, Center,Text } from "@chakra-ui/react"
-import UserRequest from "./adminRequests/UserRequest"
+import { Flex, Center, Text } from "@chakra-ui/react";
+import UserRequest from "./adminRequests/UserRequest";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../App";
@@ -8,6 +8,8 @@ const AcceptUsersPage = () => {
   const context = useContext(UserContext);
   const [requests, setRequests] = useState([]);
   const [render, setRender] = useState(0);
+
+  //TODO :: FA SA ACCEPTE SI SA REFUZE (REFUZA => SE STERGE DIN DB SI TRIMITE EMAIL)
 
   useEffect(async () => {
     let url = "/admin/getInactiveUsers";
@@ -38,18 +40,34 @@ const AcceptUsersPage = () => {
     );
   }, [render]);
 
-    return (
-        <Center width="100%" height="100%" overflow="auto">
-        
-            <Flex flexDir="column" border="1px solid black" width="min(1024px,100%)" height="70%" overflow="auto" alignItems="center">
-            <Text> Gandeste-te cum faci useful pagina asta (sa aiba mai multe de verificat admin-ul)</Text>
-            {
-              requests.map((user,index)=>{
-                return <UserRequest key={index} firstName={user.firstName} lastName={user.lastName} username={user.username} email={user.email}/>
-              })
-            }
-            </Flex>
-        </Center>
-    )
-}
-export default AcceptUsersPage
+  return (
+    <Center width="100%" height="100%" overflow="auto">
+      <Flex
+        flexDir="column"
+        border="1px solid black"
+        width="min(1024px,100%)"
+        height="70%"
+        overflow="auto"
+        alignItems="center"
+      >
+        <Text>
+          {" "}
+          Gandeste-te cum faci useful pagina asta (sa aiba mai multe de
+          verificat admin-ul)
+        </Text>
+        {requests.map((user, index) => {
+          return (
+            <UserRequest
+              key={index}
+              firstName={user.firstName}
+              lastName={user.lastName}
+              username={user.username}
+              email={user.email}
+            />
+          );
+        })}
+      </Flex>
+    </Center>
+  );
+};
+export default AcceptUsersPage;
