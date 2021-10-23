@@ -56,13 +56,11 @@ const AcceptUsersPage = () => {
           verificat admin-ul)
         </Text>
         {requests.map((user, index) => {
+          console.log(user)
           return (
             <UserRequest
               key={index}
-              firstName={user.firstName}
-              lastName={user.lastName}
-              username={user.username}
-              email={user.email}
+              user = {user}
             />
           );
         })}
