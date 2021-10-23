@@ -42,8 +42,7 @@ const AcceptDoctorsPage = () => {
   return (
     <Center width="100%" height="80%">
       <DoctorRequest
-        username={request.username}
-        imgLink={request.licensePicture}
+        user={request}
       />
     </Center>
   );
