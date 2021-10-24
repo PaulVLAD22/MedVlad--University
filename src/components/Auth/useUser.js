@@ -172,6 +172,7 @@ export const useUser = () => {
     localStorage.removeItem("userInfo");
     setJwt(null);
     setUserInfo(null);
+    window.location.reload()
   };
 
   return {

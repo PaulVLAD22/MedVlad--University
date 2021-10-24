@@ -1,5 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import React, { createContext, useEffect } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -29,6 +29,7 @@ export const UserContext = createContext(null);
 
 function App() {
   const context = useUser();
+  const [render,setRender]=  useState(0)
 
   useEffect(() => {
     console.log("USE EFFECT");
@@ -76,7 +77,13 @@ function App() {
                       <HomePage />
                     </PageWrapper>
                   </Route>
-
+                  <Route exact path="/login">
+                    <Redirect
+                      to={{
+                        pathname: "/"
+                      }}
+                    />
+                  </Route>
                   <Route exact path="*">
                     <PageWrapper>
                       <NotFoundPage />
@@ -112,6 +119,13 @@ function App() {
                     <AdminHome />
                   </PageWrapper>
                 </Route>
+                <Route exact path="/login">
+                    <Redirect
+                      to={{
+                        pathname: "/"
+                      }}
+                    />
+                  </Route>
                 <Route exact path="*">
                   <PageWrapper>
                     <NotFoundPage />
@@ -141,6 +155,15 @@ function App() {
                     <DoctorHome />
                   </PageWrapper>
                 </Route>
+                {// redirectionam /login (pus pt ca la inceput se incarca context.jwt==="" si ne redictioneaza la /login si noi tre sa redictionam iar la /)
+                }
+                <Route exact path="/login">
+                    <Redirect
+                      to={{
+                        pathname: "/"
+                      }}
+                    />
+                  </Route>
                 <Route exact path="*">
                   <PageWrapper>
                     <NotFoundPage />
@@ -149,9 +172,9 @@ function App() {
               </Switch>
             )}
 
-            {!context.jwt && (
+            {context.jwt==="" && (
               <>
-                {console.log(!!context.jwt, "from false")}
+                {console.log(context)}
                 <Switch>
                   <Route exact path="/login" component={LoginForm} />
                   <Route exact path="/register" component={SignupForm} />
@@ -165,15 +188,14 @@ function App() {
                     path="/forgotPassword"
                     component={ForgotPasswordForm}
                   />
-                  <Route exact path="/">
+                  <Route exact path="*">
+                  {// redirectionam tot la login 
+                  }
                     <Redirect
                       to={{
                         pathname: "/login"
                       }}
                     />
-                  </Route>
-                  <Route exact path="*">
-                    <NotFoundPage />
                   </Route>
                 </Switch>
               </>

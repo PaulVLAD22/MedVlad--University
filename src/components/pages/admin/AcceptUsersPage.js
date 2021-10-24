@@ -9,8 +9,6 @@ const AcceptUsersPage = () => {
   const [requests, setRequests] = useState([]);
   const [render, setRender] = useState(0);
 
-  //TODO :: FA SA ACCEPTE SI SA REFUZE (REFUZA => SE STERGE DIN DB SI TRIMITE EMAIL)
-
   useEffect(async () => {
     let url = "/admin/getInactiveUsers";
 
