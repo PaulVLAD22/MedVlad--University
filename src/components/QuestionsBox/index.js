@@ -44,7 +44,6 @@ const QuestionsBox = () => {
       }
     );
   },[render]);
-  // TODO:: nu primesc VALORILE
 
   const postQuestion = async (e) => {
     e.preventDefault();

@@ -24,6 +24,7 @@ import AcceptQuestionsPage from "./components/pages/admin/AcceptQuestionsPage";
 import AdminHome from "./components/pages/admin/AdminHome";
 import DoctorHome from "./components/pages/doctor/DoctorHome";
 import DoctorSignupForm from "./components/login/DoctorSignupForm";
+import ProfilePage from "./components/pages/ProfilePage";
 
 export const UserContext = createContext(null);
 
@@ -84,6 +85,11 @@ function App() {
                       }}
                     />
                   </Route>
+                  <Route exact path="/profile">
+                  <PageWrapper>
+                    <ProfilePage></ProfilePage>
+                  </PageWrapper>  
+                </Route>
                   <Route exact path="*">
                     <PageWrapper>
                       <NotFoundPage />
@@ -119,6 +125,11 @@ function App() {
                     <AdminHome />
                   </PageWrapper>
                 </Route>
+                <Route exact path="/profile">
+                  <PageWrapper>
+                    <ProfilePage></ProfilePage>
+                  </PageWrapper>  
+                </Route>
                 <Route exact path="/login">
                     <Redirect
                       to={{
@@ -149,6 +160,11 @@ function App() {
                   <PageWrapper>
                     <ChatPage></ChatPage>
                   </PageWrapper>
+                </Route>
+                <Route exact path="/profile">
+                  <PageWrapper>
+                    <ProfilePage></ProfilePage>
+                  </PageWrapper>  
                 </Route>
                 <Route exact path="/">
                   <PageWrapper>

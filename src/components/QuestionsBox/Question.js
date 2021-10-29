@@ -14,8 +14,8 @@ const Question = ({ author,content, answers }) => {
     return (
         <Flex width="80%" flexDirection="column" alignItems="center"
             border="1px solid black" m="3">
-            <Flex>
-              <Img src={author.profilePicture}></Img>
+            <Flex flexDir="column">
+              <Img maxH="50px" src={author.profilePicture}></Img>
               <Text>{author.username}</Text>
             </Flex>
             <Text fontSize="medium" p="2"
