@@ -2,3 +2,4 @@
 Add Profiles, add private/public routing
 <h2>Probleme generale</h2>
 Redirecting-ul de la refresh (incearca sa faci sa mearga useHistory)
+Nu poti naviga pe site scriind sus linkul
