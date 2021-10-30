@@ -48,7 +48,8 @@ const AcceptQuestionsPage = () => {
         alignItems="center"
       >
         {questions.map((question, index) => {
-          return <QuestionRequest key={index} question={question} />;
+          return <QuestionRequest key={index} question={question}
+          reRenderPage = {()=>setRender(render+1)} />;
         })}
       </Flex>
     </Center>

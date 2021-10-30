@@ -5,7 +5,7 @@ import { TiTick } from "react-icons/ti";
 import axios from "axios";
 import { UserContext } from "../../../../App";
 
-const QuestionRequest = ({ question }) => {
+const QuestionRequest = ({ question,reRenderPage }) => {
   const context = useContext(UserContext);
   const [render, setRender] = useState(0);
   const [comment, setComment] = useState("");
@@ -29,7 +29,8 @@ const QuestionRequest = ({ question }) => {
       (response) => {
         console.log(response.data);
         setRender(render + 1);
-        window.location.reload()
+        console.log("rerender")
+        reRenderPage()
       },
       async (getError) => {
         if (getError.response.status === 403) {

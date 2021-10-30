@@ -4,7 +4,7 @@ import { AiFillStop, AiOutlineStop } from "react-icons/ai";
 import axios from "axios";
 import { UserContext } from "../../../../App";
 import { useContext, useState } from "react";
-const DoctorRequest = ({ user }) => {
+const DoctorRequest = ({ user,reRenderPage }) => {
   const context = useContext(UserContext);
   const [render, setRender] = useState(0);
   const [comment, setComment] = useState("");
@@ -28,7 +28,8 @@ const DoctorRequest = ({ user }) => {
       (response) => {
         console.log(response.data);
         setRender(render + 1);
-        window.location.reload();
+        console.log("rerender")
+        reRenderPage()
       },
       async (getError) => {
         if (getError.response.status === 403) {

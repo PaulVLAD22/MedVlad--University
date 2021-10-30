@@ -1,18 +1,27 @@
 import { Center, Flex } from "@chakra-ui/layout"
 import { Button, Input, Img, Text } from "@chakra-ui/react"
-import { UserContext } from "../../App";
 import { useContext, useEffect, useState } from "react"
 import axios from 'axios'
-
+import Question from "../QuestionsBox/Question";
+import { UserContext } from "../../App";
+import { useLocation } from 'react-router-dom'
+import UserProfile from "../Profile/UserProfile";
 const ProfilePage = () => {
-    const [render, setRender] = useState(0);
-    const [questions, setQuestions] = useState([]);
-    // fa folder profile
+    const context = useContext(UserContext)
+    const location = useLocation();
+    const [user, setUser] = useState({role:""});
+    const [render, setRender] = useState(0)
 
     useEffect(async () => {
+        console.log(location.pathname);
+        let username = location.pathname.substr(8, location.pathname.length)
+        if (username == "") {
+            username = context.userInfo.username;
+        }
+        console.log(username)
         //console.log(context.jwt);
         console.log("jwt:" + context.jwt)
-        let url = "/getQuestionsForUser";
+        let url = "/getUserByUsername";
 
         const config = {
             headers: {
@@ -25,11 +34,11 @@ const ProfilePage = () => {
             method: "GET",
             url: url,
             headers: config.headers,
+            params: { "username": username }
         }).then(
             (response) => {
                 console.log(response.data)
-                setQuestions(response.data);
-
+                setUser(response.data)
             },
             async (getError) => {
                 if (getError.response.status === 403) {
@@ -39,58 +48,15 @@ const ProfilePage = () => {
                 }
             }
         );
-    }, [render]);
-    const context = useContext(UserContext);
+
+    }, [])
+
     return (
-        <Center width="100%">
-            <Center>
-                {console.log(context.jwt)}
-                <Flex
-                    position="relative"
-                    flexDirection="column"
-                    overflowY="auto"
-                    width="min(1024px,100vw)"
-                    height="100vh"
-                    boxShadow="dark-lg"
+        <>
+            {user.role.name==="USER" && 
+            <UserProfile user={user}/>}
+            
+        </>)
 
-                    p={5}
-                >
-                    <Center flexDir="column">
-                        <Flex flexDir="column">
-                            <Img src={context.userInfo.profilePicture} />
-                            <Text>{context.userInfo.username}</Text>
-                        </Flex>
-
-                        <Flex flexDir="column" width="50%" my="2">
-                            <Text>
-                                First name : {context.userInfo.firstName ? context.userInfo.firstName : "Unknown"}
-                            </Text>
-                            <Text>
-                                Last name : {context.userInfo.lastName ? context.userInfo.lastName : "Unknown"}
-                            </Text>
-                        </Flex>
-                    </Center>
-                    <Flex width="50%" my="2" flexDir="column" alignItems="start">
-                        <Text>Infostation History:</Text>
-                        <Flex flexDir="column" my="1">
-                            {// AFISEAZA DIFERIT }
-                            }
-                            {questions.map((question, index) => {
-                                return <Text>{question.content}</Text>
-                            })}
-                        </Flex>
-                    </Flex>
-                    <Flex width="50%" my="2">
-                        <Text>Doctors interacted with:</Text>
-                    </Flex>
-                    <Flex width="50%" my="2">
-                        <Text textAlign="left">As putea face ca doctorii sa dea un rating la pacienti. Si verific daca au comunicat inainte pe chat/mail.</Text>
-                    </Flex>
-
-
-                </Flex>
-            </Center>
-        </Center>
-    )
 }
 export default ProfilePage

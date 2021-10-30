@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../../../../App";
 import styled from "styled-components";
-const UserRequest = ({ user }) => {
+const UserRequest = ({ user,reRenderPage }) => {
   const context = useContext(UserContext);
   const [render, setRender] = useState(0);
   const [comment, setComment] = useState("");
@@ -29,7 +29,8 @@ const UserRequest = ({ user }) => {
       (response) => {
         console.log(response.data);
         setRender(render + 1);
-        window.location.reload()
+        console.log("rerender")
+        reRenderPage()
       },
       async (getError) => {
         if (getError.response.status === 403) {

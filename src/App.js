@@ -85,7 +85,7 @@ function App() {
                       }}
                     />
                   </Route>
-                  <Route exact path="/profile">
+                  <Route path="/profile">
                   <PageWrapper>
                     <ProfilePage></ProfilePage>
                   </PageWrapper>  
@@ -125,9 +125,9 @@ function App() {
                     <AdminHome />
                   </PageWrapper>
                 </Route>
-                <Route exact path="/profile">
+                <Route path="/profile">
                   <PageWrapper>
-                    <ProfilePage></ProfilePage>
+                    <ProfilePage ></ProfilePage>
                   </PageWrapper>  
                 </Route>
                 <Route exact path="/login">

@@ -1,4 +1,5 @@
 import { Center, Flex } from "@chakra-ui/react";
+import { Button, Text, Input,Box } from "@chakra-ui/react";
 import AcceptedRequest from "./adminRequests/AcceptedRequest";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
@@ -6,11 +7,12 @@ import { UserContext } from "../../../App";
 
 const HistoryPage = () => {
   const context = useContext(UserContext);
-  const [requests, setRequests] = useState([]);
+  const [registrationRequests, setRegistrationRequests] = useState([])
+  const [questionRequests, setQuestionRequests] = useState([])
   const [render, setRender] = useState(0);
 
   useEffect(async () => {
-    let url = "/admin/getRegistrationResults";
+    let url = "/admin/getAdminHistory";
 
     const config = {
       headers: {
@@ -26,7 +28,8 @@ const HistoryPage = () => {
     }).then(
       (response) => {
         console.log(response.data);
-        setRequests(response.data);
+        setRegistrationRequests(response.data.registrationResultList)
+        setQuestionRequests(response.data.questions)
       },
       async (getError) => {
         if (getError.response.status === 403) {
@@ -48,11 +51,20 @@ const HistoryPage = () => {
         overflow="auto"
         alignItems="center"
       >
-        {requests.map((request,index)=>{
+        {registrationRequests.map((request, index) => {
           console.log(request)
-          return <AcceptedRequest 
-          key={index}
-          request={request}/>
+          return <AcceptedRequest
+            key={index}
+            request={request} />
+        })}
+        {questionRequests.map((question, index) => {
+          return(
+          <Box my="2" key={index} >
+          <Text>Question : {question.content}</Text>
+          <Text>Comment : {question.comment}</Text>
+          <Text>Accepted : {question.verdict==true ? "Yes" : "No"}</Text>
+          </Box>
+          )
         })}
       </Flex>
     </Center>

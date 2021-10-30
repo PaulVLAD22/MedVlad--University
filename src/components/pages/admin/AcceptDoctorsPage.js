@@ -43,6 +43,7 @@ const AcceptDoctorsPage = () => {
     <Center width="100%" height="80%">
       <DoctorRequest
         user={request}
+        reRenderPage = {()=>setRender(render+1)}
       />
     </Center>
   );
