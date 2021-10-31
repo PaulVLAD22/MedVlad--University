@@ -95,7 +95,7 @@ const QuestionsBox = () => {
         alignItems="center"
         p={5}
       >
-        {context.userInfo.role == "doctor" && (
+        {context.userInfo.role == "DOCTOR" && (
           <>
             <h2>SUNT UN DOCTOR</h2>
             <h2>ADAUGA SA POT DA LIKE LA COMMENT-URI SI SA ADAUG RASPUNS</h2>
@@ -125,9 +125,11 @@ const QuestionsBox = () => {
             return (
               <Question
                 key={index}
+                id={question.id}
                 author={question.userDto}
                 content={question.content}
                 answers={question.questionAnswerList}
+                reRenderPage={()=>setRender(render+1)}
               />
             );
         })}
