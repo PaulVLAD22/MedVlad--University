@@ -59,6 +59,7 @@ const AcceptUsersPage = () => {
             <UserRequest
               key={index}
               user = {user}
+              reRenderPage={()=>setRender(render+1)}
             />
           );
         })}

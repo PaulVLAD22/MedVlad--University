@@ -4,10 +4,14 @@ import { UserContext } from "../../App";
 import { useContext, useEffect, useState } from "react"
 import axios from 'axios'
 import Question from "../QuestionsBox/Question";
-
-const UserProfile = ({user}) => {
+const UserProfile = ({ user }) => {
+    const context = useContext(UserContext)
     const [render, setRender] = useState(0);
     const [questions, setQuestions] = useState([]);
+    const [changeFirstName, setChangeFirstName] = useState(false)
+    const [changeLastName, setChangeLastName] = useState(false)
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
     // fa folder profile
 
     useEffect(async () => {
@@ -26,7 +30,7 @@ const UserProfile = ({user}) => {
             method: "GET",
             url: url,
             headers: config.headers,
-            params:{"username" : user.username}
+            params: { "username": user.username }
         }).then(
             (response) => {
                 console.log(response.data)
@@ -43,7 +47,6 @@ const UserProfile = ({user}) => {
         );
     }, [render]);
 
-    const context = useContext(UserContext);
     return (
         <Center width="100%">
             <Center>
@@ -59,23 +62,47 @@ const UserProfile = ({user}) => {
                 >
                     <Center flexDir="column">
                         <Flex flexDir="column">
-                            <Img src={context.userInfo.profilePicture} />
-                            <Text>{context.userInfo.username}</Text>
-                            <Text>User Points : {context.userInfo.points}</Text>
+                            <Img src={user.profilePicture} />
+                            <Text>{user.username}</Text>
+                            <Text>User Points : {user.points}</Text>
                         </Flex>
 
                         <Flex flexDir="column" width="50%" my="2">
-                            <Text>
-                                First name : {context.userInfo.firstName ? context.userInfo.firstName : "Unknown"}
-                            </Text>
-                            <Text>
-                                Last name : {context.userInfo.lastName ? context.userInfo.lastName : "Unknown"}
-                            </Text>
+                            <Center flexDir="row">
+                                <Text>
+                                    First name : {user.firstName ? user.firstName : "Unknown"}
+                                </Text>
+                                {(context.userInfo.username == user.username && user.firstName == null) &&
+                                    <Button mx="2" size="xs" onClick={() => setChangeFirstName(!changeFirstName)}>
+                                        Change
+                                    </Button>}
+                                {changeFirstName &&
+                                    <Flex flexDir="row" alignItems="center">
+                                        <Input onChange={(e) => { setFirstName(e.target.value) }} value={firstName} />
+                                        <Button size="xs">Set</Button>
+                                    </Flex>
+                                }
+                            </Center>
+                            <Center flexDir="row">
+                                <Text>
+                                    Last name : {user.lastName ? user.lastName : "Unknown"}
+                                </Text>
+                                {(context.userInfo.username == user.username && user.firstName == null) &&
+                                    <Button mx="2" size="xs" onClick={() => setChangeLastName(!changeLastName)}>
+                                        Change
+                                    </Button>}
+                                {changeLastName &&
+                                    <Flex flexDir="row" alignItems="center">
+                                        <Input onChange={(e) => { setLastName(e.target.value) }} value={lastName} />
+                                        <Button size="xs">Set</Button>
+                                    </Flex>
+                                }
+                            </Center>
                         </Flex>
                     </Center>
-                    <Flex width="50%" my="2" flexDir="column" alignItems="start">
+                    <Flex my="2" flexDir="column" alignItems="start">
                         <Text>Infostation History:</Text>
-                        <Flex flexDir="column" my="1">
+                        <Flex flexDir="column" my="1" width="100%">
 
                             {questions.map((question, index) => {
                                 return <Question key={index}
@@ -84,7 +111,7 @@ const UserProfile = ({user}) => {
                                     answers={question.questionAnswerList}
                                 />
                             })}
-                            
+
                         </Flex>
                     </Flex>
                     <Flex width="50%" my="2">

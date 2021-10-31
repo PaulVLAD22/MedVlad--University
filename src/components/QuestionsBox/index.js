@@ -33,6 +33,7 @@ const QuestionsBox = () => {
       (response) => {
         console.log(response.data)
         setQuestions(response.data);
+        setRender(render+1)
       
       },
       async (getError) => {
@@ -104,6 +105,7 @@ const QuestionsBox = () => {
           </>
         )}
         <InfostationDescription />
+        <Text fontSize="x-large"> SORT DE LA MOST POPULAR SAU DE LA ULTIMELE POSTATE</Text>
 
         <Flex width="50%" m="3">
           <Input

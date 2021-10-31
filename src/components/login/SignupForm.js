@@ -15,6 +15,7 @@ import { UserContext } from "../../App";
 import { apiClient } from "../utils/apiClient";
 
 const SignupForm = () => {
+    const [render,setRender] = useState(0)
     const [details, setDetails] = useState({
         email: "",
         username: "",
@@ -29,6 +30,13 @@ const SignupForm = () => {
         e.preventDefault();
         if (details.password == details.confirmPassword) {
             context.signUp(details,"USER")
+            setDetails({
+                email: "",
+                username: "",
+                password: "",
+                confirmPassword: "",
+                licensePicture:""
+            })
         }
     };
 
