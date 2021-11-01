@@ -49,12 +49,12 @@ const ProfilePage = () => {
             }
         );
 
-    }, [])
+    }, [render])
 
     return (
         <>
             {user.role.name==="USER" && 
-            <UserProfile user={user}/>}
+            <UserProfile user={user} reRenderPage={()=>setRender(render+1)}/>}
             
         </>)
 

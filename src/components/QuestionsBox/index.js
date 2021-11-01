@@ -33,7 +33,6 @@ const QuestionsBox = () => {
       (response) => {
         console.log(response.data)
         setQuestions(response.data);
-        setRender(render+1)
       
       },
       async (getError) => {

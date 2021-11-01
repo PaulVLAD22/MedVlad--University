@@ -4,14 +4,16 @@ import { UserContext } from "../../App";
 import { useContext, useEffect, useState } from "react"
 import axios from 'axios'
 import Question from "../QuestionsBox/Question";
-const UserProfile = ({ user }) => {
+const UserProfile = ({ user, reRenderPage }) => {
     const context = useContext(UserContext)
     const [render, setRender] = useState(0);
     const [questions, setQuestions] = useState([]);
     const [changeFirstName, setChangeFirstName] = useState(false)
     const [changeLastName, setChangeLastName] = useState(false)
+    const [changeProfilePicture, setChangeProfilePicture] = useState(false)
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
+    const [profilePicture, setProfilePicture] = useState("")
     // fa folder profile
 
     useEffect(async () => {
@@ -35,7 +37,6 @@ const UserProfile = ({ user }) => {
             (response) => {
                 console.log(response.data)
                 setQuestions(response.data);
-
             },
             async (getError) => {
                 if (getError.response.status === 403) {
@@ -46,6 +47,109 @@ const UserProfile = ({ user }) => {
             }
         );
     }, [render]);
+
+    const updateFirstName = async () => {
+
+        let url = "/updateFirstName";
+
+        const config = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                Authorization: "Bearer " + context.jwt,
+            },
+        };
+
+        await axios({
+            method: "PUT",
+            url: url,
+            headers: config.headers,
+            params: { "firstName": firstName }
+        }).then(
+            (response) => {
+                console.log(response.data)
+                setFirstName("")
+                setChangeFirstName(false)
+                reRenderPage()
+                //nu e bine
+            },
+            async (getError) => {
+                if (getError.response.status === 403) {
+                    console.log("SE CHEAMA REFRESH TOKEN")
+                    context.refreshAuthToken();
+                    setRender(render + 1);
+                }
+            }
+        );
+    };
+
+
+
+    const updateLastName = async () => {
+        let url = "/updateLastName";
+
+        const config = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                Authorization: "Bearer " + context.jwt,
+            },
+        };
+
+        await axios({
+            method: "PUT",
+            url: url,
+            headers: config.headers,
+            params: { "lastName": lastName }
+        }).then(
+            (response) => {
+                console.log(response.data)
+                setLastName("")
+                setChangeLastName(false)
+                setRender(render + 1)
+                reRenderPage()
+                //nu se render-uiestre bine
+            },
+            async (getError) => {
+                if (getError.response.status === 403) {
+                    console.log("SE CHEAMA REFRESH TOKEN")
+                    context.refreshAuthToken();
+                    setRender(render + 1);
+                }
+            }
+        );
+    }
+    const updateProfilePicture = async () => {
+        console.log("update profile pciture")
+        let url = "/updateProfilePicture";
+
+        const config = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                Authorization: "Bearer " + context.jwt,
+            },
+        };
+
+        await axios({
+            method: "PUT",
+            url: url,
+            headers: config.headers,
+            params: { "profilePicture": profilePicture }
+        }).then(
+            (response) => {
+                console.log(response.data)
+                setProfilePicture("")
+                setChangeProfilePicture(false)
+                setRender(render + 1)
+                reRenderPage()
+            },
+            async (getError) => {
+                if (getError.response.status === 403) {
+                    console.log("SE CHEAMA REFRESH TOKEN")
+                    context.refreshAuthToken();
+                    setRender(render + 1);
+                }
+            }
+        );
+    }
 
     return (
         <Center width="100%">
@@ -60,9 +164,19 @@ const UserProfile = ({ user }) => {
                     boxShadow="dark-lg"
                     p={5}
                 >
-                    <Center flexDir="column">
-                        <Flex flexDir="column">
-                            <Img src={user.profilePicture} />
+                    <Flex flexDir="column" alignItems="center">
+                        <Flex flexDir="column" alignItems="center">
+                            <Img maxHeight="200px" maxWidth="200px" src={user.profilePicture} />
+                            {(context.userInfo.username == user.username ) &&
+                                <Button size="xs" onClick={() => setChangeProfilePicture(!changeProfilePicture)}>
+                                    Change profile picture
+                                </Button>}
+                            {changeProfilePicture &&
+                                <Flex flexDir="row" alignItems="center">
+                                    <Input onChange={(e) => { setProfilePicture(e.target.value) }} value={profilePicture} />
+                                    <Button size="xs" onClick={updateProfilePicture}>Set</Button>
+                                </Flex>
+                            }
                             <Text>{user.username}</Text>
                             <Text>User Points : {user.points}</Text>
                         </Flex>
@@ -79,7 +193,7 @@ const UserProfile = ({ user }) => {
                                 {changeFirstName &&
                                     <Flex flexDir="row" alignItems="center">
                                         <Input onChange={(e) => { setFirstName(e.target.value) }} value={firstName} />
-                                        <Button size="xs">Set</Button>
+                                        <Button size="xs" onClick={updateFirstName}>Set</Button>
                                     </Flex>
                                 }
                             </Center>
@@ -87,19 +201,19 @@ const UserProfile = ({ user }) => {
                                 <Text>
                                     Last name : {user.lastName ? user.lastName : "Unknown"}
                                 </Text>
-                                {(context.userInfo.username == user.username && user.firstName == null) &&
+                                {(context.userInfo.username == user.username && user.lastName == null) &&
                                     <Button mx="2" size="xs" onClick={() => setChangeLastName(!changeLastName)}>
                                         Change
                                     </Button>}
                                 {changeLastName &&
                                     <Flex flexDir="row" alignItems="center">
                                         <Input onChange={(e) => { setLastName(e.target.value) }} value={lastName} />
-                                        <Button size="xs">Set</Button>
+                                        <Button size="xs" onClick={updateLastName}>Set</Button>
                                     </Flex>
                                 }
                             </Center>
                         </Flex>
-                    </Center>
+                    </Flex>
                     <Flex my="2" flexDir="column" alignItems="start">
                         <Text>Infostation History:</Text>
                         <Flex flexDir="column" my="1" width="100%">
