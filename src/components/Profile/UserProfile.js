@@ -168,7 +168,7 @@ const UserProfile = ({ user, reRenderPage }) => {
                         <Flex flexDir="column" alignItems="center">
                             <Img maxHeight="200px" maxWidth="200px" src={user.profilePicture} />
                             {(context.userInfo.username == user.username ) &&
-                                <Button size="xs" onClick={() => setChangeProfilePicture(!changeProfilePicture)}>
+                                <Button my="1.5" size="xs" onClick={() => setChangeProfilePicture(!changeProfilePicture)}>
                                     Change profile picture
                                 </Button>}
                             {changeProfilePicture &&
