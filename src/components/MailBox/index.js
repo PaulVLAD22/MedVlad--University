@@ -141,7 +141,9 @@ const MailBox = () => {
                                 }
                                 }
                                 username={message.senderUsername == context.userInfo.username ? message.receiverUsername : message.senderUsername}
-                                message={message.content} />
+                                message={message.content}
+                                timeOfSending={message.timeOfSending}
+                                senderUsername={message.senderUsername} />
                         })
                 }
 

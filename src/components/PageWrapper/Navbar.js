@@ -101,7 +101,7 @@ export const Navbar = ({ toggle }) => {
               color="black"
               alignSelf="center"
             >
-              Live message
+              Live Session
             </Button>
             <Button
               background="white"
@@ -114,7 +114,7 @@ export const Navbar = ({ toggle }) => {
               color="black"
               alignSelf="center"
             >
-              Mail
+              Messages
             </Button>
           </>
         )}
@@ -201,7 +201,7 @@ export const Navbar = ({ toggle }) => {
               color="black"
               alignSelf="center"
             >
-              Live Chat
+              Live Session
             </Button>
             <Button
               background="white"
@@ -259,7 +259,7 @@ export const Navbar = ({ toggle }) => {
 
 export const MobileIcon = styled.div`
   display: none;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1000px) {
     display: block;
     position: absolute;
     top: 0;
@@ -271,7 +271,7 @@ export const MobileIcon = styled.div`
   }
 `;
 export const LeftNavMenu = styled.div`
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1000px) {
     display: none;
   }
 `;

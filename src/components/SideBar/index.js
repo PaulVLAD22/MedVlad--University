@@ -47,8 +47,8 @@ const SideBar = ({isOpen,toggle}) =>{
           {context.userInfo.role=="USER" &&
           <> 
           <SidebarLink onClick={goToInfostation}>Infostation</SidebarLink>
-          <SidebarLink onClick={goToChat}>Live Chat</SidebarLink>
-          <SidebarLink onClick={goToMail}>Mail</SidebarLink>
+          <SidebarLink onClick={goToChat}>Live Session</SidebarLink>
+          <SidebarLink onClick={goToMail}>Messages</SidebarLink>
           </>}
           {context.userInfo.role=="ADMIN" &&
           <>
@@ -60,9 +60,9 @@ const SideBar = ({isOpen,toggle}) =>{
 
           {context.userInfo.role=="DOCTOR" &&
           <>
-          <SidebarLink onClick={goToAnswerQuestion}>Answer Questions</SidebarLink>
-          <SidebarLink onClick={goToChat}>Chat</SidebarLink>
-          <SidebarLink onClick={goToMail}>Mail</SidebarLink>
+          <SidebarLink onClick={goToAnswerQuestion}>Infostation</SidebarLink>
+          <SidebarLink onClick={goToChat}>Live Session</SidebarLink>
+          <SidebarLink onClick={goToMail}>Messages</SidebarLink>
           </>
           }
           

@@ -8,14 +8,17 @@ const MainMailBox = ({ messages, sendMessage }) => {
     const context = useContext(UserContext)
     const [newMessageContent, setNewMessageContent] = useState("")
     return (
-        <Flex border="1px solid black" width="60%" p="5" flexDir="column" overflowY="auto" overflowX="hidden">
+        <Flex flexDir="column" width="60%" paddingBottom="2">
+            <Flex  border="1px solid black" p="5" flexDir="column" overflowY="auto" overflowX="hidden">
             {
-                messages.map((message, index) => {
-                    console.log("MESAJ:" + message)
-                    console.log(message)
+                messages.sort(function (a, b) {
+                    return new Date(a.timeOfSending).valueOf() - new Date(b.timeOfSending).valueOf();
+                }).map((message, index) => {
+                    
                     return <MainMailMessage key={index}
                         side={message.senderUsername == context.userInfo.username ? "left" : "right"}
                         content={message.content}
+                        timeOfSending={message.timeOfSending}
                     />
                 })
             }
@@ -25,6 +28,7 @@ const MainMailBox = ({ messages, sendMessage }) => {
                     <Text>Chose a conversation</Text>
                 </Center>
             }
+            </Flex>
             {messages.length != 0 &&
 
                 <Flex position="relative" m="1" marginTop="2">
@@ -37,12 +41,13 @@ const MainMailBox = ({ messages, sendMessage }) => {
                     <Button
                         position="absolute"
                         right="0.5"
-                        width="20px">
-                        <FiSend onClick={() => {
+                        width="20px"
+                        onClick={() => {
                             setNewMessageContent("")
                             sendMessage(newMessageContent)
                         }
-                        } />
+                        }>
+                        <FiSend/>
                     </Button>
                 </Flex>
             }
