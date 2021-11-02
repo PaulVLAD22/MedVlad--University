@@ -1,9 +1,9 @@
 import { Flex, Text } from "@chakra-ui/react"
 
-const MiniMailBox = ({username,message}) => {
+const MiniMailBox = ({updateMainChat,username,message}) => {
     
     return (
-        <Flex display="block" width="100%" flexDirection="column" textAlign="left" borderBottom="1px solid black"
+        <Flex cursor="pointer" onClick={updateMainChat} display="block" width="100%" flexDirection="column" textAlign="left" borderBottom="1px solid black"
             px="5" py="3"
             
             >

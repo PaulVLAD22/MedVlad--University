@@ -8,10 +8,12 @@ import axios from 'axios'
 
 const MailBox = () => {
     const context = useContext(UserContext)
-    const [messages, setMessages] = useState([])
+    const [lastMessages, setLastMessages] = useState([])
     const [render, setRender] = useState(0)
     const [messageContent, setMessageContet] = useState("")
     const [receiverUsername, setReceiverUsername] = useState("")
+    const [mainMessages, setMainMessages] = useState([])
+    const [userTalkingTo, setUserTalkingTo] = useState("")
 
     useEffect(async () => {
 
@@ -19,7 +21,7 @@ const MailBox = () => {
         //TODO:: iei ultimul mesaj de la fiecare user cu care a conversat
         // in functie de daca l am trimis eu sau el sa fie o iconita jos
 
-        let url = "/getMessages";
+        let url = "/getLastMessages";
 
         const config = {
             headers: {
@@ -35,7 +37,7 @@ const MailBox = () => {
         }).then(
             (response) => {
                 console.log(response.data)
-                setMessages(response.data)
+                setLastMessages(response.data)
             },
             async (getError) => {
                 if (getError.response.status === 403) {
@@ -66,6 +68,7 @@ const MailBox = () => {
         }).then(
             (response) => {
                 console.log(response.data)
+                openChat(receiverUsername)
                 setRender(render + 1)
             },
             async (getError) => {
@@ -81,6 +84,36 @@ const MailBox = () => {
 
     const openChat = async (username) => {
         console.log(username);
+        let url = "/getMessagesWithUser";
+
+        const config = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                Authorization: "Bearer " + context.jwt,
+            },
+        };
+
+        await axios({
+            method: "GET",
+            url: url,
+            headers: config.headers,
+            params: { "username2": username }
+        }).then(
+            (response) => {
+                console.log("AICI")
+                console.log(response.data)
+                setMainMessages(response.data)
+                setUserTalkingTo(username)
+                setRender(render + 1)
+            },
+            async (getError) => {
+                if (getError.response.status === 403) {
+                    console.log("SE CHEAMA REFRESH TOKEN")
+                    context.refreshAuthToken();
+                    setRender(render + 1);
+                }
+            }
+        );
     }
 
 
@@ -95,15 +128,25 @@ const MailBox = () => {
                     <Button onClick={() => sendMessage(messageContent, receiverUsername)} />
                 </Flex>
                 {
-                    messages.map((message,index)=>{
-                        return <MiniMailBox key={index}  onClick={()=>openChat(message.senderUsername)} 
-                        username={message.senderUsername==context.userInfo.username ? message.receiverUsername : message.senderUsername} 
-                        message={message.content} />
-                    })
+                    lastMessages.sort(function (a, b) {
+                        return new Date(b.timeOfSending).valueOf() - new Date(a.timeOfSending).valueOf();
+                    }).
+                        map((message, index) => {
+                            return <MiniMailBox key={index}
+                                updateMainChat={() => {
+                                    if (message.senderUsername == context.userInfo.username)
+                                        openChat(message.receiverUsername)
+                                    else
+                                        openChat(message.senderUsername)
+                                }
+                                }
+                                username={message.senderUsername == context.userInfo.username ? message.receiverUsername : message.senderUsername}
+                                message={message.content} />
+                        })
                 }
-                
+
             </Flex>
-            <MainMailBox messages={messages}>
+            <MainMailBox messages={mainMessages} sendMessage={(_) => sendMessage(_, userTalkingTo)}>
             </MainMailBox>
         </Flex>
     )
