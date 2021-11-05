@@ -62,11 +62,11 @@ const DoctorRequest = ({ user,reRenderPage }) => {
 
       <Flex width="100%" flexDir="column" alignItems="center">
         <Flex width="100%" justifyContent="space-between" fontSize="larger">
-          <Button>
-            <AiFillStop onClick={()=>sendRequestResponse(false)}></AiFillStop>
+          <Button  onClick={()=>sendRequestResponse(false)}>
+            <AiFillStop></AiFillStop>
           </Button>
-          <Button>
-            <TiTick onClick={()=>sendRequestResponse(true)}></TiTick>
+          <Button onClick={()=>sendRequestResponse(true)}>
+            <TiTick ></TiTick>
           </Button>
         </Flex>
         <Input

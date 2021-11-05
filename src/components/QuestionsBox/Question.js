@@ -44,7 +44,7 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
 
   return (
     <Flex width="80%" flexDirection="column" alignItems="center"
-      border="1px solid black" m="3">
+      border="1px solid black" m="3" p="5">
       <Flex flexDir="column">
         <Img maxH="50px" src={author.profilePicture}></Img>
         <Text>{author.username}</Text>
@@ -60,10 +60,19 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
       }
       <Flex width="100%" alignItems="center"
         justifyContent="center" flexDirection="column" >
-        {answers.map((answer, index) => {
-          console.log(answer)
-          return <Answer key={index} id={answer.id} content={answer.content} author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName} numberOfLikes={answer.numberOfLikes} reRenderPage={()=>reRenderPage()} />
-        })}
+        {context.userInfo.role == "DOCTOR" &&
+          answers.map((answer, index) => {
+            console.log(answer)
+            return <Answer key={index} id={answer.id} content={answer.content} author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName} numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()} />
+          })}
+        {context.userInfo.role == "USER" &&
+          answers.sort((a1, a2) => {
+            return a2.numberOfLikes - a1.numberOfLikes
+          }).slice(0, 3).map((answer, index) => {
+            console.log(answer)
+            return <Answer key={index} id={answer.id} content={answer.content} author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName} numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()} />
+          })
+        }
       </Flex>
     </Flex>
   )

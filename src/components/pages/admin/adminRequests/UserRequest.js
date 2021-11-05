@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../../../../App";
 import styled from "styled-components";
-const UserRequest = ({ user,reRenderPage }) => {
+const UserRequest = ({ user, reRenderPage }) => {
   const context = useContext(UserContext);
   const [render, setRender] = useState(0);
   const [comment, setComment] = useState("");
@@ -53,14 +53,13 @@ const UserRequest = ({ user,reRenderPage }) => {
     >
       <Text>{user.username}</Text>
       <Text>{user.email}</Text>
-      <Button>
+      <Button onClick={() => sendRequestResponse(false)}>
         <AiOutlineStop
-          onClick={() => sendRequestResponse(false)}
+
         ></AiOutlineStop>
       </Button>
-      <Button>
+      <Button onClick={() => sendRequestResponse(true)}>
         <TiTickOutline
-          onClick={() => sendRequestResponse(true)}
         ></TiTickOutline>
       </Button>
       <Input

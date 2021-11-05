@@ -44,6 +44,9 @@ export const Navbar = ({ toggle }) => {
   const goToProfile = () => {
     history.push("/profile")
   }
+  const goBanUser= () =>{
+    history.push("/banUser")
+  }
 
   const handleLogout = () => {
     context.logOut();
@@ -158,6 +161,20 @@ export const Navbar = ({ toggle }) => {
               alignSelf="center"
             >
               Questions
+            </Button>
+
+            <Button
+              background="white"
+              colorScheme={secondaryColor}
+              mx={3}
+              onClick={goBanUser}
+              fontFamily="sans-serif"
+              fontSize="20"
+              fontWeight="bold"
+              color="black"
+              alignSelf="center"
+            >
+              Ban User
             </Button>
 
             <Button

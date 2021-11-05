@@ -14,6 +14,13 @@ const ChatBox = () => {
       borderRadius="10"
       backgroundColor="white"
     >
+      <Text my="2"> CAND SE FACE MATCH-ING CU DOCTORII PACIENTI CARE SUNT IN QUEUE SE CONECTEAZA
+        FIE DACA AU MAI FOST CONECTATI SI AU AVUT NOTA DATA  mai mare ca 4 (din 5). SI APOI SUNT DUPA CEL 
+        MAI BUN USER CU CEL MAI BUN DOCTOR</Text>
+      <Text>Si doctorul poate da review user-ului.</Text>
+      <Text fontSize="lg"> Pentru a se termina trebuie ca unul dintre participanti sa iasa</Text> 
+      <Text fontSize="lg">La finalul chatului poti salva masinile si poti da review</Text>
+      <Text fontSize="lg"> Adauga support camera video + microfon deasupra chat-ului sau langa</Text>
       <Flex justifyItems="center" alignItems="center" width="100%"
       height="100px">
         <Img

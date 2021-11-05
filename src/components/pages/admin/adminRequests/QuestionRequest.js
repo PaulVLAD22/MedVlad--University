@@ -48,13 +48,13 @@ const QuestionRequest = ({ question,reRenderPage }) => {
 
       <Flex width="100%" flexDir="column" alignItems="center">
         <Flex width="100%" justifyContent="space-between" fontSize="larger">
-          <Button>
+          <Button  onClick={() => sendQuestionResponse(false)}>
             <AiFillStop
-              onClick={() => sendQuestionResponse(false)}
+             
             ></AiFillStop>
           </Button>
-          <Button>
-            <TiTick onClick={() => sendQuestionResponse(true)}></TiTick>
+          <Button onClick={() => sendQuestionResponse(true)}>
+            <TiTick ></TiTick>
           </Button>
         </Flex>
         <Input

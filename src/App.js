@@ -25,6 +25,7 @@ import AdminHome from "./components/pages/admin/AdminHome";
 import DoctorHome from "./components/pages/doctor/DoctorHome";
 import DoctorSignupForm from "./components/login/DoctorSignupForm";
 import ProfilePage from "./components/pages/ProfilePage";
+import BanUserPage from "./components/pages/admin/BanUserPage";
 
 export const UserContext = createContext(null);
 
@@ -118,6 +119,11 @@ function App() {
                 <Route exact path="/acceptQuestions">
                   <PageWrapper>
                     <AcceptQuestionsPage></AcceptQuestionsPage>
+                  </PageWrapper>
+                </Route>
+                <Route exact path="/banUser">
+                  <PageWrapper>
+                    <BanUserPage/>
                   </PageWrapper>
                 </Route>
                 <Route exact path="/">
