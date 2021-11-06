@@ -4,3 +4,5 @@ Work on profiles
 
 <h2>De adaugat:</h2>
 Sa poti suna/intra in chat cu un user de pe profilul lui
+Clean code
+Exception Handling
