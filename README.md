@@ -1,9 +1,9 @@
 <h1>Pentru facultate</h1>
 Work on profiles
-<h2>Probleme generale</h2>
+<h1>Probleme generale</h1>
 
-<h2>De adaugat:</h2>
-<h1>Fa sa mearga chat live (+video chat)</h1>
+<h1>De adaugat:</h1>
+<h2>Fa sa mearga chat live (+video chat)</h2>
 Sa poti suna/intra in chat cu un user de pe profilul lui<br>
 Clean code<br>
 Exception Handling<br>
