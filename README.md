@@ -3,7 +3,7 @@ Work on profiles
 <h1>Probleme generale</h1>
 
 <h1>De adaugat:</h1>
-<b>Fa sa mearga chat live (+video chat)</b>
+<b>Fa sa mearga chat live (+video chat)</b><br>
 Sa poti suna/intra in chat cu un user de pe profilul lui<br>
 Clean code<br>
 Exception Handling<br>
