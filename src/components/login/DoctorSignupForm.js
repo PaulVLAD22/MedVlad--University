@@ -30,6 +30,13 @@ const DoctorSignupForm = () => {
       if (details.password == details.confirmPassword) {
           context.signUp(details,"DOCTOR")
       }
+      setDetails({
+        email: "",
+        username: "",
+        password: "",
+        confirmPassword: "",
+        licensePicture:""
+    })
   };
 
   return (

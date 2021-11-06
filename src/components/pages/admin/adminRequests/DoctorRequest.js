@@ -8,9 +8,11 @@ const DoctorRequest = ({ user,reRenderPage }) => {
   const context = useContext(UserContext);
   const [render, setRender] = useState(0);
   const [comment, setComment] = useState("");
+  const [firstName,setFirstName] = useState("")
+  const [lastName,setLastName] = useState("")
 
   const sendRequestResponse = async (verdict) => {
-    let url = "/admin/acceptUserRegistration";
+    let url = "/admin/acceptDoctorRegistration";
 
     const config = {
       headers: {
@@ -23,12 +25,15 @@ const DoctorRequest = ({ user,reRenderPage }) => {
       method: "POST",
       url: url,
       headers: config.headers,
-      params: { username: user.username, comment: comment, verdict: verdict },
+      params: { username: user.username, firstName: firstName,lastName: lastName, comment: comment, verdict: verdict },
     }).then(
       (response) => {
         console.log(response.data);
         setRender(render + 1);
         console.log("rerender")
+        setFirstName("")
+        setLastName("")
+        setComment("")
         reRenderPage()
       },
       async (getError) => {
@@ -72,10 +77,29 @@ const DoctorRequest = ({ user,reRenderPage }) => {
         <Input
           my={2}
           width="50%"
+          placeholder="First Name"
+          onChange={(e) => {
+            setFirstName(e.target.value);
+          }}
+          value={firstName}
+        ></Input>
+        <Input
+          my={2}
+          width="50%"
+          placeholder="Last Name"
+          onChange={(e) => {
+            setLastName(e.target.value);
+          }}
+          value={lastName}
+        ></Input>
+        <Input
+          my={2}
+          width="50%"
           placeholder="comment..."
           onChange={(e) => {
             setComment(e.target.value);
           }}
+          value={comment}
         ></Input>
       </Flex>
     </Flex>

@@ -16,7 +16,7 @@ const ProfilePage = () => {
 
     useEffect(async () => {
         console.log(location.pathname);
-        let username = location.pathname.substr(8, location.pathname.length)
+        let username = location.pathname.substr(9, location.pathname.length)
         if (username == "") {
             username = context.userInfo.username;
         }
