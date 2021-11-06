@@ -71,10 +71,7 @@ export const useUser = () => {
       setRefreshToken(res.data.refresh_token);
       setUserInfo(parsedUserObj);
 
-      history.push("/");
-      //TODO:: nu merge history push / 
-
-
+      history.go("/");
     } catch (err) {
       console.log(err);
     }
@@ -110,32 +107,6 @@ export const useUser = () => {
     );
   };
 
-  // let url = "/test/cox";
-  // const agent = new https.Agent({
-  //   rejectUnauthorized: false
-  // });
-  // try {
-  //   const res = await axios.get(url, {
-  //     auth: {
-  //       username: 'user',
-  //       password: '123456'
-  //     }
-  //     ,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       "Access-Control-Allow-Origin": "http://localhost:8080",
-  //       'Access-Control-Allow-Credentials': true,
-  //       "Access-Control-Allow-Methods": 'HEAD, GET, POST, PUT, PATCH, DELETE',
-  //       "Access-Control-Allow-Headers": 'Origin, Content-Type, X-Auth-Token',
-  //     },
-  //     httpsAgent: agent
-  //   })
-  //   console.log(res)
-  // } catch (err) {
-  //   console.log(err)
-  // }
-
-  
   const signUp = async (details,role) => {
     
     let url = "/register";

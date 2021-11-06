@@ -4,6 +4,7 @@ import { useContext, useState } from "react"
 import { UserContext } from "../../../App"
 import axios from "axios"
 import { Button } from "@chakra-ui/button"
+import {ImUserMinus} from "react-icons/im"
 const BanUserPage = () => {
     const context = useContext(UserContext)
     const [username, setUsername] = useState("")
@@ -48,8 +49,10 @@ const BanUserPage = () => {
                 width="min(1024px,100%)"
                 height="70%"
                 alignItems="center"
+                flexDirection="column"
             >
-                <Input width="50%" onChange={(e) => { setUsername(e.target.value) }} value={username} />
+                <ImUserMinus size="100"/>
+                <Input mt="10" width="50%" onChange={(e) => { setUsername(e.target.value) }} value={username} />
                 <Button mt="10" onClick={deleteUser}  > Ban </Button>
             </Center>
 

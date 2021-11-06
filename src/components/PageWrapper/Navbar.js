@@ -52,8 +52,8 @@ export const Navbar = ({ toggle }) => {
   }
 
   const handleLogout = () => {
-    context.logOut();
     history.push("/");
+    context.logOut();
   };
   return (
     

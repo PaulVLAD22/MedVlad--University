@@ -2,6 +2,7 @@ import { Flex, Box, Text, Input, Button, Img } from "@chakra-ui/react"
 import Answer from "./Answer"
 import { useContext, useState } from "react"
 import { UserContext } from "../../App"
+import { TiDeleteOutline } from "react-icons/ti"
 import axios from 'axios'
 const Question = ({ id, author, content, answers, reRenderPage }) => {
   const context = useContext(UserContext)
@@ -40,7 +41,39 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
     );
   };
 
+  const deleteQuestion = async (id) => {
+    console.log(id)
 
+    let url = "/admin/deleteQuestion";
+
+    const config = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        Authorization: "Bearer " + context.jwt,
+      },
+    };
+
+    await axios({
+      method: "DELETE",
+      url: url,
+      headers: config.headers,
+      params: { "questionId": id }
+    }).then(
+      (response) => {
+        console.log(response.data)
+        reRenderPage()
+        setRender(render + 1)
+      },
+      async (getError) => {
+        if (getError.response.status === 403) {
+          console.log("SE CHEAMA REFRESH TOKEN")
+          context.refreshAuthToken();
+          setRender(render + 1);
+        }
+      }
+    );
+
+  }
 
   return (
     <Flex width="80%" flexDirection="column" alignItems="center"
@@ -51,6 +84,11 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
       </Flex>
       <Text fontSize="medium" p="2"
         fontWeight="semibold">{content}</Text>
+      {context.userInfo.role == "ADMIN" &&
+        <Button my="2" onClick={() => deleteQuestion(id)}>
+          <TiDeleteOutline />
+        </Button>
+      }
       {context.userInfo.role == "DOCTOR" &&
         <>
           <Text>Write a response</Text>

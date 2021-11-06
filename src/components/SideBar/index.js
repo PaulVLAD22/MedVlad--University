@@ -23,14 +23,8 @@ const SideBar = ({isOpen,toggle}) =>{
   const goToAccept = () =>{
     history.push("/accept")
   }
-  const goToAcceptDoctors = () =>{
-    history.push("/acceptDoctors")
-  }
   const goToAcceptanceHistory = () =>{
     history.push("/acceptanceHistory")
-  }
-  const goToAcceptQuestions = () =>{
-    history.push("/acceptQuestions")
   }
   const goToAnswerQuestion = () => {
     history.push("/answerQuestions")
