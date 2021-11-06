@@ -12,11 +12,11 @@ const QuestionsBox = () => {
   const [render, setRender] = useState(0);
   const [postQuestionResponse, setPostQuestionResponse] = useState("")
   const [postingQuestion, setPostingQuestion] = useState("")
-  const [displaySortingList, setDisplaySortingList] = useState("");
+  const [sortBy, setSortBy] = useState("")
 
   //TODO:: adauga si pt admin pagina si fa buton de X ca sa stearga mesaje rapid
   // si sa se adauge la un atribut al User-ilor removed messages si la al 3-lea esti banat
-  
+
   useEffect(async () => {
     //console.log(context.jwt);
     console.log("jwt:" + context.jwt)
@@ -37,7 +37,6 @@ const QuestionsBox = () => {
       (response) => {
         console.log(response.data)
         setQuestions(response.data);
-
       },
       async (getError) => {
         if (getError.response.status === 403) {
@@ -89,28 +88,7 @@ const QuestionsBox = () => {
     if (choice == "Sort by...") {
       return
     }
-
-    //most popular - dupa nr like-uri la comentarii
-    if (choice == "Most Popular") {
-      setQuestions(
-        questions.sort((q1, q2) => {
-          return (q2.questionAnswerList.reduce((a, b) => {
-            return a + b.numberOfLikes
-          }, 0)) - (q1.questionAnswerList.reduce((a, b) => {
-            return a + b.numberOfLikes
-          }, 0))
-        }
-        ))
-    }
-    else if (choice == "Newest Questions")
-      setQuestions(
-        questions.sort((q1, q2) => {
-          return q1.postingDate - q2.postingDate
-        }
-        ))
-
-    alert('native: ' + e.nativeEvent.target[id].text);
-
+    setSortBy(choice);
   }
 
 
@@ -128,14 +106,6 @@ const QuestionsBox = () => {
         alignItems="center"
         p={5}
       >
-        {context.userInfo.role == "DOCTOR" && (
-          <>
-            <h2>SUNT UN DOCTOR</h2>
-            <h2>ADAUGA SA POT DA LIKE LA COMMENT-URI SI SA ADAUG RASPUNS</h2>
-            <h2>Doctorii pot sa vada toate raspunsurile</h2>
-            <h2>Userii doar pe primele 3 cele mai populare</h2>
-          </>
-        )}
         <InfostationDescription />
         <Text fontSize="x-large"> SORT DE LA MOST POPULAR SAU DE LA ULTIMELE POSTATE</Text>
 
@@ -150,26 +120,78 @@ const QuestionsBox = () => {
             value={searchWord}
           ></Input>
           <Select onChange={sortChanged} placeholder="Sort by...">
-            <option value="option1" >Most Popular</option>
-            <option value="option2">Newest Questions</option>
+            <option>Most Popular</option>
+            <option>Newest Questions</option>
           </Select>
 
         </Flex>
 
-        {questions.map((question, index) => {
-          console.log(question)
-          if (question.content.includes(searchWord))
-            return (
-              <Question
-                key={index}
-                id={question.id}
-                author={question.userDto}
-                content={question.content}
-                answers={question.questionAnswerList}
-                reRenderPage={() => setRender(render + 1)}
-              />
-            );
-        })}
+
+        {
+          sortBy == "" &&
+
+          questions.
+            map((question, index) => {
+              console.log(question)
+              if (question.content.includes(searchWord))
+                return (
+                  <Question
+                    key={index}
+                    id={question.id}
+                    author={question.userDto}
+                    content={question.content}
+                    answers={question.questionAnswerList}
+                    reRenderPage={() => setRender(render + 1)}
+                  />
+                );
+            })}
+
+        {
+          sortBy == "Newest Questions" &&
+
+          questions.sort((q1, q2) => {
+            return new Date(q2.postingDate).valueOf() - new Date(q1.postingDate).valueOf();
+          }
+          ).map((question, index) => {
+            console.log(question)
+            if (question.content.includes(searchWord))
+              return (
+                <Question
+                  key={index}
+                  id={question.id}
+                  author={question.userDto}
+                  content={question.content}
+                  answers={question.questionAnswerList}
+                  reRenderPage={() => setRender(render + 1)}
+                />
+              );
+          })}
+
+        {
+          sortBy == "Most Popular" &&
+
+          questions.sort((q1, q2) => {
+            return (q2.questionAnswerList.reduce((a, b) => {
+              return a + b.numberOfLikes
+            }, 0)) - (q1.questionAnswerList.reduce((a, b) => {
+              return a + b.numberOfLikes
+            }, 0))
+          }
+          ).map((question, index) => {
+            console.log(question)
+            if (question.content.includes(searchWord))
+              return (
+                <Question
+                  key={index}
+                  id={question.id}
+                  author={question.userDto}
+                  content={question.content}
+                  answers={question.questionAnswerList}
+                  reRenderPage={() => setRender(render + 1)}
+                />
+              );
+          })}
+
 
         <Flex m="5" width="70%" flexDirection="column" alignItems="center">
           {context.userInfo.role == "USER" && (

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../App";
 
-const AcceptUsersPage = () => {
+const AcceptUsersPage = ({ reRenderPage }) => {
   const context = useContext(UserContext);
   const [requests, setRequests] = useState([]);
   const [render, setRender] = useState(0);
@@ -40,30 +40,30 @@ const AcceptUsersPage = () => {
 
   return (
     <Center width="100%" height="100%" overflow="auto">
-      <Flex
-        flexDir="column"
-        border="1px solid black"
-        width="min(1024px,100%)"
-        height="70%"
-        overflow="auto"
-        alignItems="center"
-      >
-        <Text>
-          {" "}
-          Gandeste-te cum faci useful pagina asta (sa aiba mai multe de
-          verificat admin-ul)
-        </Text>
-        {requests.map((user, index) => {
-          console.log(user)
-          return (
-            <UserRequest
-              key={index}
-              user = {user}
-              reRenderPage={()=>setRender(render+1)}
-            />
-          );
-        })}
-      </Flex>
+      {requests.length==0 &&
+        <Text>No User Requests</Text>
+      }
+      {requests.length != 0 &&
+        <Flex
+          flexDir="column"
+          border="1px solid black"
+          width="min(1024px,100%)"
+          height="70%"
+          overflow="auto"
+          alignItems="center"
+        >
+          {requests.map((user, index) => {
+            console.log(user)
+            return (
+              <UserRequest
+                key={index}
+                user={user}
+                reRenderPage={() => setRender(render + 1)}
+              />
+            );
+          })}
+        </Flex>
+      }
     </Center>
   );
 };

@@ -6,10 +6,12 @@ import Question from "../QuestionsBox/Question";
 import { UserContext } from "../../App";
 import { useLocation } from 'react-router-dom'
 import UserProfile from "../Profile/UserProfile";
+import AdminProfile from "../Profile/AdminProfile";
+import DoctorProfile from "../Profile/DoctorProfile";
 const ProfilePage = () => {
     const context = useContext(UserContext)
     const location = useLocation();
-    const [user, setUser] = useState({role:""});
+    const [user, setUser] = useState({ role: "" });
     const [render, setRender] = useState(0)
 
     useEffect(async () => {
@@ -53,9 +55,12 @@ const ProfilePage = () => {
 
     return (
         <>
-            {user.role.name==="USER" && 
-            <UserProfile user={user} reRenderPage={()=>setRender(render+1)}/>}
-            
+            {user.role.name === "USER" &&
+                <UserProfile user={user} reRenderPage={() => setRender(render + 1)} />}
+            {user.role.name === "ADMIN" &&
+                <AdminProfile user={user} reRenderPage={() => setRender(render + 1)} />}
+            {user.role.name === "DOCTOR" &&
+                <DoctorProfile user={user} reRenderPage={() => setRender(render + 1)} />}
         </>)
 
 }

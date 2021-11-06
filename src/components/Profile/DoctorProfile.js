@@ -4,7 +4,7 @@ import { UserContext } from "../../App";
 import { useContext, useEffect, useState } from "react"
 import axios from 'axios'
 import Question from "../QuestionsBox/Question";
-const UserProfile = ({ user, reRenderPage }) => {
+const DoctorProfile = ({user,reRenderPage}) => {
     const context = useContext(UserContext)
     const [render, setRender] = useState(0);
     const [questions, setQuestions] = useState([]);
@@ -14,7 +14,6 @@ const UserProfile = ({ user, reRenderPage }) => {
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [profilePicture, setProfilePicture] = useState("")
-    // fa folder profile
 
     useEffect(async () => {
         //console.log(context.jwt);
@@ -164,9 +163,9 @@ const UserProfile = ({ user, reRenderPage }) => {
                     boxShadow="dark-lg"
                     p={5}
                 >
-                    <Text>{user.role.name}</Text>
                     <Flex flexDir="column" alignItems="center">
                         <Flex flexDir="column" alignItems="center">
+                            <Text>{user.role.name}</Text>
                             <Img maxHeight="200px" maxWidth="200px" src={user.profilePicture} />
                             {(context.userInfo.username == user.username ) &&
                                 <Button my="1.5" size="xs" onClick={() => setChangeProfilePicture(!changeProfilePicture)}>
@@ -243,4 +242,4 @@ const UserProfile = ({ user, reRenderPage }) => {
         </Center>
     )
 }
-export default UserProfile
+export default DoctorProfile

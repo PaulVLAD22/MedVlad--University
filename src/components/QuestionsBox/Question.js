@@ -73,6 +73,14 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
             return <Answer key={index} id={answer.id} content={answer.content} author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName} numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()} />
           })
         }
+        {context.userInfo.role == "ADMIN" &&
+          answers.sort((a1, a2) => {
+            return a2.numberOfLikes - a1.numberOfLikes
+          }).map((answer, index) => {
+            console.log(answer)
+            return <Answer key={index} id={answer.id} content={answer.content} author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName} numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()} />
+          })
+        }
       </Flex>
     </Flex>
   )

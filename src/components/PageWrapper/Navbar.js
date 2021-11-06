@@ -29,6 +29,9 @@ export const Navbar = ({ toggle }) => {
   const goAcceptUsers = () => {
     history.push("/acceptUsers");
   };
+  const goAccept = () =>{
+    history.push("/accept")
+  }
   const goAcceptDoctors = () => {
     history.push("/acceptDoctors");
   };
@@ -127,42 +130,16 @@ export const Navbar = ({ toggle }) => {
               background="white"
               colorScheme={secondaryColor}
               mx={3}
-              onClick={goAcceptUsers}
+              onClick={goAccept}
               fontFamily="sans-serif"
               fontSize="20"
               fontWeight="bold"
               color="black"
               alignSelf="center"
             >
-              Users
+              Accept
             </Button>
-            <Button
-              background="white"
-              colorScheme={secondaryColor}
-              mx={3}
-              onClick={goAcceptDoctors}
-              fontFamily="sans-serif"
-              fontSize="20"
-              fontWeight="bold"
-              color="black"
-              alignSelf="center"
-            >
-              Doctors
-            </Button>
-            <Button
-              background="white"
-              colorScheme={secondaryColor}
-              mx={3}
-              onClick={goAcceptQuestions}
-              fontFamily="sans-serif"
-              fontSize="20"
-              fontWeight="bold"
-              color="black"
-              alignSelf="center"
-            >
-              Questions
-            </Button>
-
+            
             <Button
               background="white"
               colorScheme={secondaryColor}
@@ -190,6 +167,20 @@ export const Navbar = ({ toggle }) => {
             >
               History
             </Button>
+            <Button
+              background="white"
+              colorScheme={secondaryColor}
+              mx={3}
+              onClick={goToInfostation}
+              fontFamily="sans-serif"
+              fontSize="20"
+              fontWeight="bold"
+              color="black"
+              alignSelf="center"
+            >
+              Infostation
+            </Button>
+            
           </>
         )}
         {context.userInfo.role == "USER" && (

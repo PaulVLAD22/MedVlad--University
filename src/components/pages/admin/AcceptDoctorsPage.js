@@ -4,7 +4,8 @@ import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { UserContext } from "../../../App";
 import { request } from "https";
-const AcceptDoctorsPage = () => {
+import { Text } from "@chakra-ui/layout";
+const AcceptDoctorsPage = ({ reRenderPage }) => {
   const context = useContext(UserContext);
   const [request, setRequest] = useState({});
   const [render, setRender] = useState(0);
@@ -40,11 +41,16 @@ const AcceptDoctorsPage = () => {
     );
   }, [render]);
   return (
-    <Center width="100%" height="80%">
-      <DoctorRequest
-        user={request}
-        reRenderPage = {()=>setRender(render+1)}
-      />
+    <Center width="100%" height="100%">
+      {request.username!=null &&
+        <DoctorRequest
+          user={request}
+          reRenderPage={() => setRender(render + 1)}
+        />
+      }
+      {request.username==null && 
+      <Text>No Doctor Requests</Text>
+      }
     </Center>
   );
 };

@@ -26,6 +26,7 @@ import DoctorHome from "./components/pages/doctor/DoctorHome";
 import DoctorSignupForm from "./components/login/DoctorSignupForm";
 import ProfilePage from "./components/pages/ProfilePage";
 import BanUserPage from "./components/pages/admin/BanUserPage";
+import AcceptPage from "./components/pages/admin/AcceptPage";
 
 export const UserContext = createContext(null);
 
@@ -101,14 +102,9 @@ function App() {
             )}
             {!!context.jwt && context.userInfo.role == "ADMIN" && (
               <Switch>
-                <Route exact path="/acceptUsers">
+                <Route exact path="/accept">
                   <PageWrapper>
-                    <AcceptUsersPage />
-                  </PageWrapper>
-                </Route>
-                <Route exact path="/acceptDoctors">
-                  <PageWrapper>
-                    <AcceptDoctorsPage />
+                    <AcceptPage/>
                   </PageWrapper>
                 </Route>
                 <Route exact path="/acceptanceHistory">
@@ -116,14 +112,14 @@ function App() {
                     <HistoryPage />
                   </PageWrapper>
                 </Route>
-                <Route exact path="/acceptQuestions">
-                  <PageWrapper>
-                    <AcceptQuestionsPage></AcceptQuestionsPage>
-                  </PageWrapper>
-                </Route>
                 <Route exact path="/banUser">
                   <PageWrapper>
                     <BanUserPage/>
+                  </PageWrapper>
+                </Route>
+                <Route exact path="/infostation">
+                  <PageWrapper>
+                    <InfostationPage></InfostationPage>
                   </PageWrapper>
                 </Route>
                 <Route exact path="/">

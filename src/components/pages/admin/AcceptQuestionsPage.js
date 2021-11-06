@@ -1,9 +1,9 @@
 import QuestionRequest from "./adminRequests/QuestionRequest";
-import { Center, Flex } from "@chakra-ui/layout";
+import { Center, Flex, Text } from "@chakra-ui/layout";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../App";
-const AcceptQuestionsPage = () => {
+const AcceptQuestionsPage = ({ reRenderPage }) => {
   const context = useContext(UserContext);
   const [questions, setQuestions] = useState([]);
   const [render, setRender] = useState(0);
@@ -39,19 +39,28 @@ const AcceptQuestionsPage = () => {
 
   return (
     <Center width="100%" height="100%" overflow="auto">
-      <Flex
-        flexDir="column"
-        border="1px solid black"
-        width="min(1024px,100%)"
-        height="70%"
-        overflow="auto"
-        alignItems="center"
-      >
-        {questions.map((question, index) => {
-          return <QuestionRequest key={index} question={question}
-          reRenderPage = {()=>setRender(render+1)} />;
-        })}
-      </Flex>
+      {questions.length == 0 &&
+        <Text>No Question Requests</Text>
+      }
+
+
+      {questions.length != 0 &&
+        <Flex
+          flexDir="column"
+          border="1px solid black"
+          width="min(1024px,100%)"
+          height="70%"
+          overflow="auto"
+          alignItems="center"
+        >{
+            questions.map((question, index) => {
+              return <QuestionRequest key={index} question={question}
+                reRenderPage={() => setRender(render + 1)} />;
+            })}
+        </Flex>
+      }
+
+
     </Center>
   );
 };

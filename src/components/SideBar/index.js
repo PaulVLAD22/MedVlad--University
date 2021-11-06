@@ -20,8 +20,8 @@ const SideBar = ({isOpen,toggle}) =>{
   const goToInfostation = () =>{
     history.push("/infostation");
   }
-  const goToAcceptUsers = () =>{
-    history.push("/acceptUsers")
+  const goToAccept = () =>{
+    history.push("/accept")
   }
   const goToAcceptDoctors = () =>{
     history.push("/acceptDoctors")
@@ -34,6 +34,9 @@ const SideBar = ({isOpen,toggle}) =>{
   }
   const goToAnswerQuestion = () => {
     history.push("/answerQuestions")
+  }
+  const goToBanUser = () =>{
+    history.push("/banUser")
   }
   return (
     <SidebarContainer isOpen={isOpen} onClick={toggle}>
@@ -52,10 +55,10 @@ const SideBar = ({isOpen,toggle}) =>{
           </>}
           {context.userInfo.role=="ADMIN" &&
           <>
-          <SidebarLink onClick={goToAcceptUsers}>Users</SidebarLink>
-          <SidebarLink onClick={goToAcceptDoctors}>Doctors</SidebarLink>
-          <SidebarLink onClick={goToAcceptQuestions}>Questions</SidebarLink>
+          <SidebarLink onClick={goToAccept}>Accept</SidebarLink>
           <SidebarLink onClick={goToAcceptanceHistory}>History</SidebarLink>
+          <SidebarLink onClick={goToBanUser}>Ban User</SidebarLink>
+          <SidebarLink onClick={goToInfostation}>Infostation</SidebarLink>
           </>}
 
           {context.userInfo.role=="DOCTOR" &&
