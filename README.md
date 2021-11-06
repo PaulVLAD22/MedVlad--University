@@ -9,3 +9,4 @@ Clean code<br>
 Exception Handling<br>
 Pe Home sa fie activitatea oamenilor cu care a vorbit prin mail-uri / following (pe care ii face apasand pe follow pe profil)<br>
 Sa lasi review pe profil (fiecare sa aiba un social rating)<br>
+Creaza teste automate<br>
