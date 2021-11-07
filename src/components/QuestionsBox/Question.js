@@ -1,13 +1,16 @@
 import { Flex, Box, Text, Input, Button, Img } from "@chakra-ui/react"
 import Answer from "./Answer"
 import { useContext, useState } from "react"
+import { useHistory } from "react-router"
 import { UserContext } from "../../App"
 import { TiDeleteOutline } from "react-icons/ti"
 import axios from 'axios'
 const Question = ({ id, author, content, answers, reRenderPage }) => {
   const context = useContext(UserContext)
+  const history = useHistory();
   const [render, setRender] = useState(0);
   const [questionAnswer, setQuestionAnswer] = useState("");
+  const [errorMessage, setErrorMessage] = useState("")
 
   const sendQuestionAnswer = async () => {
     let url = "/doctor/postQuestionAnswer";
@@ -63,16 +66,21 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
         console.log(response.data)
         reRenderPage()
         setRender(render + 1)
-      },
-      async (getError) => {
+      })
+      .catch(async (getError) => {
+        console.log("ACI")
         if (getError.response.status === 403) {
           console.log("SE CHEAMA REFRESH TOKEN")
           context.refreshAuthToken();
           setRender(render + 1);
         }
       }
-    );
+      )
+  }
 
+
+  const openAuthorProfile = () => {
+    history.push("/profile/" + author.username);
   }
 
   return (
@@ -80,10 +88,11 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
       border="1px solid black" m="3" p="5">
       <Flex flexDir="column">
         <Img maxH="50px" src={author.profilePicture}></Img>
-        <Text>{author.username}</Text>
+        <Text onClick={openAuthorProfile} fontWeight="bold" cursor="pointer">{author.username}</Text>
       </Flex>
       <Text fontSize="medium" p="2"
         fontWeight="semibold">{content}</Text>
+      
       {context.userInfo.role == "ADMIN" &&
         <Button my="2" onClick={() => deleteQuestion(id)}>
           <TiDeleteOutline />
@@ -101,14 +110,22 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
         {context.userInfo.role == "DOCTOR" &&
           answers.map((answer, index) => {
             console.log(answer)
-            return <Answer key={index} id={answer.id} content={answer.content} author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName} numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()} />
+            return <Answer doctorUsername={answer.doctor.username}
+              key={index} id={answer.id} content={answer.content}
+              author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
+              numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()}
+              setQuestionError={(error) => setErrorMessage(error)} />
           })}
         {context.userInfo.role == "USER" &&
           answers.sort((a1, a2) => {
             return a2.numberOfLikes - a1.numberOfLikes
           }).slice(0, 3).map((answer, index) => {
             console.log(answer)
-            return <Answer key={index} id={answer.id} content={answer.content} author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName} numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()} />
+            return <Answer doctorUsername={answer.doctor.username}
+              key={index} id={answer.id} content={answer.content}
+              author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
+              numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()}
+              setQuestionError={(error) => setErrorMessage(error)} />
           })
         }
         {context.userInfo.role == "ADMIN" &&
@@ -116,9 +133,14 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
             return a2.numberOfLikes - a1.numberOfLikes
           }).map((answer, index) => {
             console.log(answer)
-            return <Answer key={index} id={answer.id} content={answer.content} author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName} numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()} />
+            return <Answer doctorUsername={answer.doctor.username}
+              key={index} id={answer.id} content={answer.content}
+              author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
+              numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()}
+              setQuestionError={(error) => setErrorMessage(error)} />
           })
         }
+        <Text mt="5" color="red.500" fontWeight="bold">{errorMessage}</Text>
       </Flex>
     </Flex>
   )

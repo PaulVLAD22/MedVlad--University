@@ -1,15 +1,17 @@
 import { Flex, Text, Button } from "@chakra-ui/react"
 import { useContext, useState } from "react"
+import { useHistory } from "react-router"
 import { UserContext } from "../../App"
 import { TiDeleteOutline } from "react-icons/ti"
 import axios from 'axios'
-const Answer = ({ id,content, author, numberOfLikes,reRenderPage }) => {
+const Answer = ({ doctorUsername, id, content, author, numberOfLikes, reRenderPage, setQuestionError }) => {
     const context = useContext(UserContext);
-    const [render,setRender] = useState("");
+    const [render, setRender] = useState("");
+    const history = useHistory();
 
     const likeQuestionAnswer = async () => {
         console.log(id);
-        
+
         let url = "/doctor/likeQuestionAnswer";
 
         const config = {
@@ -29,6 +31,7 @@ const Answer = ({ id,content, author, numberOfLikes,reRenderPage }) => {
                 console.log(response.data)
                 reRenderPage()
                 setRender(render + 1)
+                setQuestionError("")
             },
             async (getError) => {
                 if (getError.response.status === 403) {
@@ -36,14 +39,18 @@ const Answer = ({ id,content, author, numberOfLikes,reRenderPage }) => {
                     context.refreshAuthToken();
                     setRender(render + 1);
                 }
+                if (getError.response.status === 452) {
+                    setQuestionError("Already Liked Answer.");
+                }
+
             }
         );
 
     }
-    
+
     const deleteAnswer = async (id) => {
         console.log(id)
-        
+
         let url = "/admin/deleteQuestionAnswer";
 
         const config = {
@@ -73,6 +80,9 @@ const Answer = ({ id,content, author, numberOfLikes,reRenderPage }) => {
             }
         );
     }
+    const openDoctorProfile = () => {
+        history.push("/profile/" + doctorUsername)
+    }
 
     return (
         <Flex border="1px solid black"
@@ -86,14 +96,14 @@ const Answer = ({ id,content, author, numberOfLikes,reRenderPage }) => {
             {context.userInfo.role == "DOCTOR" &&
                 <Button width="10%" onClick={likeQuestionAnswer}>{numberOfLikes}</Button>
             }
-            {(context.userInfo.role == "USER" || context.userInfo.role=="ADMIN") &&
+            {(context.userInfo.role == "USER" || context.userInfo.role == "ADMIN") &&
                 <Text width="10%">{numberOfLikes}</Text>
             }
             <Text width="70%" m="2">{content}</Text>
-            <Text width="20%">{author}</Text>
-            {context.userInfo.role=="ADMIN" && 
-                <Button onClick={()=>deleteAnswer(id)}>
-                    <TiDeleteOutline/>
+            <Text width="20%" onClick={openDoctorProfile} fontWeight="bold" cursor="pointer">{author}</Text>
+            {context.userInfo.role == "ADMIN" &&
+                <Button onClick={() => deleteAnswer(id)}>
+                    <TiDeleteOutline />
                 </Button>
             }
         </Flex>
