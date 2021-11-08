@@ -12,15 +12,41 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import { GiPlagueDoctorProfile } from 'react-icons/gi'
 import { primaryColor, secondaryColor, backgroundColorCode, backgroundImageGradient, errorColor } from "../utils/colors"
+import axios from "axios";
 
 const ForgotPasswordForm = () => {
-
     const [error, setError] = useState("")
+    const [email,setEmail] = useState("")
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
         console.log("send email")
-    };
+
+        console.log(email)
+
+
+        let url = "/forgotPassword";
+
+        const config = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+            },
+        };
+
+        await axios({
+            method: "POST",
+            url: url,
+            headers: config.headers,
+            params: { email: email }
+        }).then(
+            (response) => {
+                console.log(response.data);
+                setError("You will receive an email shortly.")
+            },
+            async (getError) => {
+            }
+        )
+    }
 
     return (
         <Center
@@ -61,7 +87,6 @@ const ForgotPasswordForm = () => {
                             <GiPlagueDoctorProfile style={{ display: "inline-block", position: "relative", top: '-3px' }}></GiPlagueDoctorProfile>
                         </Text>
 
-
                         <FormControl>
                             <FormLabel htmlFor="email">Email:</FormLabel>
                             <Input
@@ -70,6 +95,10 @@ const ForgotPasswordForm = () => {
                                 variant="flushed"
                                 name="email"
                                 id="email"
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                  }}
+                                  value={email}
                             />
                         </FormControl>
                         <Button mt={4} colorScheme={secondaryColor} size="md" type="submit">

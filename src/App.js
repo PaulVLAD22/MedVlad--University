@@ -27,6 +27,7 @@ import DoctorSignupForm from "./components/login/DoctorSignupForm";
 import ProfilePage from "./components/pages/ProfilePage";
 import BanUserPage from "./components/pages/admin/BanUserPage";
 import AcceptPage from "./components/pages/admin/AcceptPage";
+import ResetPasswordForm from "./components/login/ResetPasswordForm";
 
 export const UserContext = createContext(null);
 
@@ -165,7 +166,7 @@ function App() {
                         <ChatPage></ChatPage>
                       </PageWrapper>
                     </Route>
-                    <Route exact path="/profile">
+                    <Route path="/profile">
                       <PageWrapper>
                         <ProfilePage></ProfilePage>
                       </PageWrapper>
@@ -198,6 +199,9 @@ function App() {
                   <Route exact path="/login" component={LoginForm} />
                   <Route exact path="/" component={LoginForm} />
                   <Route exact path="/register" component={SignupForm} />
+                  <Route path ="/resetPassword">
+                    <ResetPasswordForm/>
+                  </Route>
                   <Route
                     exact
                     path="/doctorSignup"
