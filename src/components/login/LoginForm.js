@@ -23,7 +23,7 @@ const LoginForm = () => {
 		e.preventDefault();
     console.log(details)
 		if (details.username && details.password)
-			context.logIn(details);
+			context.logIn(details, (_)=>setError(_));
 		else
 			setError("Both fields must be completed");
 	

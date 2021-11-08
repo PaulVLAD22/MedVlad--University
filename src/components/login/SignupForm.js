@@ -15,28 +15,29 @@ import { UserContext } from "../../App";
 import { apiClient } from "../utils/apiClient";
 
 const SignupForm = () => {
-    const [render,setRender] = useState(0)
+    const [render, setRender] = useState(0)
+    const [message, setMessage] = useState("")
     const [details, setDetails] = useState({
         email: "",
         username: "",
         password: "",
         confirmPassword: "",
-        licensePicture:""
+        licensePicture: ""
     });
-    
+
     const context = useContext(UserContext);
 
     const submitHandler = async (e) => {
         e.preventDefault();
         if (details.password == details.confirmPassword) {
-            context.signUp(details,"USER")
-            setDetails({
-                email: "",
-                username: "",
-                password: "",
-                confirmPassword: "",
-                licensePicture:""
-            })
+            context.signUp(details, "USER", (_) => setMessage(_),()=>
+                setDetails({
+                    email: "",
+                    username: "",
+                    password: "",
+                    confirmPassword: "",
+                    licensePicture: ""
+                }))
         }
     };
 
@@ -69,9 +70,9 @@ const SignupForm = () => {
                         borderColor="white"
                         backgroundColor="white"
                     >
-                        {context.error != "" && (
+                        {message != "" && (
                             <Text my={1} fontSize="lg" color={errorColor}>
-                                {context.error}
+                                {message}
                             </Text>
                         )}
                         <Text

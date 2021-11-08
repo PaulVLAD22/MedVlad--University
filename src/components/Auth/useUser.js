@@ -36,7 +36,7 @@ export const useUser = () => {
   //   //nu merge - history.go(0)
   // }
 
-  const logIn = async (details) => {
+  const logIn = async (details, setError) => {
     let url = "/login";
     const params = new URLSearchParams();
     params.append("grant_type", "password");
@@ -51,7 +51,16 @@ export const useUser = () => {
     };
 
     try {
-      const res = await axios.post(url, params, config);
+      const res =
+        await axios.post(url, params, config)
+        .catch((error)=>{
+          if (error.response.status==403){
+            setError("Wrong Credentials")
+            console.log("COX")
+            return
+          }
+        })
+
       let token = res.data.access_token;
       console.log(res);
       res.data.userInfo.role = res.data.userInfo.role.name;
@@ -59,14 +68,14 @@ export const useUser = () => {
       const userObj = JSON.stringify(userInfoJson);
 
       // mai lucreaza la forma datelor in functie de ce iti trebuie
-    
+
       const parsedUserObj = JSON.parse(userObj);
-      
+
       console.log(userObj)
       await localStorage.setItem("JWTToken", token);
       await localStorage.setItem("refresh_token", res.data.refresh_token);
       await localStorage.setItem("userInfo", userObj);
-      
+
       setJwt(token);
       setRefreshToken(res.data.refresh_token);
       setUserInfo(parsedUserObj);
@@ -82,7 +91,7 @@ export const useUser = () => {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " +refreshToken,
+        Authorization: "Bearer " + refreshToken,
       },
     };
     await axios({
@@ -92,14 +101,14 @@ export const useUser = () => {
     }).then(
       (response) => {
         console.log(jwt)
-        console.log("acces:"+response.data.access_token)
+        console.log("acces:" + response.data.access_token)
         setJwt(response.data.access_token)
         setRefreshToken(response.data.refresh_token)
         localStorage.setItem("JWTToken", response.data.access_token);
         localStorage.setItem("refresh_token", response.data.refresh_token);
         console.log(jwt)
         console.log(response)
-        
+
       },
       (getError) => {
         console.log(getError)
@@ -107,28 +116,34 @@ export const useUser = () => {
     );
   };
 
-  const signUp = async (details,role) => {
-    
+  const signUp = async (details, role,setMessage,clearDetails) => {
+
     let url = "/register";
 
     await axios({
       method: "POST",
       url: url,
-      params:{
+      params: {
         "email": details.email,
         "username": details.username,
         "password": details.password,
         "licensePicture": details.licensePicture,
-        "role":role
+        "role": role
       }
     }).then(
       (response) => {
         console.log(response.data)
-        //TODO :: redirect to login
-        
+        setMessage("Request sent to admins")
+        clearDetails();
       },
       async (getError) => {
-        console.log(getError)
+        if (getError.response.status==409){
+          setMessage("Username Or Email already taken");
+          console.log("COX")
+        }
+        else{
+          setMessage("Unknown error")
+        }
       }
     );
 
