@@ -139,7 +139,6 @@ export const useUser = () => {
       async (getError) => {
         if (getError.response.status==409){
           setMessage("Username Or Email already taken");
-          console.log("COX")
         }
         else{
           setMessage("Unknown error")

@@ -1,9 +1,10 @@
-import { Center, Flex } from "@chakra-ui/layout"
+import { Box, Center, Flex } from "@chakra-ui/layout"
 import { Button, Input, Img, Text } from "@chakra-ui/react"
 import { UserContext } from "../../App";
 import { useContext, useEffect, useState } from "react"
 import axios from 'axios'
 import Question from "../QuestionsBox/Question";
+import { GiPlagueDoctorProfile } from "react-icons/gi";
 const DoctorProfile = ({ user, reRenderPage }) => {
     const context = useContext(UserContext)
     const [render, setRender] = useState(0);
@@ -96,7 +97,7 @@ const DoctorProfile = ({ user, reRenderPage }) => {
                 >
                     <Flex flexDir="column" alignItems="center">
                         <Flex flexDir="column" alignItems="center">
-                            <Text>{user.role.name}</Text>
+                        <Box mb="5"><GiPlagueDoctorProfile size="100"/></Box>
                             <Img maxHeight="200px" maxWidth="200px" src={user.profilePicture} />
                             {(context.userInfo.username == user.username) &&
                                 <Button my="1.5" size="xs" onClick={() => setChangeProfilePicture(!changeProfilePicture)}>

@@ -1,9 +1,11 @@
-import { Center, Flex } from "@chakra-ui/layout"
+import { Box, Center, Flex } from "@chakra-ui/layout"
 import { Button, Input, Img, Text } from "@chakra-ui/react"
 import { UserContext } from "../../App";
 import { useContext, useEffect, useState } from "react"
 import axios from 'axios'
 import Question from "../QuestionsBox/Question";
+import { secondaryColor } from "../utils/colors";
+import { FiUser } from "react-icons/fi";
 const UserProfile = ({ user, reRenderPage }) => {
     const context = useContext(UserContext)
     const [render, setRender] = useState(0);
@@ -162,13 +164,14 @@ const UserProfile = ({ user, reRenderPage }) => {
                     width="min(1024px,100vw)"
                     height="100vh"
                     boxShadow="dark-lg"
+                    backgroundColor="gray.50"
                     p={5}
                 >
-                    <Text>{user.role.name}</Text>
                     <Flex flexDir="column" alignItems="center">
+                    <Box mb="5"><FiUser size="100"/></Box>
                         <Flex flexDir="column" alignItems="center">
                             <Img maxHeight="200px" maxWidth="200px" src={user.profilePicture} />
-                            {(context.userInfo.username == user.username ) &&
+                            {(context.userInfo.username == user.username) &&
                                 <Button my="1.5" size="xs" onClick={() => setChangeProfilePicture(!changeProfilePicture)}>
                                     Change profile picture
                                 </Button>}
@@ -178,8 +181,8 @@ const UserProfile = ({ user, reRenderPage }) => {
                                     <Button size="xs" onClick={updateProfilePicture}>Set</Button>
                                 </Flex>
                             }
-                            <Text>{user.username}</Text>
-                            <Text>User Points : {user.points}</Text>
+                            <Text fontWeight="bold" fontSize="x-large" fontFamily="cursive" >{user.username}</Text>
+                            <Text mt="2" fontWeight="500">User Points : {user.points}</Text>
                         </Flex>
 
                         <Flex flexDir="column" width="50%" my="2">
@@ -216,7 +219,7 @@ const UserProfile = ({ user, reRenderPage }) => {
                         </Flex>
                     </Flex>
                     <Flex my="2" flexDir="column" alignItems="start">
-                        <Text>Infostation History:</Text>
+                        <Text fontWeight="bold" >Infostation History:</Text>
                         <Flex flexDir="column" my="1" width="100%">
 
                             {questions.map((question, index) => {

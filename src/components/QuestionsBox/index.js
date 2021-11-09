@@ -107,8 +107,7 @@ const QuestionsBox = () => {
         p={5}
       >
         <InfostationDescription />
-        <Text fontSize="x-large"> SORT DE LA MOST POPULAR SAU DE LA ULTIMELE POSTATE</Text>
-
+      
         <Flex width="50%" m="3">
           <Input
             width="90%"
