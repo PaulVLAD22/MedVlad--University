@@ -154,20 +154,22 @@ const UserProfile = ({ user, reRenderPage }) => {
     }
 
     return (
-        <Center width="100%">
-            <Center>
+        <Center width="100%" >
+            <Center >
                 {console.log(context.jwt)}
                 <Flex
                     position="relative"
                     flexDirection="column"
                     overflowY="auto"
                     width="min(1024px,100vw)"
-                    height="100vh"
+                    height="100%"
                     boxShadow="dark-lg"
                     backgroundColor="gray.50"
                     p={5}
                 >
-                    <Flex flexDir="column" alignItems="center">
+                    <Text position="absolute" right="5%" padding="2" 
+                    letterSpacing="wide" fontWeight="500">Joined on : {user.dateOfRegistration}</Text>
+                    <Flex flexDir="column" alignItems="center" >
                     <Box mb="5"><FiUser size="100"/></Box>
                         <Flex flexDir="column" alignItems="center">
                             <Img maxHeight="200px" maxWidth="200px" src={user.profilePicture} />

@@ -161,10 +161,13 @@ const AdminProfile = ({user,reRenderPage}) => {
                     flexDirection="column"
                     overflowY="auto"
                     width="min(1024px,100vw)"
-                    height="100vh"
+                    height="100%"
                     boxShadow="dark-lg"
                     p={5}
                 >
+                    <Text position="absolute" right="5%" padding="2" 
+                    letterSpacing="wide" fontWeight="500">Joined on : {user.dateOfRegistration}</Text>
+                    
                     <Flex flexDir="column" alignItems="center">
                         <Flex flexDir="column" alignItems="center">
                         <Box mb="5"><RiAdminFill size="100"/></Box>

@@ -4,6 +4,7 @@ import { AiFillStop, AiOutlineStop } from "react-icons/ai";
 import axios from "axios";
 import { UserContext } from "../../../../App";
 import { useContext, useState } from "react";
+import userEvent from "@testing-library/user-event";
 const DoctorRequest = ({ user,reRenderPage }) => {
   const context = useContext(UserContext);
   const [render, setRender] = useState(0);
@@ -62,6 +63,7 @@ const DoctorRequest = ({ user,reRenderPage }) => {
           textAlign="left"
         >
           <Text>{user.username}</Text>
+          <Text>{user.email}</Text>
         </Flex>
       </Flex>
 

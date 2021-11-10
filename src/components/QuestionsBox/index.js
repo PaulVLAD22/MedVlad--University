@@ -101,7 +101,7 @@ const QuestionsBox = () => {
         flexDirection="column"
         overflowY="auto"
         width="min(1024px,100vw)"
-        height="100vh"
+        height="100%"
         boxShadow="dark-lg"
         alignItems="center"
         p={5}

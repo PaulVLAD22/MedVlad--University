@@ -30,7 +30,7 @@ const SignupForm = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
         if (details.password == details.confirmPassword) {
-            context.signUp(details, "USER", (_) => setMessage(_),()=>
+            context.signUp(details, "USER", (_) => setMessage(_), () =>
                 setDetails({
                     email: "",
                     username: "",
