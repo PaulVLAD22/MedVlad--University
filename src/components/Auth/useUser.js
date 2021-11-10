@@ -56,9 +56,11 @@ export const useUser = () => {
         .catch((error)=>{
           if (error.response.status==403){
             setError("Wrong Credentials")
-            console.log("COX")
-            return
           }
+          else{
+            setError("Unknown Error")
+          }
+          return
         })
 
       let token = res.data.access_token;
