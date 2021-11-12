@@ -166,7 +166,7 @@ const AdminProfile = ({user,reRenderPage}) => {
                     p={5}
                 >
                     <Text position="absolute" right="5%" padding="2" 
-                    letterSpacing="wide" fontWeight="500">Joined on : {user.dateOfRegistration}</Text>
+                    letterSpacing="wide" fontWeight="500">Joined on : {user.dateOfRegistration || "Unknown Error"}</Text>
                     
                     <Flex flexDir="column" alignItems="center">
                         <Flex flexDir="column" alignItems="center">

@@ -18,7 +18,7 @@ const MainMailMessage = ({ side,content, timeOfSending }) => {
             <Text>{content}</Text>
             <Text fontSize="xs" textAlign="right">
                 {(isToday(timeOfSending) ? "" : new Date(timeOfSending).getMonth()
-                +new Date(timeOfSending).getDay())+(new Date(timeOfSending)).getHours() +":"+ (new Date(timeOfSending)).getMinutes()}
+                +"-"+new Date(timeOfSending).getDay())+" "+(new Date(timeOfSending)).getHours() +":"+ (new Date(timeOfSending)).getMinutes()}
                 </Text>
         </Flex>
     )

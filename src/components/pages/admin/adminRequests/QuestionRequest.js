@@ -30,6 +30,7 @@ const QuestionRequest = ({ question,reRenderPage }) => {
         console.log(response.data);
         setRender(render + 1);
         console.log("rerender")
+        setComment("")
         reRenderPage()
       },
       async (getError) => {

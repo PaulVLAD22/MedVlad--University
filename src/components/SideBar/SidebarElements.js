@@ -1,14 +1,14 @@
-import styled from "styled-components";
 import { FaTimes } from "react-icons/fa";
 import { Link as LinkR } from "react-router-dom";
-import {backgroundImageGradient} from "../utils/colors"
+import styled from "styled-components";
+import { backgroundImageGradient, primaryColor } from "../utils/colors";
 
 export const SidebarContainer = styled.aside`
   position: fixed;
   z-index: 999;
   width: 100%;
   height: 100%;
-  background: ${backgroundImageGradient};
+  background: ${primaryColor};
   display: grid;
   align-items: center;
   top: 0;

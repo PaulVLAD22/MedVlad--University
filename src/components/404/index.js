@@ -1,7 +1,7 @@
 import { Button, Center, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 import { useHistory } from "react-router";
-import {backgroundImageGradient} from '../utils/colors'
+import {backgroundImageGradient, primaryColor} from '../utils/colors'
 
 export const NotFoundPage  = () => {
   const history = useHistory();
@@ -16,7 +16,7 @@ export const NotFoundPage  = () => {
       <Flex
         direction="column"
         padding={3}
-        bgGradient= {backgroundImageGradient}
+        bgGradient= {primaryColor}
         borderRadius="10"
       >
       <Text fontWeight="semibold" fontSize="24" color="white" fontFamily="cursive">

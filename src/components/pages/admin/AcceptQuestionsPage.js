@@ -9,7 +9,7 @@ const AcceptQuestionsPage = ({ reRenderPage }) => {
   const [render, setRender] = useState(0);
 
   useEffect(async () => {
-    let url = "/getInactiveQuestions";
+    let url = "/admin/getInactiveQuestions";
 
     const config = {
       headers: {

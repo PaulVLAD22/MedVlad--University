@@ -25,7 +25,7 @@ const ResetPasswordForm = () => {
     const [error, setError] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
-    const [token,setToken] = useState("")
+    const [token, setToken] = useState("")
 
     useEffect(async () => {
         console.log(location.pathname);
@@ -63,7 +63,7 @@ const ResetPasswordForm = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
 
-        if (password!==confirmPassword){
+        if (password !== confirmPassword) {
             return
         }
 
@@ -79,7 +79,7 @@ const ResetPasswordForm = () => {
             method: "PUT",
             url: url,
             headers: config.headers,
-            params: { email: userEmail, password: password, token:token }
+            params: { email: userEmail, password: password, token: token }
         }).then(
             (response) => {
                 console.log(response.data);
@@ -96,12 +96,10 @@ const ResetPasswordForm = () => {
         <>
 
             <Center
-                style={{
-                    width: "100vw",
-                    height: "100vh",
-                    backgroundColor: backgroundColorCode,
-                    backgroundImage: backgroundImageGradient
-                }}>
+                width="100vw"
+                height="100vh"
+                backgroundColor={primaryColor}
+            >
                 <div
                     style={{
                         width: "100vw",
@@ -128,7 +126,7 @@ const ResetPasswordForm = () => {
                                 p="5"
                                 fontWeight="semibold"
                                 fontSize="4xl"
-                                color={primaryColor}>
+                               >
                                 MedLine
                                 <GiPlagueDoctorProfile style={{ display: "inline-block", position: "relative", top: '-3px' }}></GiPlagueDoctorProfile>
                             </Text>

@@ -42,12 +42,9 @@ const DoctorSignupForm = () => {
 
     return (
         <Center
-            style={{
-                width: "100vw",
-                height: "100vh",
-                backgroundColor: backgroundColorCode,
-                backgroundImage: backgroundImageGradient
-            }}
+            width="100vw"
+            height="100vh"
+            backgroundColor={primaryColor}
         >
             <div
                 style={{
@@ -79,7 +76,7 @@ const DoctorSignupForm = () => {
                             p="5"
                             fontWeight="semibold"
                             fontSize="4xl"
-                            color={primaryColor}
+
                         >
                             MedLine<GiPlagueDoctorProfile style={{ display: "inline-block", position: "relative", top: '-3px' }}></GiPlagueDoctorProfile>
                         </Text>
@@ -159,7 +156,7 @@ const DoctorSignupForm = () => {
                                 value={details.licensePicture}>
                             </Input>
                         </FormControl>
-                        <Button mt={4} colorScheme={secondaryColor} size="md" type="submit">
+                        <Button mt={4} color={secondaryColor} size="md" type="submit">
                             Sign up
                         </Button>
 

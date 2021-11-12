@@ -50,12 +50,10 @@ const ForgotPasswordForm = () => {
 
     return (
         <Center
-            style={{
-                width: "100vw",
-                height: "100vh",
-                backgroundColor: backgroundColorCode,
-                backgroundImage: backgroundImageGradient
-            }}>
+            width="100vw"
+            height="100vh"
+            backgroundColor={primaryColor}
+        >
             <div
                 style={{
                     width: "100vw",
@@ -81,8 +79,7 @@ const ForgotPasswordForm = () => {
                             letterSpacing="8px"
                             p="5"
                             fontWeight="semibold"
-                            fontSize="4xl"
-                            color={primaryColor}>
+                            fontSize="4xl">
                             MedLine
                             <GiPlagueDoctorProfile style={{ display: "inline-block", position: "relative", top: '-3px' }}></GiPlagueDoctorProfile>
                         </Text>

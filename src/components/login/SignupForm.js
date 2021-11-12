@@ -9,7 +9,7 @@ import {
     Center
 } from "@chakra-ui/react";
 import { GiPlagueDoctorProfile } from 'react-icons/gi'
-import { primaryColor, secondaryColor, backgroundColorCode, backgroundImageGradient, errorColor } from "../utils/colors"
+import { primaryColor, secondaryColor, backgroundColorCode, backgroundColor, errorColor } from "../utils/colors"
 import React, { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import { apiClient } from "../utils/apiClient";
@@ -43,12 +43,9 @@ const SignupForm = () => {
 
     return (
         <Center
-            style={{
-                width: "100vw",
-                height: "100vh",
-                backgroundColor: backgroundColorCode,
-                backgroundImage: backgroundImageGradient
-            }}
+            width="100vw"
+            height="100vh"
+            backgroundColor={primaryColor}
         >
             <div
                 style={{
@@ -80,7 +77,7 @@ const SignupForm = () => {
                             p="5"
                             fontWeight="semibold"
                             fontSize="4xl"
-                            color={primaryColor}
+                        
                         >
                             MedLine<GiPlagueDoctorProfile style={{ display: "inline-block", position: "relative", top: '-3px' }}></GiPlagueDoctorProfile>
                         </Text>

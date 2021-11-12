@@ -1,5 +1,5 @@
 import { Input } from "@chakra-ui/input"
-import { Center, Flex } from "@chakra-ui/layout"
+import { Center, Flex, Text } from "@chakra-ui/layout"
 import { useContext, useState } from "react"
 import { UserContext } from "../../../App"
 import axios from "axios"
@@ -8,6 +8,7 @@ import {ImUserMinus} from "react-icons/im"
 const BanUserPage = () => {
     const context = useContext(UserContext)
     const [username, setUsername] = useState("")
+    const [comment,setComment] = useState("")
     const [render,setRender] = useState(0)
 
     const deleteUser = async () => {
@@ -24,11 +25,12 @@ const BanUserPage = () => {
             method: "DELETE",
             url: url,
             headers: config.headers,
-            params: { "username" : username }
+            params: { "username" : username,"comment":comment }
         }).then(
             (response) => {
                 console.log(response.data)
                 setUsername("")
+                setComment("")
             },
             async (getError) => {
                 if (getError.response.status === 403) {
@@ -52,8 +54,12 @@ const BanUserPage = () => {
                 flexDirection="column"
             >
                 <ImUserMinus size="100"/>
-                <Input mt="10" width="50%" onChange={(e) => { setUsername(e.target.value) }} value={username} />
+                <Text fontSize="x-large"  mt="10">Username:</Text>
+                <Input placeholder="Username..." width="50%" onChange={(e) => { setUsername(e.target.value) }} value={username} />
+                <Text fontSize="x-large" mt="2">Comment:</Text>
+                <Input placeholder="Reason..."  width="50%" onChange={(e)=>{setComment(e.target.value)}} value={comment} />
                 <Button mt="10" onClick={deleteUser}  > Ban </Button>
+                
             </Center>
 
         </Center>

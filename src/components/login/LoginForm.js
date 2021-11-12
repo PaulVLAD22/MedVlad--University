@@ -31,12 +31,10 @@ const LoginForm = () => {
 
 	return (
 		<Center
-			style={{
-				width: "100vw",
-				height: "100vh",
-				backgroundColor: backgroundColorCode,
-				backgroundImage: backgroundImageGradient
-			}}>
+            width="100vw"
+            height="100vh"
+            backgroundColor={primaryColor}
+        >
 			<div
 				style={{
 					width: "100vw",
@@ -63,7 +61,7 @@ const LoginForm = () => {
 							p="5"
 							fontWeight="semibold"
 							fontSize="4xl"
-							color={primaryColor}>
+							>
 							MedLine
 							<GiPlagueDoctorProfile style={{ display: "inline-block", position: "relative", top: '-3px' }}></GiPlagueDoctorProfile>
 						</Text>

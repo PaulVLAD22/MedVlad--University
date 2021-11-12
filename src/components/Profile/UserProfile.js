@@ -4,7 +4,7 @@ import { UserContext } from "../../App";
 import { useContext, useEffect, useState } from "react"
 import axios from 'axios'
 import Question from "../QuestionsBox/Question";
-import { secondaryColor } from "../utils/colors";
+import { backgroundColorCode, secondaryColor } from "../utils/colors";
 import { FiUser } from "react-icons/fi";
 const UserProfile = ({ user, reRenderPage }) => {
     const context = useContext(UserContext)
@@ -87,7 +87,7 @@ const UserProfile = ({ user, reRenderPage }) => {
 
 
     const updateLastName = async () => {
-        let url = "/updateLastName";
+        let url = "/user/updateLastName";
 
         const config = {
             headers: {
@@ -121,7 +121,7 @@ const UserProfile = ({ user, reRenderPage }) => {
     }
     const updateProfilePicture = async () => {
         console.log("update profile pciture")
-        let url = "/updateProfilePicture";
+        let url = "/user/updateProfilePicture";
 
         const config = {
             headers: {
@@ -154,7 +154,7 @@ const UserProfile = ({ user, reRenderPage }) => {
     }
 
     return (
-        <Center width="100%" >
+        <Center width="100%" backgroundColor={backgroundColorCode}>
             <Center >
                 {console.log(context.jwt)}
                 <Flex

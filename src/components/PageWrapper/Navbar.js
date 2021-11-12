@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router";
 import { UserContext } from "../../App";
-import { backgroundImageGradient, secondaryColor } from "../utils/colors";
+import { backgroundImageGradient, primaryColor, secondaryColor } from "../utils/colors";
 import { AiOutlineBars } from "react-icons/ai";
 import { primaryFont } from "../utils/colors";
 export const Navbar = ({ toggle }) => {
@@ -29,7 +29,7 @@ export const Navbar = ({ toggle }) => {
   const goAcceptUsers = () => {
     history.push("/acceptUsers");
   };
-  const goAccept = () =>{
+  const goAccept = () => {
     history.push("/accept")
   }
   const goAcceptDoctors = () => {
@@ -46,8 +46,9 @@ export const Navbar = ({ toggle }) => {
   };
   const goToProfile = () => {
     history.push("/profile")
+    window.location.reload()
   }
-  const goBanUser= () =>{
+  const goBanUser = () => {
     history.push("/banUser")
   }
 
@@ -56,12 +57,12 @@ export const Navbar = ({ toggle }) => {
     context.logOut();
   };
   return (
-    
+
     <Flex
-      background={backgroundImageGradient}
+      background={primaryColor}
       width="100vw"
       height="70px"
-      borderBottom="0.5px solid black"
+
       justifyContent="space-between"
       alignItems="center"
       paddingX="5"
@@ -70,14 +71,11 @@ export const Navbar = ({ toggle }) => {
       <LeftNavMenu>
         <Button
           background="white"
-          colorScheme={secondaryColor}
           mx={3}
           onClick={goHome}
-          fontFamily="sans-serif"
-          fontSize="20"
-          fontWeight="bold"
+          fontSize="lg"
           color="black"
-          alignSelf="center"
+          letterSpacing="wider"
         >
           Home
         </Button>
@@ -85,40 +83,34 @@ export const Navbar = ({ toggle }) => {
           <>
             <Button
               background="white"
-              colorScheme={secondaryColor}
+
               mx={3}
               onClick={goAnswerQuestions}
-              fontFamily="sans-serif"
-              fontSize="20"
-              fontWeight="bold"
+              fontSize="lg"
               color="black"
-              alignSelf="center"
+              letterSpacing="wider"
             >
               Answer Questions
             </Button>
             <Button
               background="white"
-              colorScheme={secondaryColor}
+
               mx={3}
               onClick={goToChat}
-              fontFamily="sans-serif"
-              fontSize="20"
-              fontWeight="bold"
+              fontSize="lg"
               color="black"
-              alignSelf="center"
+              letterSpacing="wider"
             >
               Live Session
             </Button>
             <Button
               background="white"
-              colorScheme={secondaryColor}
+
               mx={3}
               onClick={goToMail}
-              fontFamily="sans-serif"
-              fontSize="20"
-              fontWeight="bold"
+              fontSize="lg"
               color="black"
-              alignSelf="center"
+              letterSpacing="wider"
             >
               Messages
             </Button>
@@ -128,99 +120,85 @@ export const Navbar = ({ toggle }) => {
           <>
             <Button
               background="white"
-              colorScheme={secondaryColor}
+
               mx={3}
               onClick={goAccept}
-              fontFamily="sans-serif"
-              fontSize="20"
-              fontWeight="bold"
+              fontSize="lg"
               color="black"
-              alignSelf="center"
+              letterSpacing="wider"
             >
               Accept
             </Button>
-            
+
             <Button
               background="white"
-              colorScheme={secondaryColor}
+
               mx={3}
               onClick={goBanUser}
-              fontFamily="sans-serif"
-              fontSize="20"
-              fontWeight="bold"
+              fontSize="lg"
               color="black"
-              alignSelf="center"
+              letterSpacing="wider"
             >
               Ban User
             </Button>
 
             <Button
               background="white"
-              colorScheme={secondaryColor}
+
               mx={3}
               onClick={goAcceptanceHistory}
-              fontFamily="sans-serif"
-              fontSize="20"
-              fontWeight="bold"
+              fontSize="lg"
               color="black"
-              alignSelf="center"
+              letterSpacing="wider"
             >
               History
             </Button>
             <Button
               background="white"
-              colorScheme={secondaryColor}
+
               mx={3}
               onClick={goToInfostation}
-              fontFamily="sans-serif"
-              fontSize="20"
-              fontWeight="bold"
+              fontSize="lg"
               color="black"
-              alignSelf="center"
+              letterSpacing="wider"
             >
               Infostation
             </Button>
-            
+
           </>
         )}
         {context.userInfo.role == "USER" && (
           <>
             <Button
               background="white"
-              colorScheme={secondaryColor}
+
               mx={3}
               onClick={goToInfostation}
-              fontFamily="sans-serif"
-              fontSize="20"
-              fontWeight="bold"
+              fontSize="lg"
               color="black"
-              alignSelf="center"
+              letterSpacing="wider"
             >
               Infostation
             </Button>
             <Button
               background="white"
-              colorScheme={secondaryColor}
+
               mx={3}
               onClick={goToChat}
-              fontFamily="sans-serif"
-              fontSize="20"
-              fontWeight="bold"
+              fontSize="lg"
               color="black"
-              alignSelf="center"
+              letterSpacing="wider"
             >
               Live Session
             </Button>
             <Button
               background="white"
-              colorScheme={secondaryColor}
+
               mx={3}
               onClick={goToMail}
-              fontFamily="sans-serif"
-              fontSize="20"
-              fontWeight="bold"
+              fontSize="lg"
               color="black"
-              alignSelf="center"
+              letterSpacing="wider"
             >
               Mail
             </Button>
@@ -236,9 +214,9 @@ export const Navbar = ({ toggle }) => {
             px="5"
             mx="2"
             letterSpacing="wider"
-            onClick={()=>goToProfile()}
+            onClick={() => goToProfile()}
           >
-            {capitalizeFirstLetter(context.userInfo.role) +
+            {context.userInfo.role +
               " " +
               context.userInfo.username}
           </Button>
@@ -283,6 +261,7 @@ export const LeftNavMenu = styled.div`
     display: none;
   }
 `;
+
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
