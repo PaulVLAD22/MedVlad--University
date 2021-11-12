@@ -1,15 +1,17 @@
 import { Center, Flex } from "@chakra-ui/react";
-import { Button, Text, Input,Box } from "@chakra-ui/react";
+import { Button, Text, Input, Box } from "@chakra-ui/react";
 import AcceptedRequest from "./adminRequests/AcceptedRequest";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../App";
+import { ExportExcel } from "./ExportData/ExportExcel";
 
 const HistoryPage = () => {
   const context = useContext(UserContext);
   const [registrationRequests, setRegistrationRequests] = useState([])
   const [questionRequests, setQuestionRequests] = useState([])
   const [render, setRender] = useState(0);
+  const registrationCsv = "registrationCsv"
 
   useEffect(async () => {
     let url = "/admin/getAdminHistory";
@@ -27,9 +29,21 @@ const HistoryPage = () => {
       headers: config.headers,
     }).then(
       (response) => {
-        console.log(response.data);
+        console.log(response.data.registrationResultList);
         setRegistrationRequests(response.data.registrationResultList)
-        setQuestionRequests(response.data.questions)
+        response.data.questions.map((question)=>{
+          let newQuestion = {
+            "user":question.userDto.username,
+            "content":question.content,
+            "posting_date":question.postingDate,
+            "comment":question.comment,
+            "verdict":question.verdict
+          }
+
+          setQuestionRequests(arr=>[...arr,newQuestion])
+        })
+        console.log(questionRequests)
+
       },
       async (getError) => {
         if (getError.response.status === 403) {
@@ -42,7 +56,7 @@ const HistoryPage = () => {
   }, [render]);
 
   return (
-    <Center width="100%" height="90%">
+    <Center width="100%" height="90%" flexDir="column">
       <Flex
         flexDir="column"
         border="1px solid black"
@@ -58,15 +72,17 @@ const HistoryPage = () => {
             request={request} />
         })}
         {questionRequests.map((question, index) => {
-          return(
-          <Box my="2" key={index} >
-          <Text>Question : {question.content}</Text>
-          <Text>Comment : {question.comment}</Text>
-          <Text>Accepted : {question.verdict==true ? "Yes" : "No"}</Text>
-          </Box>
+          return (
+            <Box my="2" key={index} >
+              <Text>Question : {question.content}</Text>
+              <Text>Comment : {question.comment}</Text>
+              <Text>Accepted : {question.verdict == true ? "Yes" : "No"}</Text>
+            </Box>
           )
         })}
       </Flex>
+      <ExportExcel text={"Export Registration Data"} csvData={registrationRequests} fileName={"RegistrationReport_"+context.userInfo.username} />
+      <ExportExcel text={"Export Question Data"} csvData={questionRequests} fileName={"QuestionsReport_"+context.userInfo.username} />
     </Center>
   );
 };
