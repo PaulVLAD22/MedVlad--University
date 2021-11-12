@@ -16,15 +16,15 @@ export const NotFoundPage  = () => {
       <Flex
         direction="column"
         padding={3}
-        bgGradient= {primaryColor}
+        background= {primaryColor}
         borderRadius="10"
       >
-      <Text fontWeight="semibold" fontSize="24" color="white" fontFamily="cursive">
+      <Text fontWeight="semibold" fontSize="24"  fontFamily="cursive">
           Error 404: Page not found
         </Text>
 
-        <Text fontSize="18px" color="white">
-          This page doesn't exist. Click{" "}
+        <Text fontSize="18px">
+          This page doesn't eist. Click{" "}
           <Button
             variant="link"
             onClick={goBack}

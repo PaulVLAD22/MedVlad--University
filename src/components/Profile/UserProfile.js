@@ -52,7 +52,7 @@ const UserProfile = ({ user, reRenderPage }) => {
 
     const updateFirstName = async () => {
 
-        let url = "/updateFirstName";
+        let url = "/user/updateFirstName";
 
         const config = {
             headers: {
@@ -69,6 +69,8 @@ const UserProfile = ({ user, reRenderPage }) => {
         }).then(
             (response) => {
                 console.log(response.data)
+                context.setUserInfo({ ...context.userInfo, "firstName": firstName })
+                localStorage.setItem("userInfo",JSON.stringify({...JSON.parse(localStorage.getItem("userInfo")),"firstName":firstName}))
                 setFirstName("")
                 setChangeFirstName(false)
                 reRenderPage()
@@ -104,6 +106,8 @@ const UserProfile = ({ user, reRenderPage }) => {
         }).then(
             (response) => {
                 console.log(response.data)
+                context.setUserInfo({ ...context.userInfo, "lastName": lastName })
+                localStorage.setItem("userInfo",JSON.stringify({...JSON.parse(localStorage.getItem("userInfo")),"lastName":lastName}))
                 setLastName("")
                 setChangeLastName(false)
                 setRender(render + 1)
@@ -121,13 +125,13 @@ const UserProfile = ({ user, reRenderPage }) => {
     }
     const updateProfilePicture = async () => {
         console.log("update profile pciture")
-        let url = "/user/updateProfilePicture";
+        let url = "/updateProfilePicture";
 
         const config = {
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 Authorization: "Bearer " + context.jwt,
-            },
+            }, 
         };
 
         await axios({
@@ -137,7 +141,8 @@ const UserProfile = ({ user, reRenderPage }) => {
             params: { "profilePicture": profilePicture }
         }).then(
             (response) => {
-                console.log(response.data)
+                context.setUserInfo({ ...context.userInfo, "profilePicture": profilePicture })
+                localStorage.setItem("userInfo",JSON.stringify({...JSON.parse(localStorage.getItem("userInfo")),"profilePicture":profilePicture}))
                 setProfilePicture("")
                 setChangeProfilePicture(false)
                 setRender(render + 1)
@@ -147,6 +152,7 @@ const UserProfile = ({ user, reRenderPage }) => {
                 if (getError.response.status === 403) {
                     console.log("SE CHEAMA REFRESH TOKEN")
                     context.refreshAuthToken();
+                    updateProfilePicture()
                     setRender(render + 1);
                 }
             }
@@ -167,12 +173,12 @@ const UserProfile = ({ user, reRenderPage }) => {
                     backgroundColor="gray.50"
                     p={5}
                 >
-                    <Text position="absolute" right="5%" padding="2" 
-                    letterSpacing="wide" fontWeight="500">Joined on : {user.dateOfRegistration}</Text>
+                    <Text position="absolute" right="5%" padding="2"
+                        letterSpacing="wide" fontWeight="500">Joined on : {user.dateOfRegistration}</Text>
                     <Flex flexDir="column" alignItems="center" >
-                    <Box mb="5"><FiUser size="100"/></Box>
+                        <Box mb="5"><FiUser size="100" /></Box>
                         <Flex flexDir="column" alignItems="center">
-                            <Img maxHeight="200px" maxWidth="200px" src={user.profilePicture} />
+                            <Img maxHeight="200px" maxWidth="200px" src={context.userInfo.username == user.username ?  context.userInfo.profilePicture : user.profilePicture} />
                             {(context.userInfo.username == user.username) &&
                                 <Button my="1.5" size="xs" onClick={() => setChangeProfilePicture(!changeProfilePicture)}>
                                     Change profile picture
@@ -188,11 +194,11 @@ const UserProfile = ({ user, reRenderPage }) => {
                         </Flex>
 
                         <Flex flexDir="column" width="50%" my="2">
-                            <Center flexDir="row">
+                            <Center my="1" flexDir="column">
                                 <Text>
                                     First name : {user.firstName ? user.firstName : "Unknown"}
                                 </Text>
-                                {(context.userInfo.username == user.username && user.firstName == null) &&
+                                {(context.userInfo.username == user.username) &&
                                     <Button mx="2" size="xs" onClick={() => setChangeFirstName(!changeFirstName)}>
                                         Change
                                     </Button>}
@@ -203,11 +209,11 @@ const UserProfile = ({ user, reRenderPage }) => {
                                     </Flex>
                                 }
                             </Center>
-                            <Center flexDir="row">
+                            <Center my="1" flexDir="column">
                                 <Text>
                                     Last name : {user.lastName ? user.lastName : "Unknown"}
                                 </Text>
-                                {(context.userInfo.username == user.username && user.lastName == null) &&
+                                {(context.userInfo.username == user.username) &&
                                     <Button mx="2" size="xs" onClick={() => setChangeLastName(!changeLastName)}>
                                         Change
                                     </Button>}
@@ -234,13 +240,13 @@ const UserProfile = ({ user, reRenderPage }) => {
 
                         </Flex>
                     </Flex>
-                    <Flex width="50%" my="2">
+                    {/* <Flex width="50%" my="2">
                         <Text>Doctors user interacted with:</Text>
                         <Text>Poti sa faci bazat pe cu cine are mail-uri.</Text>
                     </Flex>
                     <Flex width="50%" my="2">
                         <Text textAlign="left">As putea face ca doctorii sa dea un rating la pacienti. Si verific daca au comunicat inainte pe chat/mail.</Text>
-                    </Flex>
+                    </Flex> */}
 
 
                 </Flex>

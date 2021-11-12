@@ -156,7 +156,7 @@ const DoctorSignupForm = () => {
                                 value={details.licensePicture}>
                             </Input>
                         </FormControl>
-                        <Button mt={4} color={secondaryColor} size="md" type="submit">
+                        <Button mt={4} colorScheme={secondaryColor} size="md" type="submit">
                             Sign up
                         </Button>
 

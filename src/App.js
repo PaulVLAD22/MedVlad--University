@@ -33,7 +33,6 @@ export const UserContext = createContext(null);
 
 function App() {
   const context = useUser();
-  const [render, setRender] = useState(0)
 
   useEffect(() => {
     console.log("USE EFFECT");
@@ -43,6 +42,8 @@ function App() {
     console.log(token);
     if (token != null) {
       if (!context.jwt) {
+        console.log("CONTEXT JWT NU EXISTA")
+        console.log(context.jwt)
         context.setJwt(token);
         context.setRefreshToken(refreshToken);
         context.setUserInfo(JSON.parse(localStorage.getItem("userInfo")));

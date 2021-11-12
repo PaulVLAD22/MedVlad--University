@@ -200,7 +200,7 @@ export const Navbar = ({ toggle }) => {
               color="black"
               letterSpacing="wider"
             >
-              Mail
+              Messages
             </Button>
           </>
         )}

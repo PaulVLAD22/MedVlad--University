@@ -9,17 +9,13 @@ const DoctorProfile = ({ user, reRenderPage }) => {
     const context = useContext(UserContext)
     const [render, setRender] = useState(0);
     const [questions, setQuestions] = useState([]);
-    const [changeFirstName, setChangeFirstName] = useState(false)
-    const [changeLastName, setChangeLastName] = useState(false)
     const [changeProfilePicture, setChangeProfilePicture] = useState(false)
-    const [firstName, setFirstName] = useState("")
-    const [lastName, setLastName] = useState("")
     const [profilePicture, setProfilePicture] = useState("")
 
     useEffect(async () => {
         //console.log(context.jwt);
         console.log("jwt:" + context.jwt)
-        let url = "/getQuestionsForUser";
+        let url = "/getQuestionsForDoctor";
 
         const config = {
             headers: {
@@ -32,7 +28,7 @@ const DoctorProfile = ({ user, reRenderPage }) => {
             method: "GET",
             url: url,
             headers: config.headers,
-            params: { "username": user.username }
+            params: { "doctorUsername": user.username }
         }).then(
             (response) => {
                 console.log(response.data)
@@ -145,13 +141,13 @@ const DoctorProfile = ({ user, reRenderPage }) => {
 
                         </Flex>
                     </Flex>
-                    <Flex width="50%" my="2">
+                    {/* <Flex width="50%" my="2">
                         <Text>Doctors user interacted with:</Text>
                         <Text>Poti sa faci bazat pe cu cine are mail-uri.</Text>
                     </Flex>
                     <Flex width="50%" my="2">
                         <Text textAlign="left">As putea face ca doctorii sa dea un rating la pacienti. Si verific daca au comunicat inainte pe chat/mail.</Text>
-                    </Flex>
+                    </Flex> */}
 
 
                 </Flex>

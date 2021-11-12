@@ -233,13 +233,13 @@ const AdminProfile = ({user,reRenderPage}) => {
 
                         </Flex>
                     </Flex>
-                    <Flex width="50%" my="2">
+                    {/* <Flex width="50%" my="2">
                         <Text>Doctors user interacted with:</Text>
                         <Text>Poti sa faci bazat pe cu cine are mail-uri.</Text>
                     </Flex>
                     <Flex width="50%" my="2">
                         <Text textAlign="left">As putea face ca doctorii sa dea un rating la pacienti. Si verific daca au comunicat inainte pe chat/mail.</Text>
-                    </Flex>
+                    </Flex> */}
 
 
                 </Flex>
