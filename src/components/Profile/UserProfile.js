@@ -154,7 +154,7 @@ const UserProfile = ({ user, reRenderPage }) => {
     }
 
     return (
-        <Center width="100%" backgroundColor={backgroundColorCode}>
+        <Center width="100%">
             <Center >
                 {console.log(context.jwt)}
                 <Flex
