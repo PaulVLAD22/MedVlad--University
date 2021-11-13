@@ -13,6 +13,7 @@ const QuestionsBox = () => {
   const [postQuestionResponse, setPostQuestionResponse] = useState("")
   const [postingQuestionCategory, setPostingQuestionCategory] = useState("")
   const [postingQuestion, setPostingQuestion] = useState("")
+  const [categories, setCategories] = useState([])
   const [sortBy, setSortBy] = useState("")
   const [filterBy, setFilterBy] = useState("")
 
@@ -22,7 +23,7 @@ const QuestionsBox = () => {
   useEffect(async () => {
     //console.log(context.jwt);
     console.log("jwt:" + context.jwt)
-    let url = "/getQuestions";
+    let url1 = "/getQuestions";
 
     const config = {
       headers: {
@@ -33,7 +34,7 @@ const QuestionsBox = () => {
 
     await axios({
       method: "GET",
-      url: url,
+      url: url1,
       headers: config.headers,
     }).then(
       (response) => {
@@ -48,6 +49,28 @@ const QuestionsBox = () => {
         }
       }
     );
+
+    let url2 = "/getCategories"
+
+    await axios({
+      method: "GET",
+      url: url2,
+      headers: config.headers,
+    }).then(
+      (response) => {
+        console.log(response.data)
+        setCategories(response.data)
+      },
+      async (getError) => {
+        if (getError.response.status === 403) {
+          console.log("SE CHEAMA REFRESH TOKEN")
+          context.refreshAuthToken();
+          setRender(render + 1);
+        }
+      }
+    );
+
+
   }, [render]);
 
   const postQuestion = async (e) => {
@@ -66,7 +89,7 @@ const QuestionsBox = () => {
       method: "POST",
       url: url,
       headers: config.headers,
-      params: { "content": postingQuestion }
+      params: { "content": postingQuestion, "category": postingQuestionCategory }
     }).then(
       (response) => {
         console.log(response.data)
@@ -104,7 +127,7 @@ const QuestionsBox = () => {
   const filterChanged = (e) => {
     let id = e.nativeEvent.target.selectedIndex;
     let choice = e.nativeEvent.target[id].text;
-    if (choice == "Choose category...") {
+    if (choice == "Filter by...") {
       return
     }
     if (choice == "All") {
@@ -144,8 +167,10 @@ const QuestionsBox = () => {
             <option>Newest Questions</option>
           </Select>
           <Select onChange={filterChanged} placeholder="Filter by...">
-            <option>Coronavirus</option>
-            <option>Cancer</option>
+            {categories.map((category, index) => {
+              return <option key={index}>{category.name}</option>
+            })
+            }
             <option>All</option>
           </Select>
 
@@ -305,8 +330,10 @@ const QuestionsBox = () => {
               <Text>Submit Your Own Question</Text>
               <Input placeholder="content..." margin="2" onChange={(e) => { setPostingQuestion(e.target.value) }} value={postingQuestion}></Input>
               <Select m="2" mb="5" onChange={changeCategory} placeholder="Choose category...">
-                <option>Coronavirus</option>
-                <option>Cancer</option>
+                {categories.map((category, index) => {
+                  return <option key={index}>{category.name}</option>
+                })
+                }
               </Select>
               <Button type="submit">Submit</Button>
               <Text color="orange.500">{postQuestionResponse}</Text>
