@@ -59,6 +59,7 @@ function App() {
           <Router>
             {!!context.jwt ? (
               <>
+              {console.log(context)}
                 {context.userInfo.role == "USER" && (
                   <>
                     {console.log(!!context.jwt)}

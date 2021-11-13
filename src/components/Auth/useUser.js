@@ -82,7 +82,7 @@ export const useUser = () => {
       setRefreshToken(res.data.refresh_token);
       setUserInfo(parsedUserObj);
 
-      history.go("/");
+      console.log(userInfo)
     } catch (err) {
       console.log(err);
     }
@@ -159,6 +159,9 @@ export const useUser = () => {
     localStorage.removeItem("userInfo");
     setJwt(null);
     setUserInfo(null);
+    setRefreshToken(null)
+    console.log(userInfo)
+    console.log(jwt)
     window.location.reload()
   };
 

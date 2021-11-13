@@ -1,10 +1,10 @@
-import { Flex, Text, Button } from "@chakra-ui/react"
+import { Flex, Text, Button,Img } from "@chakra-ui/react"
 import { useContext, useState } from "react"
 import { useHistory } from "react-router"
 import { UserContext } from "../../App"
 import { TiDeleteOutline } from "react-icons/ti"
 import axios from 'axios'
-const Answer = ({ doctorUsername, id, content, author, numberOfLikes, reRenderPage, setQuestionError }) => {
+const Answer = ({ doctorUsername, id, content,doctorProfilePicture, author, numberOfLikes, reRenderPage, setQuestionError }) => {
     const context = useContext(UserContext);
     const [render, setRender] = useState("");
     const history = useHistory();
@@ -101,6 +101,8 @@ const Answer = ({ doctorUsername, id, content, author, numberOfLikes, reRenderPa
             }
             <Text width="70%" m="2">{content}</Text>
             <Text width="20%" onClick={openDoctorProfile} fontWeight="bold" cursor="pointer">{author}</Text>
+            {console.log(doctorProfilePicture)}
+            <Img maxHeight="80px" src={doctorProfilePicture}/>
             {context.userInfo.role == "ADMIN" &&
                 <Button onClick={() => deleteAnswer(id)}>
                     <TiDeleteOutline />

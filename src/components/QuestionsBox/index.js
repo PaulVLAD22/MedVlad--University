@@ -11,8 +11,10 @@ const QuestionsBox = () => {
   const [questions, setQuestions] = useState([]);
   const [render, setRender] = useState(0);
   const [postQuestionResponse, setPostQuestionResponse] = useState("")
+  const [postingQuestionCategory, setPostingQuestionCategory] = useState("")
   const [postingQuestion, setPostingQuestion] = useState("")
   const [sortBy, setSortBy] = useState("")
+  const [filterBy, setFilterBy] = useState("")
 
   //TODO:: adauga si pt admin pagina si fa buton de X ca sa stearga mesaje rapid
   // si sa se adauge la un atribut al User-ilor removed messages si la al 3-lea esti banat
@@ -91,6 +93,26 @@ const QuestionsBox = () => {
     setSortBy(choice);
   }
 
+  const changeCategory = (e) => {
+    let id = e.nativeEvent.target.selectedIndex;
+    let choice = e.nativeEvent.target[id].text;
+    if (choice == "Choose category...") {
+      return
+    }
+    setPostingQuestionCategory(choice);
+  }
+  const filterChanged = (e) => {
+    let id = e.nativeEvent.target.selectedIndex;
+    let choice = e.nativeEvent.target[id].text;
+    if (choice == "Choose category...") {
+      return
+    }
+    if (choice == "All") {
+      choice = ""
+    }
+    setFilterBy(choice);
+  }
+
 
   return (
 
@@ -107,96 +129,185 @@ const QuestionsBox = () => {
         p={5}
       >
         <InfostationDescription />
-      
-        <Flex width="50%" m="3">
+
+        <Flex m="3">
           <Input
             width="90%"
-            mx="2"
             placeholder="Search for a question..."
             onChange={(e) => {
               setSearchWord(e.target.value);
             }}
             value={searchWord}
           ></Input>
-          <Select onChange={sortChanged} placeholder="Sort by...">
+          <Select mx="2" onChange={sortChanged} placeholder="Sort by...">
             <option>Most Popular</option>
             <option>Newest Questions</option>
           </Select>
+          <Select onChange={filterChanged} placeholder="Filter by...">
+            <option>Coronavirus</option>
+            <option>Cancer</option>
+            <option>All</option>
+          </Select>
 
         </Flex>
+        {filterBy == "" ?
+
+          <>
+            {sortBy == "" &&
+
+              questions.
+                map((question, index) => {
+                  console.log(question)
+                  if (question.content.includes(searchWord))
+                    return (
+                      <Question
+                        key={index}
+                        id={question.id}
+                        author={question.userDto}
+                        content={question.content}
+                        answers={question.questionAnswerList}
+                        reRenderPage={() => setRender(render + 1)}
+                      />
+                    );
+                })}
+
+            {
+              sortBy == "Newest Questions" &&
+
+              questions.sort((q1, q2) => {
+                return new Date(q2.postingDate).valueOf() - new Date(q1.postingDate).valueOf();
+              }
+              ).map((question, index) => {
+                console.log(question)
+                if (question.content.includes(searchWord))
+                  return (
+                    <Question
+                      key={index}
+                      id={question.id}
+                      author={question.userDto}
+                      content={question.content}
+                      answers={question.questionAnswerList}
+                      reRenderPage={() => setRender(render + 1)}
+                    />
+                  );
+              })}
 
 
-        {
-          sortBy == "" &&
+            {
+              sortBy == "Most Popular" &&
 
-          questions.
-            map((question, index) => {
-              console.log(question)
-              if (question.content.includes(searchWord))
-                return (
-                  <Question
-                    key={index}
-                    id={question.id}
-                    author={question.userDto}
-                    content={question.content}
-                    answers={question.questionAnswerList}
-                    reRenderPage={() => setRender(render + 1)}
-                  />
-                );
-            })}
+              questions.sort((q1, q2) => {
+                return (q2.questionAnswerList.reduce((a, b) => {
+                  return a + b.numberOfLikes
+                }, 0)) - (q1.questionAnswerList.reduce((a, b) => {
+                  return a + b.numberOfLikes
+                }, 0))
+              }
+              ).map((question, index) => {
+                console.log(question)
+                if (question.content.includes(searchWord))
+                  return (
+                    <Question
+                      key={index}
+                      id={question.id}
+                      author={question.userDto}
+                      content={question.content}
+                      answers={question.questionAnswerList}
+                      reRenderPage={() => setRender(render + 1)}
+                    />
+                  );
+              })}
 
-        {
-          sortBy == "Newest Questions" &&
+          </>
+          :
+          <>
+            {sortBy == "" &&
 
-          questions.sort((q1, q2) => {
-            return new Date(q2.postingDate).valueOf() - new Date(q1.postingDate).valueOf();
-          }
-          ).map((question, index) => {
-            console.log(question)
-            if (question.content.includes(searchWord))
-              return (
-                <Question
-                  key={index}
-                  id={question.id}
-                  author={question.userDto}
-                  content={question.content}
-                  answers={question.questionAnswerList}
-                  reRenderPage={() => setRender(render + 1)}
-                />
-              );
-          })}
+              questions.
+                filter((question, index) => {
+                  return question.questionCategory.name == filterBy
+                }).
+                map((question, index) => {
+                  console.log(question)
+                  if (question.content.includes(searchWord))
+                    return (
+                      <Question
+                        key={index}
+                        id={question.id}
+                        author={question.userDto}
+                        content={question.content}
+                        answers={question.questionAnswerList}
+                        reRenderPage={() => setRender(render + 1)}
+                      />
+                    );
+                })}
 
-        {
-          sortBy == "Most Popular" &&
+            {
+              sortBy == "Newest Questions" &&
 
-          questions.sort((q1, q2) => {
-            return (q2.questionAnswerList.reduce((a, b) => {
-              return a + b.numberOfLikes
-            }, 0)) - (q1.questionAnswerList.reduce((a, b) => {
-              return a + b.numberOfLikes
-            }, 0))
-          }
-          ).map((question, index) => {
-            console.log(question)
-            if (question.content.includes(searchWord))
-              return (
-                <Question
-                  key={index}
-                  id={question.id}
-                  author={question.userDto}
-                  content={question.content}
-                  answers={question.questionAnswerList}
-                  reRenderPage={() => setRender(render + 1)}
-                />
-              );
-          })}
+              questions.filter((question, index) => {
+                return question.questionCategory.name == filterBy
+              })
+                .sort((q1, q2) => {
+                  return new Date(q2.postingDate).valueOf() - new Date(q1.postingDate).valueOf();
+                }
+                ).map((question, index) => {
+                  console.log(question)
+                  if (question.content.includes(searchWord))
+                    return (
+                      <Question
+                        key={index}
+                        id={question.id}
+                        author={question.userDto}
+                        content={question.content}
+                        answers={question.questionAnswerList}
+                        reRenderPage={() => setRender(render + 1)}
+                      />
+                    );
+                })}
+
+
+            {
+              sortBy == "Most Popular" &&
+
+              questions.filter((question, index) => {
+                return question.questionCategory.name == filterBy
+              })
+                .sort((q1, q2) => {
+                  return (q2.questionAnswerList.reduce((a, b) => {
+                    return a + b.numberOfLikes
+                  }, 0)) - (q1.questionAnswerList.reduce((a, b) => {
+                    return a + b.numberOfLikes
+                  }, 0))
+                }
+                ).map((question, index) => {
+                  console.log(question)
+                  if (question.content.includes(searchWord))
+                    return (
+                      <Question
+                        key={index}
+                        id={question.id}
+                        author={question.userDto}
+                        content={question.content}
+                        answers={question.questionAnswerList}
+                        reRenderPage={() => setRender(render + 1)}
+                      />
+                    );
+                })}
+
+          </>
+        }
 
 
         <Flex m="5" width="70%" flexDirection="column" alignItems="center">
           {context.userInfo.role == "USER" && (
             <form onSubmit={postQuestion}>
               <Text>Submit Your Own Question</Text>
-              <Input margin="2" onChange={(e) => { setPostingQuestion(e.target.value) }} value={postingQuestion}></Input>
+              <Input placeholder="content..." margin="2" onChange={(e) => { setPostingQuestion(e.target.value) }} value={postingQuestion}></Input>
+              <Select m="2" mb="5" onChange={changeCategory} placeholder="Choose category...">
+                <option>Coronavirus</option>
+                <option>Cancer</option>
+              </Select>
               <Button type="submit">Submit</Button>
               <Text color="orange.500">{postQuestionResponse}</Text>
             </form>

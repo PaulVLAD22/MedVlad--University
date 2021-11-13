@@ -92,7 +92,7 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
       </Flex>
       <Text fontSize="medium" p="2"
         fontWeight="semibold">{content}</Text>
-      
+
       {context.userInfo.role == "ADMIN" &&
         <Button my="2" onClick={() => deleteQuestion(id)}>
           <TiDeleteOutline />
@@ -111,6 +111,7 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
           answers.map((answer, index) => {
             console.log(answer)
             return <Answer doctorUsername={answer.doctor.username}
+              doctorProfilePicture={answer.doctor.profilePicture}
               key={index} id={answer.id} content={answer.content}
               author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
               numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()}
@@ -122,6 +123,7 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
           }).slice(0, 3).map((answer, index) => {
             console.log(answer)
             return <Answer doctorUsername={answer.doctor.username}
+              doctorProfilePicture={answer.doctor.profilePicture}
               key={index} id={answer.id} content={answer.content}
               author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
               numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()}
@@ -134,6 +136,7 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
           }).map((answer, index) => {
             console.log(answer)
             return <Answer doctorUsername={answer.doctor.username}
+              doctorProfilePicture={answer.doctor.profilePicture}
               key={index} id={answer.id} content={answer.content}
               author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
               numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()}

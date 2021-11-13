@@ -137,6 +137,9 @@ const AdminProfile = ({user,reRenderPage}) => {
         }).then(
             (response) => {
                 console.log(response.data)
+                context.setUserInfo({ ...context.userInfo, "profilePicture": profilePicture })
+                localStorage.setItem("userInfo",JSON.stringify({...JSON.parse(localStorage.getItem("userInfo")),"profilePicture":profilePicture}))
+                
                 setProfilePicture("")
                 setChangeProfilePicture(false)
                 setRender(render + 1)
