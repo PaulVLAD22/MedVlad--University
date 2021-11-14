@@ -44,6 +44,9 @@ const ForgotPasswordForm = () => {
                 setError("You will receive an email shortly.")
             },
             async (getError) => {
+                if (getError.response.status==471){
+                    setError("Wrong Email")
+                }
             }
         )
     }

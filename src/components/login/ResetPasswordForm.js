@@ -1,37 +1,37 @@
-import { useLocation } from 'react-router-dom'
 import {
-    Button,
-    Container,
+    Button, Center, Container,
     FormControl,
     FormLabel,
     Input,
     Link,
-    Text,
-    Center
+    Text
 } from "@chakra-ui/react";
-import React, { useContext, useState, useEffect } from "react";
-import { UserContext } from "../../App";
-import { GiPlagueDoctorProfile } from 'react-icons/gi'
-import { primaryColor, secondaryColor, backgroundColorCode, backgroundImageGradient, errorColor } from "../utils/colors"
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { GiPlagueDoctorProfile } from 'react-icons/gi';
 import { useHistory } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { errorColor, primaryColor, secondaryColor } from "../utils/colors";
 
 const ResetPasswordForm = () => {
     const location = useLocation();
     const history = useHistory();
     const [render, setRender] = useState(0);
     const [badToken, setBadToken] = useState(false)
-    const [userEmail, setUserEmail] = useState("")
+    const [email,setEmail] = useState("")
     const [error, setError] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
-    const [token, setToken] = useState("")
 
     useEffect(async () => {
         console.log(location.pathname);
-        let token = location.pathname.substr(15, location.pathname.length)
-        setToken(token);
+        let tokenAndEmail = location.pathname.substr(15, location.pathname.length)
+        let token = tokenAndEmail.substr(0,6)
+        let email = tokenAndEmail.substr(6,tokenAndEmail.length)
+
+        setEmail(email)
         console.log(token)
+        console.log(email)
 
         let url = "/verifyToken";
 
@@ -45,14 +45,13 @@ const ResetPasswordForm = () => {
             method: "GET",
             url: url,
             headers: config.headers,
-            params: { "token": token }
+            params: { "token": token, "email":email }
         }).then(
             (response) => {
                 console.log(response.data)
-                setUserEmail(response.data)
             },
             (getError) => {
-                if (getError.response.status == 470) {
+                if (getError.response.status == 475) {
                     setBadToken(true);
                 }
             }
@@ -79,7 +78,7 @@ const ResetPasswordForm = () => {
             method: "PUT",
             url: url,
             headers: config.headers,
-            params: { email: userEmail, password: password, token: token }
+            params: { email: email, password: password}
         }).then(
             (response) => {
                 console.log(response.data);
