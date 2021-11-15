@@ -43,7 +43,7 @@ const UserRequest = ({ user, reRenderPage }) => {
   };
   return (
     <UsersList
-      flexDir="row"
+      flexDir="column"
       width="100%"
       justifyContent="space-between"
       borderBottom="1px solid black"

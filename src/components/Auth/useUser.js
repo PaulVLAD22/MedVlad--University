@@ -122,16 +122,26 @@ export const useUser = () => {
 
     let url = "/register";
 
+    const config = {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+
+    const params = new URLSearchParams();
+    params.append("grant_type", "password");
+    params.append("email", details.email);
+    params.append("username",details.username);
+    params.append("password", details.password);
+    params.append("licensePicture",details.licensePicture)
+    params.append("role",role)
+
     await axios({
       method: "POST",
       url: url,
-      params: {
-        "email": details.email,
-        "username": details.username,
-        "password": details.password,
-        "licensePicture": details.licensePicture,
-        "role": role
-      }
+      params: params,
+      config:config
     }).then(
       (response) => {
         console.log(response.data)
