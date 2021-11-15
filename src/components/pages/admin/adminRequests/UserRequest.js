@@ -9,6 +9,7 @@ const UserRequest = ({ user, reRenderPage }) => {
   const context = useContext(UserContext);
   const [render, setRender] = useState(0);
   const [comment, setComment] = useState("");
+  const [message,setMessage] = useState("")
 
   const sendRequestResponse = async (verdict) => {
     let url = "/admin/acceptUserRegistration";
@@ -19,6 +20,7 @@ const UserRequest = ({ user, reRenderPage }) => {
         Authorization: "Bearer " + context.jwt,
       },
     };
+    setMessage("sending...")
 
     await axios({
       method: "POST",
@@ -51,6 +53,7 @@ const UserRequest = ({ user, reRenderPage }) => {
       alignItems="center"
       p="3"
     >
+      <Text color="red" my="2">{message}</Text>
       <Text>{user.username}</Text>
       <Text>{user.email}</Text>
       <Button onClick={() => sendRequestResponse(false)}>

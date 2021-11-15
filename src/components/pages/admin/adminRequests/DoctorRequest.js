@@ -5,12 +5,13 @@ import axios from "axios";
 import { UserContext } from "../../../../App";
 import { useContext, useState } from "react";
 import userEvent from "@testing-library/user-event";
-const DoctorRequest = ({ user,reRenderPage }) => {
+const DoctorRequest = ({ user, reRenderPage }) => {
   const context = useContext(UserContext);
   const [render, setRender] = useState(0);
   const [comment, setComment] = useState("");
-  const [firstName,setFirstName] = useState("")
-  const [lastName,setLastName] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [message, setMessage] = useState("")
 
   const sendRequestResponse = async (verdict) => {
     let url = "/admin/acceptDoctorRegistration";
@@ -21,12 +22,12 @@ const DoctorRequest = ({ user,reRenderPage }) => {
         Authorization: "Bearer " + context.jwt,
       },
     };
-
+    setMessage("sending...")
     await axios({
       method: "POST",
       url: url,
       headers: config.headers,
-      params: { username: user.username, firstName: firstName,lastName: lastName, comment: comment, verdict: verdict },
+      params: { username: user.username, firstName: firstName, lastName: lastName, comment: comment, verdict: verdict },
     }).then(
       (response) => {
         console.log(response.data);
@@ -50,9 +51,11 @@ const DoctorRequest = ({ user,reRenderPage }) => {
   return (
     <Flex height="400px" width="min(100%,720px)" flexDir="column">
       <Flex width="100%" mb="10">
-        <Box>
+
+        <Flex flexDir="column">
+          <Text color="red">{message}</Text>
           <Img height="100%" src={user.licensePicture}></Img>
-        </Box>
+        </Flex>
         <Flex
           flexDir="column"
           border="1px solid black"
@@ -69,10 +72,10 @@ const DoctorRequest = ({ user,reRenderPage }) => {
 
       <Flex width="100%" flexDir="column" alignItems="center">
         <Flex width="100%" justifyContent="space-between" fontSize="larger">
-          <Button  onClick={()=>sendRequestResponse(false)}>
+          <Button onClick={() => sendRequestResponse(false)}>
             <AiFillStop></AiFillStop>
           </Button>
-          <Button onClick={()=>sendRequestResponse(true)}>
+          <Button onClick={() => sendRequestResponse(true)}>
             <TiTick ></TiTick>
           </Button>
         </Flex>

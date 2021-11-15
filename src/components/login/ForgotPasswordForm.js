@@ -24,7 +24,8 @@ const ForgotPasswordForm = () => {
 
         console.log(email)
 
-
+        setError("sending...")
+        
         let url = "/forgotPassword";
 
         const config = {
