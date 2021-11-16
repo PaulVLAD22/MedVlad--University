@@ -71,7 +71,6 @@ const AdminProfile = ({user,reRenderPage}) => {
                 setFirstName("")
                 setChangeFirstName(false)
                 reRenderPage()
-                //nu e bine
             },
             async (getError) => {
                 if (getError.response.status === 403) {

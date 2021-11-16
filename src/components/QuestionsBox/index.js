@@ -45,7 +45,6 @@ const QuestionsBox = () => {
         if (getError.response.status === 403) {
           console.log("SE CHEAMA REFRESH TOKEN")
           context.refreshAuthToken();
-          setRender(render + 1);
         }
       }
     );
@@ -65,7 +64,6 @@ const QuestionsBox = () => {
         if (getError.response.status === 403) {
           console.log("SE CHEAMA REFRESH TOKEN")
           context.refreshAuthToken();
-          setRender(render + 1);
         }
       }
     );
@@ -94,13 +92,11 @@ const QuestionsBox = () => {
       (response) => {
         console.log(response.data)
         setPostQuestionResponse("Question sent for verification");
-        setRender(render + 1)
       },
       async (getError) => {
         if (getError.response.status === 403) {
           console.log("SE CHEAMA REFRESH TOKEN")
           context.refreshAuthToken();
-          setRender(render + 1);
         }
       }
     );
@@ -134,6 +130,38 @@ const QuestionsBox = () => {
       choice = ""
     }
     setFilterBy(choice);
+  }
+  const sortedQuestions = (questions) => {
+    if (sortBy == "Most Popular")
+      return (
+        questions.sort((q1, q2) => {
+          return (q2.questionAnswerList.reduce((a, b) => {
+            return a + b.numberOfLikes
+          }, 0)) - (q1.questionAnswerList.reduce((a, b) => {
+            return a + b.numberOfLikes
+          }, 0))
+        }
+        ));
+    else if (sortBy == "Newest Questions") {
+      return (
+        questions.sort((q1, q2) => {
+          return new Date(q2.postingDate).valueOf() - new Date(q1.postingDate).valueOf();
+        }
+        ));
+    }
+    else if (sortBy == "") {
+      return questions;
+    }
+  }
+
+  const filteredQuestions = () => {
+    if (filterBy == "") {
+      return questions;
+    }
+    return (
+      questions.filter((question, index) => {
+        return question.questionCategory.name == filterBy
+      }));
   }
 
 
@@ -175,154 +203,26 @@ const QuestionsBox = () => {
           </Select>
 
         </Flex>
-        {filterBy == "" ?
-
-          <>
-            {sortBy == "" &&
-
-              questions.
-                map((question, index) => {
-                  console.log(question)
-                  if (question.content.includes(searchWord))
-                    return (
-                      <Question
-                        key={index}
-                        id={question.id}
-                        author={question.userDto}
-                        content={question.content}
-                        answers={question.questionAnswerList}
-                        reRenderPage={() => setRender(render + 1)}
-                      />
-                    );
-                })}
-
-            {
-              sortBy == "Newest Questions" &&
-
-              questions.sort((q1, q2) => {
-                return new Date(q2.postingDate).valueOf() - new Date(q1.postingDate).valueOf();
-              }
-              ).map((question, index) => {
-                console.log(question)
-                if (question.content.includes(searchWord))
-                  return (
-                    <Question
-                      key={index}
-                      id={question.id}
-                      author={question.userDto}
-                      content={question.content}
-                      answers={question.questionAnswerList}
-                      reRenderPage={() => setRender(render + 1)}
-                    />
-                  );
-              })}
-
-
-            {
-              sortBy == "Most Popular" &&
-
-              questions.sort((q1, q2) => {
-                return (q2.questionAnswerList.reduce((a, b) => {
-                  return a + b.numberOfLikes
-                }, 0)) - (q1.questionAnswerList.reduce((a, b) => {
-                  return a + b.numberOfLikes
-                }, 0))
-              }
-              ).map((question, index) => {
-                console.log(question)
-                if (question.content.includes(searchWord))
-                  return (
-                    <Question
-                      key={index}
-                      id={question.id}
-                      author={question.userDto}
-                      content={question.content}
-                      answers={question.questionAnswerList}
-                      reRenderPage={() => setRender(render + 1)}
-                    />
-                  );
-              })}
-
-          </>
-          :
-          <>
-            {sortBy == "" &&
-
-              questions.
-                filter((question, index) => {
-                  return question.questionCategory.name == filterBy
-                }).
-                map((question, index) => {
-                  console.log(question)
-                  if (question.content.includes(searchWord))
-                    return (
-                      <Question
-                        key={index}
-                        id={question.id}
-                        author={question.userDto}
-                        content={question.content}
-                        answers={question.questionAnswerList}
-                        reRenderPage={() => setRender(render + 1)}
-                      />
-                    );
-                })}
-
-            {
-              sortBy == "Newest Questions" &&
-
-              questions.filter((question, index) => {
-                return question.questionCategory.name == filterBy
-              })
-                .sort((q1, q2) => {
-                  return new Date(q2.postingDate).valueOf() - new Date(q1.postingDate).valueOf();
-                }
-                ).map((question, index) => {
-                  console.log(question)
-                  if (question.content.includes(searchWord))
-                    return (
-                      <Question
-                        key={index}
-                        id={question.id}
-                        author={question.userDto}
-                        content={question.content}
-                        answers={question.questionAnswerList}
-                        reRenderPage={() => setRender(render + 1)}
-                      />
-                    );
-                })}
-
-
-            {
-              sortBy == "Most Popular" &&
-
-              questions.filter((question, index) => {
-                return question.questionCategory.name == filterBy
-              })
-                .sort((q1, q2) => {
-                  return (q2.questionAnswerList.reduce((a, b) => {
-                    return a + b.numberOfLikes
-                  }, 0)) - (q1.questionAnswerList.reduce((a, b) => {
-                    return a + b.numberOfLikes
-                  }, 0))
-                }
-                ).map((question, index) => {
-                  console.log(question)
-                  if (question.content.includes(searchWord))
-                    return (
-                      <Question
-                        key={index}
-                        id={question.id}
-                        author={question.userDto}
-                        content={question.content}
-                        answers={question.questionAnswerList}
-                        reRenderPage={() => setRender(render + 1)}
-                      />
-                    );
-                })}
-
-          </>
+        {
+          filteredQuestions().length==0 && 
+          <Text my="10" fontSize="x-large" color="red">No Such Questions</Text>
         }
-
+        {
+          sortedQuestions(filteredQuestions())
+            .map((question, index) => {
+              console.log(question)
+              if (question.content.includes(searchWord))
+                return (
+                  <Question
+                    key={index}
+                    id={question.id}
+                    author={question.userDto}
+                    content={question.content}
+                    answers={question.questionAnswerList}
+                    reRenderPage={() => setRender(render + 1)}
+                  />
+                );
+            })}
 
         <Flex m="5" width="70%" flexDirection="column" alignItems="center">
           {context.userInfo.role == "USER" && (
