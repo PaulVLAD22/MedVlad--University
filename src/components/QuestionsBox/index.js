@@ -5,6 +5,8 @@ import { BsSearch } from "react-icons/bs";
 import axios from "axios";
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../App";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
 const QuestionsBox = () => {
   const context = useContext(UserContext);
   const [searchWord, setSearchWord] = useState("");
@@ -17,12 +19,17 @@ const QuestionsBox = () => {
   const [sortBy, setSortBy] = useState("")
   const [filterBy, setFilterBy] = useState("")
 
+  const [loadingMessage, setLoadingMessage] = useState("")
+
   //TODO:: adauga si pt admin pagina si fa buton de X ca sa stearga mesaje rapid
   // si sa se adauge la un atribut al User-ilor removed messages si la al 3-lea esti banat
 
   useEffect(async () => {
     //console.log(context.jwt);
     console.log("jwt:" + context.jwt)
+
+    setLoadingMessage("loading...")
+
     let url1 = "/getQuestions";
 
     const config = {
@@ -59,6 +66,7 @@ const QuestionsBox = () => {
       (response) => {
         console.log(response.data)
         setCategories(response.data)
+        setLoadingMessage("")
       },
       async (getError) => {
         if (getError.response.status === 403) {
@@ -165,6 +173,7 @@ const QuestionsBox = () => {
   }
 
 
+
   return (
 
     <Center>
@@ -204,10 +213,15 @@ const QuestionsBox = () => {
 
         </Flex>
         {
-          filteredQuestions().length==0 && 
-          <Text my="10" fontSize="x-large" color="red">No Such Questions</Text>
+          loadingMessage != "" ?
+            <Box my="10">
+              <AiOutlineLoading3Quarters fontSize="30px" />
+            </Box>
+            :
+            filteredQuestions().length == 0 &&
+            <Text my="10" fontSize="x-large" color="red">No Such Questions</Text>
         }
-        {
+        { loadingMessage=="" &&
           sortedQuestions(filteredQuestions())
             .map((question, index) => {
               console.log(question)
