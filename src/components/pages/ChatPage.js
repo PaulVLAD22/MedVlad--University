@@ -20,13 +20,11 @@ const ChatPage = () => {
   }
 
   const onConnected = () => {
-    console.log(JSON.stringify({ "sender": "senderUsername", "type": 'CONNECT' }))
     stompClient.subscribe('/topic/public', onMessageReceived)
     stompClient.send("/app/chat.newUser",
       {},
       (JSON.stringify({
-        "content": "", "time":
-          "", "sender": "senderUsername", "type": 'CONNECT'
+        "sender": "senderUsername", "type": 'CONNECT'
       }))
     )
   }
