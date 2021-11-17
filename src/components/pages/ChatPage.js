@@ -5,6 +5,7 @@ import Stomp from "webstomp-client";
 const SOCKET_URL = 'http://localhost:8080/chat';
 
 const ChatPage = () => {
+  // CAUTA ALTA IMPLEMENTARE, ASTA NU MERGE
   var connected = false;
   var socket = '';
   var stompClient = '';
