@@ -1,73 +1,109 @@
-import { Center, Flex, Button } from "@chakra-ui/react";
-import SockJsClient from 'react-stomp';
-import ChatBox from "../ChatBox"
-import React, { useState, useEffect } from "react"
-import axios from 'axios'
+import { Button } from "@chakra-ui/react";
+import React from "react";
+import SockJS from "sockjs-client";
+import Stomp from "webstomp-client";
 const SOCKET_URL = 'http://localhost:8080/chat';
 
 const ChatPage = () => {
-  
-    const [message, setMessage] = useState('You server message here.');
+  var connected = false;
+  var socket = '';
+  var stompClient = '';
 
-    let onConnected = () => {
-      console.log("Connected!!")
-    }
+  const connect = () => {
+    const socket = new SockJS('/chat')
+    stompClient = Stomp.over(socket)
+    stompClient.connect({}, onConnected, onError)
+  }
 
-    let onMessageReceived = (msg) => {
-      setMessage(msg.message);
-    }
+  const onError = (error) => {
+    console.log(error)
+  }
 
-    return (
-      <Center width="100%" height="100%">
-        {/* <Button>Connect</Button>
-      <ChatBox></ChatBox> */}
-        <SockJsClient
-          url={SOCKET_URL}
-          topics={['/topic/public']}
-          onConnect={onConnected}
-          onDisconnect={console.log("Disconnected!")}
-          onMessage={msg => onMessageReceived(msg)}
-          debug={false}
-        />
-        {/* import SockJS from "sockjs-client";
-import Stomp from "webstomp-client";
-var connected =false;
-var socket ='';
-var stompClient = '';
-const  send = ()=> {
-      let send_message = 'hello !';
-      if (stompClient && stompClient.connected) {
-        const msg = { name: send_message };
-        stompClient.send("/app/hello", JSON.stringify(msg), {});
+  const onConnected = () => {
+    console.log(JSON.stringify({ "sender": "senderUsername", "type": 'CONNECT' }))
+    stompClient.subscribe('/topic/public', onMessageReceived)
+    stompClient.send("/app/chat.newUser",
+      {},
+      (JSON.stringify({
+        "content": "", "time":
+          "", "sender": "senderUsername", "type": 'CONNECT'
+      }))
+    )
+  }
+
+  const onMessageReceived = (payload) => {
+    const message = JSON.parse(payload.body);
+    console.log(message)
+  }
+
+  const sendMessage = (event) => {
+
+    const messageContent = "Salut!"
+
+    if (messageContent && stompClient) {
+      const chatMessage = {
+        sender: "senderUsername",
+        content: "Content Trimis",
+        type: 'CHAT',
+        time: "time"
       }
+      stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage))
+
     }
-    const connect =()=> {
-      socket = new SockJS("http://uat.wealthbrain.com:7777/gs-guide-websocket");
-      stompClient = Stomp.over(socket);
-      stompClient.connect(
-        {},
-        frame => {
-          connected = true;
-          stompClient.subscribe("/topic/greetings", tick => {
-          });
-        },
-        error => {
-          console.log(error);
-          connected = false;
-        }
-      );
+    event.preventDefault();
+  }
+
+  // const hashCode = (str) => {
+  //   let hash = 0
+  //   for (let i = 0; i < str.length; i++) {
+  //      hash = str.charCodeAt(i) + ((hash << 5) - hash)
+  //   }
+  //   return hash
+  // }
+
+
+  const disconnect = () => {
+    if (stompClient) {
+      stompClient.disconnect();
     }
-    const disconnect =()=> {
-      if (stompClient) {
-        stompClient.disconnect();
-      }
-      connected = false;
-    }
-    const tickleConnection =()=> {
-      connected ? disconnect() : connect();
-    }  */}
-        <div>{message}</div>
-      </Center>
-    );
-  };
-  export default ChatPage;
+    connected = false;
+  }
+
+  const tickleConnection = () => {
+    connected ? disconnect() : connect();
+  }
+  return (
+    <>
+      <Button onClick={sendMessage}>Send </Button>
+      <Button onClick={tickleConnection}>Tickle Connection</Button>
+    </>
+  )
+
+  // const [message, setMessage] = useState('You server message here.');
+
+  // let onConnected = () => {
+  //   console.log("Connected!!")
+  // }
+
+  // let onMessageReceived = (msg) => {
+  //   setMessage(msg.message);
+  // }
+
+  // return (
+  //   <Center width="100%" height="100%">
+  //     {/* <Button>Connect</Button>
+  //   <ChatBox></ChatBox> */}
+  //     <SockJsClient
+  //       url={SOCKET_URL}
+  //       topics={['/topic/public']}
+  //       onConnect={onConnected}
+  //       onDisconnect={console.log("Disconnected!")}
+  //       onMessage={msg => onMessageReceived(msg)}
+  //       debug={false}
+  //     />
+
+  //     <div>{message}</div>
+  //   </Center>
+  // );
+};
+export default ChatPage;
