@@ -1,7 +1,5 @@
 import { Button } from "@chakra-ui/react";
 import React from "react";
-import SockJS from "sockjs-client";
-import Stomp from "webstomp-client";
 const SOCKET_URL = 'http://localhost:8080/chat';
 
 const ChatPage = () => {
@@ -11,8 +9,8 @@ const ChatPage = () => {
   var stompClient = '';
 
   const connect = () => {
-    const socket = new SockJS('/chat')
-    stompClient = Stomp.over(socket)
+    const socket = new window.SockJS(SOCKET_URL)
+    stompClient = window.Stomp.over(socket)
     stompClient.connect({}, onConnected, onError)
   }
 
