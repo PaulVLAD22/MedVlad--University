@@ -256,7 +256,6 @@ const QuestionsBox = () => {
         </Flex>
       </Flex>
     </Center>
-    //TODO:: FA CA DIN BACK END SA PRIMESC DOAR CELE MAI BUNE RASPUINSURI SI SA FIE ORDONATE BINE,
   );
 };
 export default QuestionsBox;

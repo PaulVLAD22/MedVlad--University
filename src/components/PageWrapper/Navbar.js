@@ -6,7 +6,7 @@ import { UserContext } from "../../App";
 import { backgroundImageGradient, primaryColor, secondaryColor } from "../utils/colors";
 import { AiOutlineBars } from "react-icons/ai";
 import { primaryFont } from "../utils/colors";
-export const Navbar = ({ toggle }) => {
+const Navbar = ({ toggle }) => {
   const history = useHistory();
 
   const context = useContext(UserContext);
@@ -265,3 +265,5 @@ export const LeftNavMenu = styled.div`
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export default React.memo(Navbar)

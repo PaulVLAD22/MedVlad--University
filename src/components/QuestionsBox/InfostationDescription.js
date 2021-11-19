@@ -1,4 +1,5 @@
 import {Box, Text } from "@chakra-ui/react"
+import React from "react"
 
 const InfostationDescription = () => {
     return (
@@ -9,4 +10,4 @@ const InfostationDescription = () => {
         </Box>
     )
 }
-export default InfostationDescription
+export default React.memo(InfostationDescription)

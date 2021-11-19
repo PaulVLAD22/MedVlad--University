@@ -68,4 +68,4 @@ const SideBar = ({isOpen,toggle}) =>{
     </SidebarContainer>
   )
 }
-export default SideBar
+export default React.memo(SideBar)
