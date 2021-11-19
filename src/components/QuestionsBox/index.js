@@ -66,7 +66,7 @@ const QuestionsBox = () => {
       (response) => {
         console.log(response.data)
         setCategories(response.data)
-        setLoadingMessage("")
+        
       },
       async (getError) => {
         if (getError.response.status === 403) {
@@ -75,6 +75,7 @@ const QuestionsBox = () => {
         }
       }
     );
+    setLoadingMessage("")
 
 
   }, [render]);

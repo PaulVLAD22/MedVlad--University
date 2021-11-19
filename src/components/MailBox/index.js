@@ -1,10 +1,11 @@
-import { Flex, Text, Input, Button } from "@chakra-ui/react"
+import { Flex, Text, Input, Button,Box } from "@chakra-ui/react"
 import MainMailMessage from "./MainMailMessage"
 import MainMailBox from "./MainMailBox"
 import MiniMailBox from "./MiniMailBox"
 import { useContext, useState, useEffect } from "react"
 import { UserContext } from "../../App"
 import axios from 'axios'
+import {AiOutlineLoading3Quarters} from 'react-icons/ai'
 
 const MailBox = () => {
     const context = useContext(UserContext)
@@ -14,13 +15,14 @@ const MailBox = () => {
     const [receiverUsername, setReceiverUsername] = useState("")
     const [mainMessages, setMainMessages] = useState([])
     const [userTalkingTo, setUserTalkingTo] = useState("")
+    const [loading, setLoading] = useState(false)
 
     useEffect(async () => {
 
         //TODO:: Ordonezi dupa timestamp
         //TODO:: iei ultimul mesaj de la fiecare user cu care a conversat
         // in functie de daca l am trimis eu sau el sa fie o iconita jos
-
+        setLoading(true)
         let url = "/getLastMessages";
 
         const config = {
@@ -47,6 +49,7 @@ const MailBox = () => {
                 }
             }
         );
+        setLoading(false)
     }, [render]);
 
     const sendMessage = async (messageContent, receiverUsername) => {
@@ -119,7 +122,7 @@ const MailBox = () => {
 
     return (
         <Flex width="min(1024px,100%)" height="60%" boxShadow="dark-lg" >
-            <Flex width="40%" flexDir="column" >
+            <Flex width="40%" flexDir="column" alignItems="center" >
                 <Flex flexDir="row">
                     <Input width="60%" placeholder="message..."
                         onChange={(e) => { setMessageContet(e.target.value) }} value={messageContent} />
@@ -127,25 +130,32 @@ const MailBox = () => {
                         onChange={(e) => { setReceiverUsername(e.target.value) }} value={receiverUsername} />
                     <Button onClick={() => sendMessage(messageContent, receiverUsername)} />
                 </Flex>
-                {
-                    lastMessages.sort(function (a, b) {
-                        return new Date(b.timeOfSending).valueOf() - new Date(a.timeOfSending).valueOf();
-                    }).
-                        map((message, index) => {
-                            return <MiniMailBox key={index}
-                                updateMainChat={() => {
-                                    if (message.senderUsername == context.userInfo.username)
-                                        openChat(message.receiverUsername)
-                                    else
-                                        openChat(message.senderUsername)
-                                }
-                                }
-                                username={message.senderUsername == context.userInfo.username ? message.receiverUsername : message.senderUsername}
-                                message={message.content}
-                                timeOfSending={message.timeOfSending}
-                                senderUsername={message.senderUsername} />
-                        })
-                }
+                {loading == true ?
+                    <Box my="10" alignItems="center">
+                    <AiOutlineLoading3Quarters fontSize="30px" />
+                  </Box>
+                    :
+                    <>{
+                        lastMessages.sort(function (a, b) {
+                            return new Date(b.timeOfSending).valueOf() - new Date(a.timeOfSending).valueOf();
+                        }).
+                            map((message, index) => {
+                                return <MiniMailBox key={index}
+                                    updateMainChat={() => {
+                                        if (message.senderUsername == context.userInfo.username)
+                                            openChat(message.receiverUsername)
+                                        else
+                                            openChat(message.senderUsername)
+                                    }
+                                    }
+                                    username={message.senderUsername == context.userInfo.username ? message.receiverUsername : message.senderUsername}
+                                    message={message.content}
+                                    timeOfSending={message.timeOfSending}
+                                    senderUsername={message.senderUsername} />
+                            })
+                    }
+                    </>}
+                
 
             </Flex>
             <MainMailBox messages={mainMessages} sendMessage={(_) => sendMessage(_, userTalkingTo)}>
