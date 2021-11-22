@@ -1,12 +1,52 @@
 import { Button } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../../App";
+import ChatBox from "../ChatBox";
+import axios from "axios";
+
 const SOCKET_URL = 'http://localhost:8080/chat';
 
 const ChatPage = () => {
 
+  const [messages, setMessages] = useState([])
+  const context = useContext(UserContext)
+
+  const username = context.userInfo.username
+  console.log(context)
   var connected = false;
   var socket = '';
   var stompClient = '';
+  let topic;
+
+  const joinQueue = async () => {
+
+    let url = context.userInfo.role=="USER" ? "/user/joinQueue" : "/doctor/joinQueue"
+
+    const config = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        Authorization: "Bearer " + context.jwt,
+      },
+    };
+
+    await axios({
+      method: "GET",
+      url: url,
+      headers: config.headers,
+    }).then(
+      (response) => {
+        console.log(response.data)
+        
+      },
+      async (getError) => {
+        if (getError.response.status === 403) {
+          console.log("SE CHEAMA REFRESH TOKEN")
+          context.refreshAuthToken();
+        }
+      }
+    );
+
+  }
 
   const connect = () => {
     const socket = new window.SockJS(SOCKET_URL)
@@ -23,7 +63,7 @@ const ChatPage = () => {
     stompClient.send("/app/chat.newUser",
       {},
       (JSON.stringify({
-        "sender": "senderUsername", "type": 'CONNECT'
+        "sender": username, "type": 'CONNECT'
       }))
     )
   }
@@ -33,21 +73,21 @@ const ChatPage = () => {
     console.log(message)
   }
 
-  const sendMessage = (event) => {
+  const sendMessage = (content) => {
 
     const messageContent = "Salut!"
 
     if (messageContent && stompClient) {
       const chatMessage = {
-        sender: "senderUsername",
-        content: "Content Trimis",
+        sender: username,
+        content: content,
         type: 'CHAT',
         time: "time"
       }
       stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage))
 
     }
-    event.preventDefault();
+
   }
 
   // const hashCode = (str) => {
@@ -73,34 +113,9 @@ const ChatPage = () => {
     <>
       <Button onClick={sendMessage}>Send </Button>
       <Button onClick={tickleConnection}>Tickle Connection</Button>
+      <Button onClick={joinQueue}>Join Queue</Button>
+      <ChatBox />
     </>
   )
-
-  // const [message, setMessage] = useState('You server message here.');
-
-  // let onConnected = () => {
-  //   console.log("Connected!!")
-  // }
-
-  // let onMessageReceived = (msg) => {
-  //   setMessage(msg.message);
-  // }
-
-  // return (
-  //   <Center width="100%" height="100%">
-  //     {/* <Button>Connect</Button>
-  //   <ChatBox></ChatBox> */}
-  //     <SockJsClient
-  //       url={SOCKET_URL}
-  //       topics={['/topic/public']}
-  //       onConnect={onConnected}
-  //       onDisconnect={console.log("Disconnected!")}
-  //       onMessage={msg => onMessageReceived(msg)}
-  //       debug={false}
-  //     />
-
-  //     <div>{message}</div>
-  //   </Center>
-  // );
 };
 export default ChatPage;
