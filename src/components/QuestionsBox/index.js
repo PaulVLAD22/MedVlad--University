@@ -20,6 +20,7 @@ const QuestionsBox = () => {
   const [filterBy, setFilterBy] = useState("")
 
   const [loadingMessage, setLoadingMessage] = useState("")
+  const [error,setError] = useState("")
 
   //TODO:: adauga si pt admin pagina si fa buton de X ca sa stearga mesaje rapid
   // si sa se adauge la un atribut al User-ilor removed messages si la al 3-lea esti banat
@@ -68,7 +69,7 @@ const QuestionsBox = () => {
         (response) => {
           console.log(response.data)
           setCategories(response.data)
-
+          
         },
         async (getError) => {
           if (getError.response.status === 403) {
@@ -80,7 +81,13 @@ const QuestionsBox = () => {
       );
       setLoadingMessage("")
     }
-    loadInfo();
+    try{
+    loadInfo()
+    setError("")
+    }catch{
+      setLoadingMessage("")
+      setError("Unknown Error")
+    }
   }, [render]);
 
   const postQuestion = async (e) => {
@@ -216,6 +223,7 @@ const QuestionsBox = () => {
           </Select>
 
         </Flex>
+        <Text color="red" fontSize="large"> {error}</Text>
         {
           loadingMessage != "" ?
             <Box my="10">
@@ -223,7 +231,7 @@ const QuestionsBox = () => {
             </Box>
             :
             filteredQuestions().length == 0 &&
-            <Text my="10" fontSize="x-large" color="red">No Such Questions</Text>
+            <Text my="10" fontSize="x-large">No Such Questions</Text>
         }
         {loadingMessage == "" &&
           sortedQuestions(filteredQuestions())
