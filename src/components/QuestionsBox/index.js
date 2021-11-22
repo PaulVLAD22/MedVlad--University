@@ -52,6 +52,7 @@ const QuestionsBox = () => {
         if (getError.response.status === 403) {
           console.log("SE CHEAMA REFRESH TOKEN")
           context.refreshAuthToken();
+          setRender(render+1)
         }
       }
     );
@@ -72,6 +73,7 @@ const QuestionsBox = () => {
         if (getError.response.status === 403) {
           console.log("SE CHEAMA REFRESH TOKEN")
           context.refreshAuthToken();
+          setRender(render+1)
         }
       }
     );

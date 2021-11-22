@@ -46,7 +46,6 @@ const Navbar = ({ toggle }) => {
   };
   const goToProfile = () => {
     history.push("/profile")
-    window.location.reload()
   }
   const goBanUser = () => {
     history.push("/banUser")
