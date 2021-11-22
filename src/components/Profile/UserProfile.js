@@ -18,36 +18,39 @@ const UserProfile = ({ user, reRenderPage }) => {
     const [profilePicture, setProfilePicture] = useState("")
     // fa folder profile
 
-    useEffect(async () => {
+    useEffect(() => {
         //console.log(context.jwt);
-        console.log("jwt:" + context.jwt)
-        let url = "/getQuestionsForUser";
+        const loadQuestions = async () => {
+            console.log("jwt:" + context.jwt)
+            let url = "/getQuestionsForUser";
 
-        const config = {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                Authorization: "Bearer " + context.jwt,
-            },
-        };
+            const config = {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    Authorization: "Bearer " + context.jwt,
+                },
+            };
 
-        await axios({
-            method: "GET",
-            url: url,
-            headers: config.headers,
-            params: { "username": user.username }
-        }).then(
-            (response) => {
-                console.log(response.data)
-                setQuestions(response.data);
-            },
-            async (getError) => {
-                if (getError.response.status === 403) {
-                    console.log("SE CHEAMA REFRESH TOKEN")
-                    context.refreshAuthToken();
-                    setRender(render + 1);
+            await axios({
+                method: "GET",
+                url: url,
+                headers: config.headers,
+                params: { "username": user.username }
+            }).then(
+                (response) => {
+                    console.log(response.data)
+                    setQuestions(response.data);
+                },
+                async (getError) => {
+                    if (getError.response.status === 403) {
+                        console.log("SE CHEAMA REFRESH TOKEN")
+                        context.refreshAuthToken();
+                        setRender(render + 1);
+                    }
                 }
-            }
-        );
+            );
+        }
+        loadQuestions();
     }, [render]);
 
     const updateFirstName = async () => {
@@ -70,7 +73,7 @@ const UserProfile = ({ user, reRenderPage }) => {
             (response) => {
                 console.log(response.data)
                 context.setUserInfo({ ...context.userInfo, "firstName": firstName })
-                localStorage.setItem("userInfo",JSON.stringify({...JSON.parse(localStorage.getItem("userInfo")),"firstName":firstName}))
+                localStorage.setItem("userInfo", JSON.stringify({ ...JSON.parse(localStorage.getItem("userInfo")), "firstName": firstName }))
                 setFirstName("")
                 setChangeFirstName(false)
                 reRenderPage()
@@ -107,7 +110,7 @@ const UserProfile = ({ user, reRenderPage }) => {
             (response) => {
                 console.log(response.data)
                 context.setUserInfo({ ...context.userInfo, "lastName": lastName })
-                localStorage.setItem("userInfo",JSON.stringify({...JSON.parse(localStorage.getItem("userInfo")),"lastName":lastName}))
+                localStorage.setItem("userInfo", JSON.stringify({ ...JSON.parse(localStorage.getItem("userInfo")), "lastName": lastName }))
                 setLastName("")
                 setChangeLastName(false)
                 setRender(render + 1)
@@ -131,7 +134,7 @@ const UserProfile = ({ user, reRenderPage }) => {
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 Authorization: "Bearer " + context.jwt,
-            }, 
+            },
         };
 
         await axios({
@@ -142,7 +145,7 @@ const UserProfile = ({ user, reRenderPage }) => {
         }).then(
             (response) => {
                 context.setUserInfo({ ...context.userInfo, "profilePicture": profilePicture })
-                localStorage.setItem("userInfo",JSON.stringify({...JSON.parse(localStorage.getItem("userInfo")),"profilePicture":profilePicture}))
+                localStorage.setItem("userInfo", JSON.stringify({ ...JSON.parse(localStorage.getItem("userInfo")), "profilePicture": profilePicture }))
                 setProfilePicture("")
                 setChangeProfilePicture(false)
                 setRender(render + 1)
@@ -178,7 +181,7 @@ const UserProfile = ({ user, reRenderPage }) => {
                     <Flex flexDir="column" alignItems="center" >
                         <Box mb="5"><FiUser size="100" /></Box>
                         <Flex flexDir="column" alignItems="center">
-                            <Img maxHeight="200px" maxWidth="200px" src={context.userInfo.username == user.username ?  context.userInfo.profilePicture : user.profilePicture} />
+                            <Img maxHeight="200px" maxWidth="200px" src={context.userInfo.username == user.username ? context.userInfo.profilePicture : user.profilePicture} />
                             {(context.userInfo.username == user.username) &&
                                 <Button my="1.5" size="xs" onClick={() => setChangeProfilePicture(!changeProfilePicture)}>
                                     Change profile picture

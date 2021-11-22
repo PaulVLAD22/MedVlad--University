@@ -24,62 +24,63 @@ const QuestionsBox = () => {
   //TODO:: adauga si pt admin pagina si fa buton de X ca sa stearga mesaje rapid
   // si sa se adauge la un atribut al User-ilor removed messages si la al 3-lea esti banat
 
-  useEffect(async () => {
+  useEffect(() => {
     //console.log(context.jwt);
-    console.log("jwt:" + context.jwt)
+    const loadInfo = async () => {
+      console.log("jwt:" + context.jwt)
 
-    setLoadingMessage("loading...")
+      setLoadingMessage("loading...")
 
-    let url1 = "/getQuestions";
+      let url1 = "/getQuestions";
 
-    const config = {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " + context.jwt,
-      },
-    };
+      const config = {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + context.jwt,
+        },
+      };
 
-    await axios({
-      method: "GET",
-      url: url1,
-      headers: config.headers,
-    }).then(
-      (response) => {
-        console.log(response.data)
-        setQuestions(response.data);
-      },
-      async (getError) => {
-        if (getError.response.status === 403) {
-          console.log("SE CHEAMA REFRESH TOKEN")
-          context.refreshAuthToken();
-          setRender(render+1)
+      await axios({
+        method: "GET",
+        url: url1,
+        headers: config.headers,
+      }).then(
+        (response) => {
+          console.log(response.data)
+          setQuestions(response.data);
+        },
+        async (getError) => {
+          if (getError.response.status === 403) {
+            console.log("SE CHEAMA REFRESH TOKEN")
+            context.refreshAuthToken();
+            setRender(render + 1)
+          }
         }
-      }
-    );
+      );
 
-    let url2 = "/getCategories"
+      let url2 = "/getCategories"
 
-    await axios({
-      method: "GET",
-      url: url2,
-      headers: config.headers,
-    }).then(
-      (response) => {
-        console.log(response.data)
-        setCategories(response.data)
-        
-      },
-      async (getError) => {
-        if (getError.response.status === 403) {
-          console.log("SE CHEAMA REFRESH TOKEN")
-          context.refreshAuthToken();
-          setRender(render+1)
+      await axios({
+        method: "GET",
+        url: url2,
+        headers: config.headers,
+      }).then(
+        (response) => {
+          console.log(response.data)
+          setCategories(response.data)
+
+        },
+        async (getError) => {
+          if (getError.response.status === 403) {
+            console.log("SE CHEAMA REFRESH TOKEN")
+            context.refreshAuthToken();
+            setRender(render + 1)
+          }
         }
-      }
-    );
-    setLoadingMessage("")
-
-
+      );
+      setLoadingMessage("")
+    }
+    loadInfo();
   }, [render]);
 
   const postQuestion = async (e) => {
@@ -224,7 +225,7 @@ const QuestionsBox = () => {
             filteredQuestions().length == 0 &&
             <Text my="10" fontSize="x-large" color="red">No Such Questions</Text>
         }
-        { loadingMessage=="" &&
+        {loadingMessage == "" &&
           sortedQuestions(filteredQuestions())
             .map((question, index) => {
               console.log(question)

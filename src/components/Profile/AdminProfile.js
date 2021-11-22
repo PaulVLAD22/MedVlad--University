@@ -4,9 +4,9 @@ import { UserContext } from "../../App";
 import { useContext, useEffect, useState } from "react"
 import axios from 'axios'
 import Question from "../QuestionsBox/Question";
-import {RiAdminFill} from "react-icons/ri"
+import { RiAdminFill } from "react-icons/ri"
 
-const AdminProfile = ({user,reRenderPage}) => {
+const AdminProfile = ({ user, reRenderPage }) => {
     const context = useContext(UserContext)
     const [render, setRender] = useState(0);
     const [questions, setQuestions] = useState([]);
@@ -16,37 +16,42 @@ const AdminProfile = ({user,reRenderPage}) => {
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [profilePicture, setProfilePicture] = useState("")
-    
-    useEffect(async () => {
+
+    useEffect(() => {
         //console.log(context.jwt);
-        console.log("jwt:" + context.jwt)
-        let url = "/getQuestionsForUser";
+        const loadQuestions = async () => {
 
-        const config = {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                Authorization: "Bearer " + context.jwt,
-            },
-        };
 
-        await axios({
-            method: "GET",
-            url: url,
-            headers: config.headers,
-            params: { "username": user.username }
-        }).then(
-            (response) => {
-                console.log(response.data)
-                setQuestions(response.data);
-            },
-            async (getError) => {
-                if (getError.response.status === 403) {
-                    console.log("SE CHEAMA REFRESH TOKEN")
-                    context.refreshAuthToken();
-                    setRender(render + 1);
+            console.log("jwt:" + context.jwt)
+            let url = "/getQuestionsForUser";
+
+            const config = {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    Authorization: "Bearer " + context.jwt,
+                },
+            };
+
+            await axios({
+                method: "GET",
+                url: url,
+                headers: config.headers,
+                params: { "username": user.username }
+            }).then(
+                (response) => {
+                    console.log(response.data)
+                    setQuestions(response.data);
+                },
+                async (getError) => {
+                    if (getError.response.status === 403) {
+                        console.log("SE CHEAMA REFRESH TOKEN")
+                        context.refreshAuthToken();
+                        setRender(render + 1);
+                    }
                 }
-            }
-        );
+            );
+        }
+        loadQuestions();
     }, [render]);
 
     const updateFirstName = async () => {
@@ -137,8 +142,8 @@ const AdminProfile = ({user,reRenderPage}) => {
             (response) => {
                 console.log(response.data)
                 context.setUserInfo({ ...context.userInfo, "profilePicture": profilePicture })
-                localStorage.setItem("userInfo",JSON.stringify({...JSON.parse(localStorage.getItem("userInfo")),"profilePicture":profilePicture}))
-                
+                localStorage.setItem("userInfo", JSON.stringify({ ...JSON.parse(localStorage.getItem("userInfo")), "profilePicture": profilePicture }))
+
                 setProfilePicture("")
                 setChangeProfilePicture(false)
                 setRender(render + 1)
@@ -167,14 +172,14 @@ const AdminProfile = ({user,reRenderPage}) => {
                     boxShadow="dark-lg"
                     p={5}
                 >
-                    <Text position="absolute" right="5%" padding="2" 
-                    letterSpacing="wide" fontWeight="500">Joined on : {user.dateOfRegistration || "Unknown Error"}</Text>
-                    
+                    <Text position="absolute" right="5%" padding="2"
+                        letterSpacing="wide" fontWeight="500">Joined on : {user.dateOfRegistration || "Unknown Error"}</Text>
+
                     <Flex flexDir="column" alignItems="center">
                         <Flex flexDir="column" alignItems="center">
-                        <Box mb="5"><RiAdminFill size="100"/></Box>
+                            <Box mb="5"><RiAdminFill size="100" /></Box>
                             <Img maxHeight="200px" maxWidth="200px" src={user.profilePicture} />
-                            {(context.userInfo.username == user.username ) &&
+                            {(context.userInfo.username == user.username) &&
                                 <Button my="1.5" size="xs" onClick={() => setChangeProfilePicture(!changeProfilePicture)}>
                                     Change profile picture
                                 </Button>}

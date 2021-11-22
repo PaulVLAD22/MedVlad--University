@@ -12,36 +12,39 @@ const DoctorProfile = ({ user, reRenderPage }) => {
     const [changeProfilePicture, setChangeProfilePicture] = useState(false)
     const [profilePicture, setProfilePicture] = useState("")
 
-    useEffect(async () => {
+    useEffect(() => {
         //console.log(context.jwt);
-        console.log("jwt:" + context.jwt)
-        let url = "/getQuestionsForDoctor";
+        const loadQuestions = async () => {
+            console.log("jwt:" + context.jwt)
+            let url = "/getQuestionsForDoctor";
 
-        const config = {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                Authorization: "Bearer " + context.jwt,
-            },
-        };
+            const config = {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    Authorization: "Bearer " + context.jwt,
+                },
+            };
 
-        await axios({
-            method: "GET",
-            url: url,
-            headers: config.headers,
-            params: { "doctorUsername": user.username }
-        }).then(
-            (response) => {
-                console.log(response.data)
-                setQuestions(response.data);
-            },
-            async (getError) => {
-                if (getError.response.status === 403) {
-                    console.log("SE CHEAMA REFRESH TOKEN")
-                    context.refreshAuthToken();
-                    setRender(render + 1);
+            await axios({
+                method: "GET",
+                url: url,
+                headers: config.headers,
+                params: { "doctorUsername": user.username }
+            }).then(
+                (response) => {
+                    console.log(response.data)
+                    setQuestions(response.data);
+                },
+                async (getError) => {
+                    if (getError.response.status === 403) {
+                        console.log("SE CHEAMA REFRESH TOKEN")
+                        context.refreshAuthToken();
+                        setRender(render + 1);
+                    }
                 }
-            }
-        );
+            );
+        }
+        loadQuestions();
     }, [render]);
 
     const updateProfilePicture = async () => {
@@ -91,12 +94,12 @@ const DoctorProfile = ({ user, reRenderPage }) => {
                     boxShadow="dark-lg"
                     p={5}
                 >
-                    <Text position="absolute" right="5%" padding="2" 
-                    letterSpacing="wide" fontWeight="500">Joined on : {user.dateOfRegistration}</Text>
-                    
+                    <Text position="absolute" right="5%" padding="2"
+                        letterSpacing="wide" fontWeight="500">Joined on : {user.dateOfRegistration}</Text>
+
                     <Flex flexDir="column" alignItems="center">
                         <Flex flexDir="column" alignItems="center">
-                        <Box mb="5"><GiPlagueDoctorProfile size="100"/></Box>
+                            <Box mb="5"><GiPlagueDoctorProfile size="100" /></Box>
                             <Img maxHeight="200px" maxWidth="200px" src={user.profilePicture} />
                             {(context.userInfo.username == user.username) &&
                                 <Button my="1.5" size="xs" onClick={() => setChangeProfilePicture(!changeProfilePicture)}>

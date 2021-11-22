@@ -3,38 +3,42 @@ import { Center, Flex, Text } from "@chakra-ui/layout";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../App";
+
 const AcceptQuestionsPage = ({ reRenderPage }) => {
   const context = useContext(UserContext);
   const [questions, setQuestions] = useState([]);
   const [render, setRender] = useState(0);
 
-  useEffect(async () => {
-    let url = "/admin/getInactiveQuestions";
+  useEffect(() => {
+    const getQuestions = async () => {
+      let url = "/admin/getInactiveQuestions";
 
-    const config = {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " + context.jwt,
-      },
-    };
+      const config = {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + context.jwt,
+        },
+      };
 
-    await axios({
-      method: "GET",
-      url: url,
-      headers: config.headers,
-    }).then(
-      (response) => {
-        console.log(response.data);
-        setQuestions(response.data);
-      },
-      async (getError) => {
-        if (getError.response.status === 403) {
-          console.log("SE CHEAMA REFRESH TOKEN");
-          context.refreshAuthToken();
-          setRender(render + 1);
+      await axios({
+        method: "GET",
+        url: url,
+        headers: config.headers,
+      }).then(
+        (response) => {
+          console.log(response.data);
+          setQuestions(response.data);
+        },
+        async (getError) => {
+          if (getError.response.status === 403) {
+            console.log("SE CHEAMA REFRESH TOKEN");
+            context.refreshAuthToken();
+            setRender(render + 1);
+          }
         }
-      }
-    );
+      );
+    }
+    getQuestions();
   }, [render]);
 
   return (

@@ -1,11 +1,11 @@
-import { Flex, Text, Input, Button,Box } from "@chakra-ui/react"
+import { Flex, Text, Input, Button, Box } from "@chakra-ui/react"
 import MainMailMessage from "./MainMailMessage"
 import MainMailBox from "./MainMailBox"
 import MiniMailBox from "./MiniMailBox"
 import { useContext, useState, useEffect } from "react"
 import { UserContext } from "../../App"
 import axios from 'axios'
-import {AiOutlineLoading3Quarters} from 'react-icons/ai'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 const MailBox = () => {
     const context = useContext(UserContext)
@@ -17,39 +17,43 @@ const MailBox = () => {
     const [userTalkingTo, setUserTalkingTo] = useState("")
     const [loading, setLoading] = useState(false)
 
-    useEffect(async () => {
+    useEffect(() => {
 
         //TODO:: Ordonezi dupa timestamp
         //TODO:: iei ultimul mesaj de la fiecare user cu care a conversat
         // in functie de daca l am trimis eu sau el sa fie o iconita jos
-        setLoading(true)
-        let url = "/getLastMessages";
+        const loadMessages = async () => {
+            setLoading(true)
+            let url = "/getLastMessages";
 
-        const config = {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                Authorization: "Bearer " + context.jwt,
-            },
-        };
+            const config = {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    Authorization: "Bearer " + context.jwt,
+                },
+            };
 
-        await axios({
-            method: "GET",
-            url: url,
-            headers: config.headers,
-        }).then(
-            (response) => {
-                console.log(response.data)
-                setLastMessages(response.data)
-            },
-            async (getError) => {
-                if (getError.response.status === 403) {
-                    console.log("SE CHEAMA REFRESH TOKEN")
-                    context.refreshAuthToken();
-                    setRender(render + 1);
+            await axios({
+                method: "GET",
+                url: url,
+                headers: config.headers,
+            }).then(
+                (response) => {
+                    console.log(response.data)
+                    setLastMessages(response.data)
+                },
+                async (getError) => {
+                    if (getError.response.status === 403) {
+                        console.log("SE CHEAMA REFRESH TOKEN")
+                        context.refreshAuthToken();
+                        setRender(render + 1);
+                    }
                 }
-            }
-        );
-        setLoading(false)
+            );
+            setLoading(false)
+        }
+
+        loadMessages();
     }, [render]);
 
     const sendMessage = async (messageContent, receiverUsername) => {
@@ -72,13 +76,12 @@ const MailBox = () => {
             (response) => {
                 console.log(response.data)
                 openChat(receiverUsername)
-                setRender(render + 1)
             },
             async (getError) => {
                 if (getError.response.status === 403) {
                     console.log("SE CHEAMA REFRESH TOKEN")
                     context.refreshAuthToken();
-                    setRender(render + 1);
+                    sendMessage(messageContent,receiverUsername)
                 }
             }
         );
@@ -107,7 +110,6 @@ const MailBox = () => {
                 console.log(response.data)
                 setMainMessages(response.data)
                 setUserTalkingTo(username)
-                setRender(render + 1)
             },
             async (getError) => {
                 if (getError.response.status === 403) {
@@ -132,8 +134,8 @@ const MailBox = () => {
                 </Flex>
                 {loading == true ?
                     <Box my="10" alignItems="center">
-                    <AiOutlineLoading3Quarters fontSize="30px" />
-                  </Box>
+                        <AiOutlineLoading3Quarters fontSize="30px" />
+                    </Box>
                     :
                     <>{
                         lastMessages.sort(function (a, b) {
@@ -155,7 +157,7 @@ const MailBox = () => {
                             })
                     }
                     </>}
-                
+
 
             </Flex>
             <MainMailBox messages={mainMessages} sendMessage={(_) => sendMessage(_, userTalkingTo)}>
