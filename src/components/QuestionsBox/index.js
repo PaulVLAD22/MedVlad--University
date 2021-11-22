@@ -49,12 +49,16 @@ const QuestionsBox = () => {
         (response) => {
           console.log(response.data)
           setQuestions(response.data);
+          setError("")
         },
         async (getError) => {
           if (getError.response.status === 403) {
             console.log("SE CHEAMA REFRESH TOKEN")
             context.refreshAuthToken();
             setRender(render + 1)
+          }
+          else{
+            setError("Unknown Error")
           }
         }
       );
@@ -69,7 +73,7 @@ const QuestionsBox = () => {
         (response) => {
           console.log(response.data)
           setCategories(response.data)
-          
+          setError("")
         },
         async (getError) => {
           if (getError.response.status === 403) {
@@ -77,17 +81,14 @@ const QuestionsBox = () => {
             context.refreshAuthToken();
             setRender(render + 1)
           }
+          else{
+            setError("Unknown Error")
+          }
         }
       );
       setLoadingMessage("")
     }
-    try{
-    loadInfo()
-    setError("")
-    }catch{
-      setLoadingMessage("")
-      setError("Unknown Error")
-    }
+    loadInfo();
   }, [render]);
 
   const postQuestion = async (e) => {
