@@ -63,7 +63,7 @@ const ChatPage = () => {
     stompClient.send("/app/chat.newUser",
       {},
       (JSON.stringify({
-        "sender": username, "type": 'CONNECT'
+        "sender": username, "type": 'CONNECT',"to":"doctor"
       }))
     )
   }
