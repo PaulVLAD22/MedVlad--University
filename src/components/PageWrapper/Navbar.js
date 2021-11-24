@@ -1,13 +1,15 @@
 import { Button, Flex, Menu, Text, Box, Img } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { UserContext } from "../../App";
 import { backgroundImageGradient, primaryColor, secondaryColor } from "../utils/colors";
 import { AiOutlineBars } from "react-icons/ai";
 import { primaryFont } from "../utils/colors";
 const Navbar = ({ toggle }) => {
   const history = useHistory();
+  const location = useLocation();
+  console.log(location.pathname)
 
   const context = useContext(UserContext);
   console.log(context);
@@ -46,6 +48,8 @@ const Navbar = ({ toggle }) => {
   };
   const goToProfile = () => {
     history.push("/profile")
+    if (location.pathname.includes("/profile/"))
+      window.location.reload()
   }
   const goBanUser = () => {
     history.push("/banUser")

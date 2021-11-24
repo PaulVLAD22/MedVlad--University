@@ -9,6 +9,7 @@ import UserProfile from "../Profile/UserProfile";
 import AdminProfile from "../Profile/AdminProfile";
 import DoctorProfile from "../Profile/DoctorProfile";
 import { useParams } from "react-router";
+import { NotFoundPage } from "../404/index"
 
 const ProfilePage = () => {
     const context = useContext(UserContext)
@@ -16,6 +17,7 @@ const ProfilePage = () => {
     const [user, setUser] = useState({ role: "" });
     const [render, setRender] = useState(0)
     let username = useParams().username;
+    const [badUser,setBadUser]= useState(false)
 
     useEffect(async () => {
         console.log(location.pathname);
@@ -51,10 +53,17 @@ const ProfilePage = () => {
                     context.refreshAuthToken();
                     setRender(render + 1);
                 }
+                if (getError.response.status === 404) {
+                    setBadUser(true)
+                    
+                }
             }
         );
 
     }, [render])
+
+    if (badUser)
+        return <NotFoundPage />
 
     return (
         <>
