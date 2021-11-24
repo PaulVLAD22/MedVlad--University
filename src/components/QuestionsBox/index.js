@@ -3,9 +3,10 @@ import Question from "./Question";
 import InfostationDescription from "./InfostationDescription";
 import { BsSearch } from "react-icons/bs";
 import axios from "axios";
-import { useState, useContext, useEffect,useRef } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { UserContext } from "../../App";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { Prompt } from "react-router";
 
 const QuestionsBox = () => {
   const context = useContext(UserContext);
@@ -19,9 +20,10 @@ const QuestionsBox = () => {
   const [sortBy, setSortBy] = useState("")
   const [filterBy, setFilterBy] = useState("")
 
+  const [formWasFocused, setFormWasFocused] = useState("")
   const [loadingMessage, setLoadingMessage] = useState("")
-  const [error,setError] = useState("")
-  
+  const [error, setError] = useState("")
+
 
   //TODO:: adauga si pt admin pagina si fa buton de X ca sa stearga mesaje rapid
   // si sa se adauge la un atribut al User-ilor removed messages si la al 3-lea esti banat
@@ -58,7 +60,7 @@ const QuestionsBox = () => {
             context.refreshAuthToken();
             setRender(render + 1)
           }
-          else{
+          else {
             setError("Unknown Error")
           }
         }
@@ -82,7 +84,7 @@ const QuestionsBox = () => {
             context.refreshAuthToken();
             setRender(render + 1)
           }
-          else{
+          else {
             setError("Unknown Error")
           }
         }
@@ -92,13 +94,15 @@ const QuestionsBox = () => {
     loadInfo();
   }, [render]);
 
+
   const postQuestion = async (e) => {
     e.preventDefault();
 
-    if(!postingQuestion.trim()!=''){
+    if (!postingQuestion.trim() != '') {
       setPostQuestionResponse("Question must not be empty.")
       return
     }
+    setPostQuestionResponse("Sending...")
 
     let url = "/user/postQuestion";
 
@@ -126,6 +130,7 @@ const QuestionsBox = () => {
         }
       }
     );
+    setFormWasFocused(false);
     setPostingQuestion("");
   };
 
@@ -190,91 +195,96 @@ const QuestionsBox = () => {
       }));
   }
 
-
+  const formFocusHandler = () => {
+    setFormWasFocused(true);
+  }
 
   return (
+    <>
+      <Prompt when={formWasFocused}
+      message={()=> 'Are you sure you want to leave? All your data will be lost!'}/>
+      <Center>
+        {console.log(context.jwt)}
+        <Flex
+          position="relative"
+          flexDirection="column"
+          overflowY="auto"
+          width="min(1024px,100vw)"
+          height="100%"
+          boxShadow="dark-lg"
+          alignItems="center"
+          p={5}
+        >
+          <InfostationDescription />
 
-    <Center>
-      {console.log(context.jwt)}
-      <Flex
-        position="relative"
-        flexDirection="column"
-        overflowY="auto"
-        width="min(1024px,100vw)"
-        height="100%"
-        boxShadow="dark-lg"
-        alignItems="center"
-        p={5}
-      >
-        <InfostationDescription />
+          <Flex m="3">
+            <Input
+              width="90%"
+              placeholder="Search for a question..."
+              onChange={(e) => {
+                setSearchWord(e.target.value);
+              }}
+              value={searchWord}
+            ></Input>
+            <Select mx="2" onChange={sortChanged} placeholder="Sort by...">
+              <option>Most Popular</option>
+              <option>Newest Questions</option>
+            </Select>
+            <Select onChange={filterChanged} placeholder="Filter by...">
+              {categories.map((category, index) => {
+                return <option key={index}>{category.name}</option>
+              })
+              }
+              <option>All</option>
+            </Select>
 
-        <Flex m="3">
-          <Input
-            width="90%"
-            placeholder="Search for a question..."
-            onChange={(e) => {
-              setSearchWord(e.target.value);
-            }}
-            value={searchWord}
-          ></Input>
-          <Select mx="2" onChange={sortChanged} placeholder="Sort by...">
-            <option>Most Popular</option>
-            <option>Newest Questions</option>
-          </Select>
-          <Select onChange={filterChanged} placeholder="Filter by...">
-            {categories.map((category, index) => {
-              return <option key={index}>{category.name}</option>
-            })
-            }
-            <option>All</option>
-          </Select>
+          </Flex>
+          <Text color="red" fontSize="large"> {error}</Text>
+          {
+            loadingMessage != "" ?
+              <Box my="10">
+                <AiOutlineLoading3Quarters fontSize="30px" />
+              </Box>
+              :
+              filteredQuestions().length == 0 &&
+              <Text my="10" fontSize="x-large">No Such Questions</Text>
+          }
+          {loadingMessage == "" &&
+            sortedQuestions(filteredQuestions())
+              .map((question, index) => {
+                console.log(question)
+                if (question.content.includes(searchWord))
+                  return (
+                    <Question
+                      key={index}
+                      id={question.id}
+                      author={question.userDto}
+                      content={question.content}
+                      answers={question.questionAnswerList}
+                      reRenderPage={() => setRender(render + 1)}
+                    />
+                  );
+              })}
 
+          <Flex m="5" width="70%" flexDirection="column" alignItems="center">
+            {context.userInfo.role == "USER" && (
+              <form onSubmit={postQuestion} onFocus={formFocusHandler}>
+                <Text>Submit Your Own Question</Text>
+                <Input placeholder="content..." margin="2" onChange={(e) => { setPostingQuestion(e.target.value) }} value={postingQuestion}></Input>
+                <Select m="2" mb="5" onChange={changeCategory} placeholder="Choose category...">
+                  {categories.map((category, index) => {
+                    return <option key={index}>{category.name}</option>
+                  })
+                  }
+                </Select>
+                <Button type="submit">Submit</Button>
+                <Text color="orange.500">{postQuestionResponse}</Text>
+              </form>
+            )}
+          </Flex>
         </Flex>
-        <Text color="red" fontSize="large"> {error}</Text>
-        {
-          loadingMessage != "" ?
-            <Box my="10">
-              <AiOutlineLoading3Quarters fontSize="30px" />
-            </Box>
-            :
-            filteredQuestions().length == 0 &&
-            <Text my="10" fontSize="x-large">No Such Questions</Text>
-        }
-        {loadingMessage == "" &&
-          sortedQuestions(filteredQuestions())
-            .map((question, index) => {
-              console.log(question)
-              if (question.content.includes(searchWord))
-                return (
-                  <Question
-                    key={index}
-                    id={question.id}
-                    author={question.userDto}
-                    content={question.content}
-                    answers={question.questionAnswerList}
-                    reRenderPage={() => setRender(render + 1)}
-                  />
-                );
-            })}
-
-        <Flex m="5" width="70%" flexDirection="column" alignItems="center">
-          {context.userInfo.role == "USER" && (
-            <form onSubmit={postQuestion}>
-              <Text>Submit Your Own Question</Text>
-              <Input placeholder="content..." margin="2" onChange={(e) => { setPostingQuestion(e.target.value) }} value={postingQuestion}></Input>
-              <Select m="2" mb="5" onChange={changeCategory} placeholder="Choose category...">
-                {categories.map((category, index) => {
-                  return <option key={index}>{category.name}</option>
-                })
-                }
-              </Select>
-              <Button type="submit">Submit</Button>
-              <Text color="orange.500">{postQuestionResponse}</Text>
-            </form>
-          )}
-        </Flex>
-      </Flex>
-    </Center>
+      </Center>
+    </>
   );
 };
 export default QuestionsBox;
