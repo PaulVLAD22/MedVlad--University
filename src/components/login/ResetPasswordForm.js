@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { GiPlagueDoctorProfile } from 'react-icons/gi';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { errorColor, primaryColor, secondaryColor } from "../utils/colors";
 
@@ -23,15 +23,18 @@ const ResetPasswordForm = () => {
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
 
+    const params = useParams()
+    let token = params.token;
+    let emailParam = params.email
+
     useEffect(async () => {
         console.log(location.pathname);
-        let tokenAndEmail = location.pathname.substr(15, location.pathname.length)
-        let token = tokenAndEmail.substr(0,6)
-        let email = tokenAndEmail.substr(6,tokenAndEmail.length)
-
-        setEmail(email)
+    
+        setEmail(old => emailParam)
         console.log(token)
         console.log(email)
+        console.log(emailParam)
+        console.log("Mai sus e email")
 
         let url = "/verifyToken";
 
@@ -45,7 +48,7 @@ const ResetPasswordForm = () => {
             method: "GET",
             url: url,
             headers: config.headers,
-            params: { "token": token, "email":email }
+            params: { "token": token, "email":emailParam }
         }).then(
             (response) => {
                 console.log(response.data)
@@ -78,7 +81,7 @@ const ResetPasswordForm = () => {
             method: "PUT",
             url: url,
             headers: config.headers,
-            params: { email: email, password: password}
+            params: { email: emailParam, password: password}
         }).then(
             (response) => {
                 console.log(response.data);

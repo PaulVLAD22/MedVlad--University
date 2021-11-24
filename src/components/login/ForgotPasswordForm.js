@@ -48,6 +48,9 @@ const ForgotPasswordForm = () => {
                 if (getError.response.status==471){
                     setError("Wrong Email")
                 }
+                else{
+                    setError("Unkown Error")
+                }
             }
         )
     }

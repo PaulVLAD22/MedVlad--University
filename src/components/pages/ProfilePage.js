@@ -8,16 +8,19 @@ import { useLocation } from 'react-router-dom'
 import UserProfile from "../Profile/UserProfile";
 import AdminProfile from "../Profile/AdminProfile";
 import DoctorProfile from "../Profile/DoctorProfile";
+import { useParams } from "react-router";
+
 const ProfilePage = () => {
     const context = useContext(UserContext)
     const location = useLocation();
     const [user, setUser] = useState({ role: "" });
     const [render, setRender] = useState(0)
+    let username = useParams().username;
 
     useEffect(async () => {
         console.log(location.pathname);
-        let username = location.pathname.substr(9, location.pathname.length)
-        if (username == "") {
+        console.log(username)
+        if (username == undefined) {
             username = context.userInfo.username;
         }
         console.log(username)
