@@ -76,6 +76,7 @@ const MailBox = () => {
             (response) => {
                 console.log(response.data)
                 openChat(receiverUsername)
+                setRender(render+1)
             },
             async (getError) => {
                 if (getError.response.status === 403) {
