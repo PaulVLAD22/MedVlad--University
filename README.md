@@ -3,6 +3,7 @@ Work on profiles
 <h1>Probleme generale</h1>
 
 <h1>De adaugat:</h1>
+REZOLVA CUM VERIFIC JWT SA NU FIE EXPIRAT. DACA DA 403 NU MAI INCERCA, fie da o instiintare ca s-a refreshuit token-ul de auth, fie gaseste alta metoda de a verifica daca problema e la token sau daca da 403 din cauza userului.
 <b>Fa sa mearga chat live (+video chat)</b><br>
 Sa poti suna/intra in chat cu un user de pe profilul lui<br>
 Clean code + fa react costum hook pentru a lua date si da ca parametru url,method,errorHandling si thenHandling (returneaza state de genul loading,error)+ scapa de setRender(render+1) unde nu trebuie, adica oriunde se seteaza state-ul deja (de catre alt setState)<br>
