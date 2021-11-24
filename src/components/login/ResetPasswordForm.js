@@ -18,7 +18,6 @@ const ResetPasswordForm = () => {
     const history = useHistory();
     const [render, setRender] = useState(0);
     const [badToken, setBadToken] = useState(false)
-    const [email,setEmail] = useState("")
     const [error, setError] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -30,11 +29,8 @@ const ResetPasswordForm = () => {
     useEffect(async () => {
         console.log(location.pathname);
     
-        setEmail(old => emailParam)
         console.log(token)
-        console.log(email)
         console.log(emailParam)
-        console.log("Mai sus e email")
 
         let url = "/verifyToken";
 
