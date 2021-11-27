@@ -4,7 +4,7 @@ import { UserContext } from "../../App";
 import ChatBox from "../ChatBox";
 import axios from "axios";
 
-const SOCKET_URL = 'http://localhost:8080/chat';
+const SOCKET_URL = '/chat';
 
 const ChatPage = () => {
 
@@ -20,7 +20,7 @@ const ChatPage = () => {
 
   const joinQueue = async () => {
 
-    let url = context.userInfo.role=="USER" ? "/user/joinQueue" : "/doctor/joinQueue"
+    let url = context.userInfo.role == "USER" ? "/user/joinQueue" : "/doctor/joinQueue"
 
     const config = {
       headers: {
@@ -36,10 +36,10 @@ const ChatPage = () => {
     }).then(
       (response) => {
         console.log(response.data)
-        
+
       },
       async (getError) => {
-        if (getError.response.status === 403) {
+        if (getError.response.status === 401) {
           console.log("SE CHEAMA REFRESH TOKEN")
           context.refreshAuthToken();
         }
@@ -49,7 +49,7 @@ const ChatPage = () => {
   }
 
   const connect = () => {
-    const socket = new window.SockJS(SOCKET_URL)
+    const socket = new window.SockJS(SOCKET_URL+"?jwt="+context.jwt)
     stompClient = window.Stomp.over(socket)
     stompClient.connect({}, onConnected, onError)
   }
@@ -59,11 +59,13 @@ const ChatPage = () => {
   }
 
   const onConnected = () => {
-    stompClient.subscribe('/topic/public', onMessageReceived)
+    stompClient.subscribe('/user/queue/errors', onMessageReceived)
+    stompClient.subscribe("/user/queue/reply", onMessageReceived);
+
     stompClient.send("/app/chat.newUser",
       {},
       (JSON.stringify({
-        "sender": username, "type": 'CONNECT',"to":"doctor"
+        "sender": username, "type": 'CONNECT', "to": "doctor"
       }))
     )
   }

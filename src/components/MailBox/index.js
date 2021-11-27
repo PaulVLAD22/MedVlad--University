@@ -43,7 +43,7 @@ const MailBox = () => {
                     setLastMessages(response.data)
                 },
                 async (getError) => {
-                    if (getError.response.status === 403) {
+                    if (getError.response.status === 401) {
                         console.log("SE CHEAMA REFRESH TOKEN")
                         context.refreshAuthToken();
                         setRender(render + 1);
@@ -79,7 +79,7 @@ const MailBox = () => {
                 setRender(render+1)
             },
             async (getError) => {
-                if (getError.response.status === 403) {
+                if (getError.response.status === 401) {
                     console.log("SE CHEAMA REFRESH TOKEN")
                     context.refreshAuthToken();
                     sendMessage(messageContent,receiverUsername)
@@ -113,7 +113,7 @@ const MailBox = () => {
                 setUserTalkingTo(username)
             },
             async (getError) => {
-                if (getError.response.status === 403) {
+                if (getError.response.status === 401) {
                     console.log("SE CHEAMA REFRESH TOKEN")
                     context.refreshAuthToken();
                     setRender(render + 1);

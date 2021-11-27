@@ -35,7 +35,7 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
         setRender(render + 1)
       },
       async (getError) => {
-        if (getError.response.status === 403) {
+        if (getError.response.status === 401) {
           console.log("SE CHEAMA REFRESH TOKEN")
           context.refreshAuthToken();
           setRender(render + 1);
@@ -69,7 +69,7 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
       })
       .catch(async (getError) => {
         console.log("ACI")
-        if (getError.response.status === 403) {
+        if (getError.response.status === 401) {
           console.log("SE CHEAMA REFRESH TOKEN")
           context.refreshAuthToken();
           setRender(render + 1);

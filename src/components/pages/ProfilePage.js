@@ -48,7 +48,7 @@ const ProfilePage = () => {
                 setUser(response.data)
             },
             async (getError) => {
-                if (getError.response.status === 403) {
+                if (getError.response.status === 401) {
                     console.log("SE CHEAMA REFRESH TOKEN")
                     context.refreshAuthToken();
                     setRender(render + 1);
