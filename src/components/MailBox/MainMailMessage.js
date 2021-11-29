@@ -1,7 +1,5 @@
 import { Box, Text,Flex } from "@chakra-ui/layout"
 const MainMailMessage = ({ side,content, timeOfSending }) => {
-    console.log(side)
-
     const isToday = (stringDate) => {
         const today = new Date()
         const someDate = new Date(stringDate)

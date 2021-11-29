@@ -24,7 +24,7 @@ export const NotFoundPage  = () => {
         </Text>
 
         <Text fontSize="18px">
-          This page doesn't eist. Click{" "}
+          This page doesn't exist. Click{" "}
           <Button
             variant="link"
             onClick={goBack}

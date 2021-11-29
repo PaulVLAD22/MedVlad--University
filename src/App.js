@@ -132,7 +132,7 @@ function App() {
                         <AdminHome />
                       </PageWrapper>
                     </Route>
-                    <Route path="/profile/:username">
+                    <Route path="/profile/:username?">
                       <PageWrapper>
                         <ProfilePage ></ProfilePage>
                       </PageWrapper>
@@ -168,7 +168,7 @@ function App() {
                         <ChatPage></ChatPage>
                       </PageWrapper>
                     </Route>
-                    <Route path="/profile/:username">
+                    <Route path="/profile/:username?">
                       <PageWrapper>
                         <ProfilePage></ProfilePage>
                       </PageWrapper>

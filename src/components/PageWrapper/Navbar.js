@@ -95,17 +95,7 @@ const Navbar = ({ toggle }) => {
             >
               Answer Questions
             </Button>
-            <Button
-              background="white"
 
-              mx={3}
-              onClick={goToChat}
-              fontSize="lg"
-              color="black"
-              letterSpacing="wider"
-            >
-              Live Session
-            </Button>
             <Button
               background="white"
 
@@ -183,17 +173,7 @@ const Navbar = ({ toggle }) => {
             >
               Infostation
             </Button>
-            <Button
-              background="white"
-
-              mx={3}
-              onClick={goToChat}
-              fontSize="lg"
-              color="black"
-              letterSpacing="wider"
-            >
-              Live Session
-            </Button>
+            
             <Button
               background="white"
 

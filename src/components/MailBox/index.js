@@ -16,6 +16,8 @@ const MailBox = () => {
     const [mainMessages, setMainMessages] = useState([])
     const [userTalkingTo, setUserTalkingTo] = useState("")
     const [loading, setLoading] = useState(false)
+    const [clickedMainChat, setClickedMainChat] = useState(true)
+    const [renderMainMailBox, setRenderMainMailBox] = useState(true)
 
     useEffect(() => {
 
@@ -23,7 +25,6 @@ const MailBox = () => {
         //TODO:: iei ultimul mesaj de la fiecare user cu care a conversat
         // in functie de daca l am trimis eu sau el sa fie o iconita jos
         const loadMessages = async () => {
-            setLoading(true)
             let url = "/getLastMessages";
 
             const config = {
@@ -39,7 +40,7 @@ const MailBox = () => {
                 headers: config.headers,
             }).then(
                 (response) => {
-                    console.log(response.data)
+                    // console.log(response.data)
                     setLastMessages(response.data)
                 },
                 async (getError) => {
@@ -50,9 +51,7 @@ const MailBox = () => {
                     }
                 }
             );
-            setLoading(false)
         }
-
         loadMessages();
     }, [render]);
 
@@ -76,20 +75,20 @@ const MailBox = () => {
             (response) => {
                 console.log(response.data)
                 openChat(receiverUsername)
-                setRender(render+1)
+                setRender(render + 1)
             },
             async (getError) => {
                 if (getError.response.status === 401) {
                     console.log("SE CHEAMA REFRESH TOKEN")
                     context.refreshAuthToken();
-                    sendMessage(messageContent,receiverUsername)
+                    sendMessage(messageContent, receiverUsername)
                 }
             }
         );
 
     };
 
-    const openChat = async (username) => {
+    const openChat = async (username, clicked) => {
         console.log(username);
         let url = "/getMessagesWithUser";
 
@@ -107,19 +106,20 @@ const MailBox = () => {
             params: { "username2": username }
         }).then(
             (response) => {
-                console.log("AICI")
-                console.log(response.data)
-                setMainMessages(response.data)
-                setUserTalkingTo(username)
+                // console.log(response.data)
+                if (username == userTalkingTo || clicked === true) {
+                    setMainMessages(response.data)
+                }
             },
             async (getError) => {
                 if (getError.response.status === 401) {
                     console.log("SE CHEAMA REFRESH TOKEN")
                     context.refreshAuthToken();
-                    setRender(render + 1);
+                    openChat(username);
                 }
             }
         );
+
     }
 
 
@@ -145,10 +145,15 @@ const MailBox = () => {
                             map((message, index) => {
                                 return <MiniMailBox key={index}
                                     updateMainChat={() => {
-                                        if (message.senderUsername == context.userInfo.username)
-                                            openChat(message.receiverUsername)
-                                        else
-                                            openChat(message.senderUsername)
+                                        if (message.senderUsername == context.userInfo.username) {
+                                            openChat(message.receiverUsername, true)
+                                            setUserTalkingTo(message.receiverUsername)
+                                        }
+
+                                        else {
+                                            openChat(message.senderUsername, true)
+                                            setUserTalkingTo(message.senderUsername)
+                                        }
                                     }
                                     }
                                     username={message.senderUsername == context.userInfo.username ? message.receiverUsername : message.senderUsername}
@@ -161,8 +166,10 @@ const MailBox = () => {
 
 
             </Flex>
-            <MainMailBox messages={mainMessages} sendMessage={(_) => sendMessage(_, userTalkingTo)}>
+
+            <MainMailBox setLastMessages={setLastMessages} username={userTalkingTo} messages={mainMessages} sendMessage={(_) => sendMessage(_, userTalkingTo)}>
             </MainMailBox>
+
         </Flex>
     )
 }
