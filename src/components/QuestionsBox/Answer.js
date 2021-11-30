@@ -1,10 +1,12 @@
-import { Flex, Text, Button,Img } from "@chakra-ui/react"
+import { Flex, Text, Button, Img } from "@chakra-ui/react"
 import { useContext, useState } from "react"
 import { useHistory } from "react-router"
 import { UserContext } from "../../App"
 import { TiDeleteOutline } from "react-icons/ti"
+import "../../App"
 import axios from 'axios'
-const Answer = ({ doctorUsername, id, content,doctorProfilePicture, author, numberOfLikes, reRenderPage, setQuestionError }) => {
+import { GiPlagueDoctorProfile } from "react-icons/gi"
+const Answer = ({ doctorUsername, id, content, doctorProfilePicture, author, numberOfLikes, reRenderPage, setQuestionError }) => {
     const context = useContext(UserContext);
     const [render, setRender] = useState("");
     const history = useHistory();
@@ -91,18 +93,23 @@ const Answer = ({ doctorUsername, id, content,doctorProfilePicture, author, numb
             padding="2"
             textAlign="left"
             fontSize="sm"
+            className="responsive-flex"
         >
             {console.log(content)}
             {context.userInfo.role == "DOCTOR" &&
                 <Button width="10%" onClick={likeQuestionAnswer}>{numberOfLikes}</Button>
             }
             {(context.userInfo.role == "USER" || context.userInfo.role == "ADMIN") &&
-                <Text width="10%">{numberOfLikes}</Text>
+                <Text width="10%" fontSize="lg">{numberOfLikes}</Text>
             }
             <Text width="70%" m="2">{content}</Text>
-            <Text width="20%" onClick={openDoctorProfile} fontWeight="bold" cursor="pointer">{author}</Text>
+            <Text onClick={openDoctorProfile} fontWeight="bold" cursor="pointer">{author}</Text>
             {console.log(doctorProfilePicture)}
-            <Img maxHeight="80px" src={doctorProfilePicture}/>
+            {doctorProfilePicture ?
+                <Img height="50px" src={doctorProfilePicture} />
+                :
+                <GiPlagueDoctorProfile size="50px"/>
+            }
             {context.userInfo.role == "ADMIN" &&
                 <Button onClick={() => deleteAnswer(id)}>
                     <TiDeleteOutline />

@@ -6,6 +6,14 @@
   height: 40vmin;
   pointer-events: none;
 }
+.responsive-flex{
+  flex-direction: row;
+}
+@media screen and (max-width: 624px) {
+  .responsive-flex{
+    flex-direction: column;
+  }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

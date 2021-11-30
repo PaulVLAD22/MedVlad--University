@@ -6,6 +6,7 @@ import { useContext, useState, useEffect } from "react"
 import { UserContext } from "../../App"
 import axios from 'axios'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import {BiSend} from "react-icons/bi"
 
 const MailBox = () => {
     const context = useContext(UserContext)
@@ -131,7 +132,7 @@ const MailBox = () => {
                         onChange={(e) => { setMessageContet(e.target.value) }} value={messageContent} />
                     <Input width="30%" placeholder="user..."
                         onChange={(e) => { setReceiverUsername(e.target.value) }} value={receiverUsername} />
-                    <Button onClick={() => sendMessage(messageContent, receiverUsername)} />
+                    <Button onClick={() => sendMessage(messageContent, receiverUsername)}><BiSend></BiSend> </Button>
                 </Flex>
                 {loading == true ?
                     <Box my="10" alignItems="center">

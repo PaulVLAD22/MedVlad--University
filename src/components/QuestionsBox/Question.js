@@ -5,6 +5,7 @@ import { useHistory } from "react-router"
 import { UserContext } from "../../App"
 import { TiDeleteOutline } from "react-icons/ti"
 import axios from 'axios'
+import { FiUser } from "react-icons/fi"
 const Question = ({ id, author, content, answers, reRenderPage }) => {
   const context = useContext(UserContext)
   const history = useHistory();
@@ -87,7 +88,11 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
     <Flex width="80%" flexDirection="column" alignItems="center"
       border="1px solid black" m="3" p="5">
       <Flex flexDir="column">
-        <Img maxH="50px" src={author.profilePicture}></Img>
+        {author.profilePicture ?
+          <Img maxH="50px" src={author.profilePicture}></Img>
+          :
+          <FiUser size="50px"/>
+        }
         <Text onClick={openAuthorProfile} fontWeight="bold" cursor="pointer">{author.username}</Text>
       </Flex>
       <Text fontSize="medium" p="2"
