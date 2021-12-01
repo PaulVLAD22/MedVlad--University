@@ -6,7 +6,7 @@ import { useContext, useState, useEffect } from "react"
 import { UserContext } from "../../App"
 import axios from 'axios'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
-import {BiSend} from "react-icons/bi"
+import { BiSend } from "react-icons/bi"
 
 const MailBox = () => {
     const context = useContext(UserContext)
@@ -41,8 +41,9 @@ const MailBox = () => {
                 headers: config.headers,
             }).then(
                 (response) => {
-                    // console.log(response.data)
+                    //console.log(response.data)
                     setLastMessages(response.data)
+                    //console.log(lastMessages)
                 },
                 async (getError) => {
                     if (getError.response.status === 401) {
@@ -54,6 +55,7 @@ const MailBox = () => {
             );
         }
         loadMessages();
+        //console.log(lastMessages)
     }, [render]);
 
     const sendMessage = async (messageContent, receiverUsername) => {
@@ -89,8 +91,9 @@ const MailBox = () => {
 
     };
 
-    const openChat = async (username, clicked) => {
-        console.log(username);
+    const openChat = async (username) => {
+        console.log("INCEP REQUEST");
+    
         let url = "/getMessagesWithUser";
 
         const config = {
@@ -107,10 +110,10 @@ const MailBox = () => {
             params: { "username2": username }
         }).then(
             (response) => {
-                // console.log(response.data)
-                if (username == userTalkingTo || clicked === true) {
+                // console.log(response.data
+                    console.log("GATA REQUIESTUL")
                     setMainMessages(response.data)
-                }
+                    setRender(render+1)
             },
             async (getError) => {
                 if (getError.response.status === 401) {
@@ -120,6 +123,7 @@ const MailBox = () => {
                 }
             }
         );
+        
 
     }
 
@@ -147,13 +151,15 @@ const MailBox = () => {
                                 return <MiniMailBox key={index}
                                     updateMainChat={() => {
                                         if (message.senderUsername == context.userInfo.username) {
-                                            openChat(message.receiverUsername, true)
                                             setUserTalkingTo(message.receiverUsername)
+                                            openChat(message.receiverUsername, true)
+                                            
                                         }
 
                                         else {
-                                            openChat(message.senderUsername, true)
                                             setUserTalkingTo(message.senderUsername)
+                                            openChat(message.senderUsername, true)
+                                            
                                         }
                                     }
                                     }
@@ -167,9 +173,10 @@ const MailBox = () => {
 
 
             </Flex>
-
-            <MainMailBox setLastMessages={setLastMessages} username={userTalkingTo} messages={mainMessages} sendMessage={(_) => sendMessage(_, userTalkingTo)}>
-            </MainMailBox>
+            {lastMessages != [] &&
+                <MainMailBox reRenderPage={()=>{setRender(render+1)}} lastMessages={lastMessages} setLastMessages={setLastMessages} username={userTalkingTo} messages={mainMessages} sendMessage={(_) => sendMessage(_, userTalkingTo)}>
+                </MainMailBox>
+            }
 
         </Flex>
     )

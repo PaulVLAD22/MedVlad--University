@@ -5,14 +5,52 @@ import MainMailMessage from "./MainMailMessage"
 import { UserContext } from "../../App"
 import axios from 'axios'
 import { useContext, useEffect, useState } from "react"
-const MainMailBox = ({ messages, sendMessage,username, setLastMessages }) => {
+import { RiMessageFill } from "react-icons/ri"
+const MainMailBox = ({ messages, sendMessage, username, setLastMessages, lastMessages, reRenderPage }) => {
     const context = useContext(UserContext)
-    const [messages2,setMessages2] = useState(messages) 
+    const [messages2, setMessages2] = useState(messages)
     const [newMessageContent, setNewMessageContent] = useState("")
-    const [render,setRender] =useState(0)
+    const [render, setRender] = useState(0)
+
+    // useEffect(async () => {
+    //     //document.getElementById('mainDiv').scrollTop = document.getElementById('mainDiv').scrollHeight;
+    //     // DUREAZA PANA AJUNGE AICI, E CEVA INTRE OPENCHAT() SI ACEST USE EFFECT
+
+
+    //     // NU SE EXECUTA
+    //     console.log("MA INCARc")
+    //     let url = "/getMessagesWithUser";
+
+    //     const config = {
+    //         headers: {
+    //             "Access-Control-Allow-Origin": "*",
+    //             Authorization: "Bearer " + context.jwt,
+    //         },
+    //     };
+
+    //     await axios({
+    //         method: "GET",
+    //         url: url,
+    //         headers: config.headers,
+    //         params: { "username2": username }
+    //     }).then(
+    //         (response) => {
+    //             console.log("Salut " + username)
+    //             setMessages2(response.data)
+    //         },
+    //         async (getError) => {
+    //             if (getError.response.status === 401) {
+    //                 console.log("SE CHEAMA REFRESH TOKEN")
+    //                 context.refreshAuthToken();
+    //                 setRender(render+1)
+    //             }
+    //         }
+    //     );
+
+    // },[messages])
 
     useEffect(async () => {
-        document.getElementById('mainDiv').scrollTop = document.getElementById('mainDiv').scrollHeight;
+        // DUREAZA PANA AJUNGE AICI, E CEVA INTRE OPENCHAT() SI ACEST USE EFFECT
         let url = "/getMessagesWithUser";
 
         const config = {
@@ -29,28 +67,43 @@ const MainMailBox = ({ messages, sendMessage,username, setLastMessages }) => {
             params: { "username2": username }
         }).then(
             (response) => {
+                console.log("Salut " + username)
                 setMessages2(response.data)
-                setRender(render+1)
+
             },
             async (getError) => {
                 if (getError.response.status === 401) {
                     console.log("SE CHEAMA REFRESH TOKEN")
                     context.refreshAuthToken();
-                    setRender(render+1)
+                    setRender(render + 1)
                 }
             }
         );
+        //this may produce a bug
+        document.getElementById('mainDiv').scrollTop = document.getElementById('mainDiv').scrollHeight;
+        console.log(username)
+        const indexCurrentMessage = lastMessages.findIndex(message => message.senderUsername==username || message.receiverUsername == username);
+        console.log(indexCurrentMessage)
+        const currentMessage = {...messages2[messages2.length-1]}
+        console.log(currentMessage)
+        const updatedLastMessages = [...lastMessages]
+        updatedLastMessages[indexCurrentMessage] = currentMessage
+        console.log(updatedLastMessages)
+        setLastMessages(updatedLastMessages)
+
+
+
         setTimeout(() => {
-            
+            setRender(render + 1)
         }, 3000)
-        
-    },[render])
+    }, [render,messages]) 
 
     return (
         <Flex flexDir="column" width="60%" paddingBottom="2">
+
             <Flex id="mainDiv" border="1px solid black" p="5" flexDir="column" overflowY="auto" overflowX="hidden">
                 {
-                    messages2.sort( (a, b) => {
+                    messages2.sort((a, b) => {
                         return new Date(a.timeOfSending).valueOf() - new Date(b.timeOfSending).valueOf();
                     }).map((message, index) => {
 
@@ -62,13 +115,13 @@ const MainMailBox = ({ messages, sendMessage,username, setLastMessages }) => {
                     })
                 }
                 {
-                    messages.length == 0 &&
+                    messages2.length == 0 &&
                     <Center>
-                        <Text>Chose a conversation</Text>
+                        <Text>Choose a conversation</Text>
                     </Center>
                 }
             </Flex>
-            {messages.length != 0 &&
+            {messages2.length != 0 &&
 
                 <Flex position="relative" m="1" marginTop="2">
                     <Textarea width="90%"
