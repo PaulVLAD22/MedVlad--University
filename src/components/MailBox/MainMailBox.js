@@ -6,51 +6,14 @@ import { UserContext } from "../../App"
 import axios from 'axios'
 import { useContext, useEffect, useState } from "react"
 import { RiMessageFill } from "react-icons/ri"
+import "../../App.css"
 const MainMailBox = ({ messages, sendMessage, username, setLastMessages, lastMessages, reRenderPage }) => {
     const context = useContext(UserContext)
     const [messages2, setMessages2] = useState(messages)
     const [newMessageContent, setNewMessageContent] = useState("")
     const [render, setRender] = useState(0)
 
-    // useEffect(async () => {
-    //     //document.getElementById('mainDiv').scrollTop = document.getElementById('mainDiv').scrollHeight;
-    //     // DUREAZA PANA AJUNGE AICI, E CEVA INTRE OPENCHAT() SI ACEST USE EFFECT
-
-
-    //     // NU SE EXECUTA
-    //     console.log("MA INCARc")
-    //     let url = "/getMessagesWithUser";
-
-    //     const config = {
-    //         headers: {
-    //             "Access-Control-Allow-Origin": "*",
-    //             Authorization: "Bearer " + context.jwt,
-    //         },
-    //     };
-
-    //     await axios({
-    //         method: "GET",
-    //         url: url,
-    //         headers: config.headers,
-    //         params: { "username2": username }
-    //     }).then(
-    //         (response) => {
-    //             console.log("Salut " + username)
-    //             setMessages2(response.data)
-    //         },
-    //         async (getError) => {
-    //             if (getError.response.status === 401) {
-    //                 console.log("SE CHEAMA REFRESH TOKEN")
-    //                 context.refreshAuthToken();
-    //                 setRender(render+1)
-    //             }
-    //         }
-    //     );
-
-    // },[messages])
-
     useEffect(async () => {
-        // DUREAZA PANA AJUNGE AICI, E CEVA INTRE OPENCHAT() SI ACEST USE EFFECT
         let url = "/getMessagesWithUser";
 
         const config = {
@@ -80,16 +43,17 @@ const MainMailBox = ({ messages, sendMessage, username, setLastMessages, lastMes
             }
         );
         //this may produce a bug
-        document.getElementById('mainDiv').scrollTop = document.getElementById('mainDiv').scrollHeight;
-        console.log(username)
-        const indexCurrentMessage = lastMessages.findIndex(message => message.senderUsername==username || message.receiverUsername == username);
-        console.log(indexCurrentMessage)
-        const currentMessage = {...messages2[messages2.length-1]}
-        console.log(currentMessage)
-        const updatedLastMessages = [...lastMessages]
-        updatedLastMessages[indexCurrentMessage] = currentMessage
-        console.log(updatedLastMessages)
-        setLastMessages(updatedLastMessages)
+        if (document.getElementById('mainDiv'))
+            document.getElementById('mainDiv').scrollTop = document.getElementById('mainDiv').scrollHeight;
+        // console.log(username)
+        // const indexCurrentMessage = lastMessages.findIndex(message => message.senderUsername==username || message.receiverUsername == username);
+        // console.log(indexCurrentMessage)
+        // const currentMessage = {...messages2[messages2.length-1]}
+        // console.log(currentMessage)
+        // const updatedLastMessages = [...lastMessages]
+        // updatedLastMessages[indexCurrentMessage] = currentMessage
+        // console.log(updatedLastMessages)
+        // setLastMessages(updatedLastMessages)
 
 
 
@@ -123,7 +87,7 @@ const MainMailBox = ({ messages, sendMessage, username, setLastMessages, lastMes
             </Flex>
             {messages2.length != 0 &&
 
-                <Flex position="relative" m="1" marginTop="2">
+                <Flex className="responsive-flex" position="relative" m="1" marginTop="2">
                     <Textarea width="90%"
                         resize="none"
                         placeholder="Send a message"

@@ -9,6 +9,8 @@ const QuestionRequest = ({ question,reRenderPage }) => {
   const context = useContext(UserContext);
   const [render, setRender] = useState(0);
   const [comment, setComment] = useState("");
+  const [message,setMessage] = useState("")
+
 
   const sendQuestionResponse = async (verdict) => {
     let url = "/admin/acceptQuestion";
@@ -19,7 +21,7 @@ const QuestionRequest = ({ question,reRenderPage }) => {
         Authorization: "Bearer " + context.jwt,
       },
     };
-
+    setMessage("sending...")
     await axios({
       method: "POST",
       url: url,
@@ -45,6 +47,7 @@ const QuestionRequest = ({ question,reRenderPage }) => {
 
   return (
     <Flex flexDir="column" width="100%" p="2" borderBottom="1px solid black">
+      <Text color="red">{message}</Text>
       <Text>{question.content}</Text>
 
       <Flex width="100%" flexDir="column" alignItems="center">

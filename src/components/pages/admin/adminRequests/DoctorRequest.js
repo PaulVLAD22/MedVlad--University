@@ -33,9 +33,6 @@ const DoctorRequest = ({ user, reRenderPage }) => {
         console.log(response.data);
         setRender(render + 1);
         console.log("rerender")
-        setFirstName("")
-        setLastName("")
-        setComment("")
         reRenderPage()
       },
       async (getError) => {
@@ -52,7 +49,7 @@ const DoctorRequest = ({ user, reRenderPage }) => {
     <Flex height="400px" width="min(100%,720px)" flexDir="column">
       <Flex width="100%" mb="10">
 
-        <Flex flexDir="column">
+        <Flex flexDir="row">
           <Text color="red">{message}</Text>
           <Img height="100%" src={user.licensePicture}></Img>
         </Flex>

@@ -7,6 +7,7 @@ const MainMailMessage = ({ side,content, timeOfSending }) => {
           someDate.getMonth() == today.getMonth() &&
           someDate.getFullYear() == today.getFullYear()
       }
+      const minutes = (new Date(timeOfSending)).getMinutes();
     return (
         <Flex flexDir="column"
         borderColor="#ccc"
@@ -16,7 +17,7 @@ const MainMailMessage = ({ side,content, timeOfSending }) => {
             <Text>{content}</Text>
             <Text fontSize="xs" textAlign="right">
                 {(isToday(timeOfSending) ? "" : new Date(timeOfSending).getMonth()
-                +"-"+new Date(timeOfSending).getDay())+" "+(new Date(timeOfSending)).getHours() +":"+ (new Date(timeOfSending)).getMinutes()}
+                +"-"+new Date(timeOfSending).getDay())+" "+(new Date(timeOfSending)).getHours() +":"+ (minutes < 10 ? "0"+minutes : minutes)}
                 </Text>
         </Flex>
     )

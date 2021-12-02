@@ -201,8 +201,10 @@ const QuestionsBox = () => {
 
   return (
     <>
-      <Prompt when={formWasFocused}
-      message={()=> 'Are you sure you want to leave? All your data will be lost!'}/>
+      {/* <Prompt when={formWasFocused}
+      message={()=> 'Are you sure you want to leave? All your data will be lost!'}
+      
+      /> */}
       <Center>
         {console.log(context.jwt)}
         <Flex

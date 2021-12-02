@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { apiClient } from "../utils/apiClient";
 import axios from "axios";
 import https from "https";
+import { isContext } from "vm";
 
 export const useUser = () => {
   const [jwt, setJwt] = useState("");
@@ -53,15 +54,15 @@ export const useUser = () => {
     try {
       const res =
         await axios.post(url, params, config)
-        .catch((error)=>{
-          if (error.response.status==403){
-            setError("Wrong Credentials")
-          }
-          else{
-            setError("Unknown Error")
-          }
-          return
-        })
+          .catch((error) => {
+            if (error.response.status == 403) {
+              setError("Wrong Credentials")
+            }
+            else {
+              setError("Unknown Error")
+            }
+            return
+          })
 
       let token = res.data.access_token;
       console.log(res);
@@ -78,9 +79,10 @@ export const useUser = () => {
       await localStorage.setItem("refresh_token", res.data.refresh_token);
       await localStorage.setItem("userInfo", userObj);
 
-      setJwt(token);
+      // am schimbat ordinea dintre refresh token , user info si jwt si
       setRefreshToken(res.data.refresh_token);
       setUserInfo(parsedUserObj);
+      setJwt(token);
 
       console.log(userInfo)
     } catch (err) {
@@ -113,12 +115,17 @@ export const useUser = () => {
 
       },
       (getError) => {
-        console.log(getError)
+        if (getError.response.status == 403) {
+          if (jwt !== "" && jwt != null) {
+            history.push("/")
+            logOut();
+          }
+        }
       }
     );
   };
 
-  const signUp = async (details, role,setMessage,clearDetails) => {
+  const signUp = async (details, role, setMessage, clearDetails) => {
 
     let url = "/register";
 
@@ -132,16 +139,16 @@ export const useUser = () => {
     const params = new URLSearchParams();
     params.append("grant_type", "password");
     params.append("email", details.email);
-    params.append("username",details.username);
+    params.append("username", details.username);
     params.append("password", details.password);
-    params.append("licensePicture",details.licensePicture)
-    params.append("role",role)
+    params.append("licensePicture", details.licensePicture)
+    params.append("role", role)
 
     await axios({
       method: "POST",
       url: url,
       params: params,
-      config:config
+      config: config
     }).then(
       (response) => {
         console.log(response.data)
@@ -149,10 +156,10 @@ export const useUser = () => {
         clearDetails();
       },
       async (getError) => {
-        if (getError.response.status==409){
+        if (getError.response.status == 409) {
           setMessage("Username Or Email already taken");
         }
-        else{
+        else {
           setMessage("Unknown error")
         }
       }
@@ -172,7 +179,7 @@ export const useUser = () => {
     setRefreshToken(null)
     console.log(userInfo)
     console.log(jwt)
-    window.location.reload()
+    //window.location.reload()
   };
 
   return {
