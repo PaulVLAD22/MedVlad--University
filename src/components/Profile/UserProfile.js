@@ -234,11 +234,17 @@ const UserProfile = ({ user, reRenderPage }) => {
                         <Flex flexDir="column" my="1" width="100%">
 
                             {questions.map((question, index) => {
-                                return <Question key={index}
-                                    author={question.userDto}
-                                    content={question.content}
-                                    answers={question.questionAnswerList}
-                                />
+                                return (
+                                    <Question
+                                      key={question.id}
+                                      id={question.id}
+                                      symptoms = {question.symptoms}
+                                      author={question.userDto}
+                                      content={question.content}
+                                      answer={question.answer}
+                                      reRenderPage={() => setRender(render + 1)}
+                                    />
+                                  );
                             })}
 
                         </Flex>

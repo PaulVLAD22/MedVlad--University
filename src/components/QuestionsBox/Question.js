@@ -1,4 +1,4 @@
-import { Flex, Box, Text, Input, Button, Img } from "@chakra-ui/react"
+import { Flex, Box, Text, Input, Button, Img, FormControl, FormLabel } from "@chakra-ui/react"
 import Answer from "./Answer"
 import { useContext, useState } from "react"
 import { useHistory } from "react-router"
@@ -6,11 +6,12 @@ import { UserContext } from "../../App"
 import { TiDeleteOutline } from "react-icons/ti"
 import axios from 'axios'
 import { FiUser } from "react-icons/fi"
-const Question = ({ id, symptoms, author, content, answers, reRenderPage }) => {
+const Question = ({ id, symptoms, author, content, answer, reRenderPage }) => {
   const context = useContext(UserContext)
   const history = useHistory();
   const [render, setRender] = useState(0);
-  const [questionAnswer, setQuestionAnswer] = useState("");
+  const [condition,setCondition] = useState("")
+  const [answerComment,setAnswerComment] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
 
   const sendQuestionAnswer = async () => {
@@ -27,11 +28,12 @@ const Question = ({ id, symptoms, author, content, answers, reRenderPage }) => {
       method: "POST",
       url: url,
       headers: config.headers,
-      params: { "questionId": id, content: questionAnswer }
+      data: { "questionId": id, comment:answerComment,condition:condition }
     }).then(
       (response) => {
         console.log(response.data)
-        setQuestionAnswer("")
+        setAnswerComment("")
+        setCondition("")
         reRenderPage()
         setRender(render + 1)
       },
@@ -115,53 +117,50 @@ const Question = ({ id, symptoms, author, content, answers, reRenderPage }) => {
           <TiDeleteOutline />
         </Button>
       }
-      {context.userInfo.role == "DOCTOR" &&
+      {(context.userInfo.role == "DOCTOR" && answer==null) && 
         <>
           <Text>Write a response</Text>
-          <Input m="1" variant="filled" onChange={(e) => { setQuestionAnswer(e.target.value) }} value={questionAnswer}></Input>
+          <Text>Condition:</Text>
+          <Input width="50%" m="1" variant="filled" onChange={(e) => {setCondition(e.target.value) }} value={condition} />
+          <Text>Comment:</Text>
+          <Input width="50%" m="1" variant="filled" onChange={(e) => { setAnswerComment(e.target.value) }} value={answerComment} />
+
           <Button m="2" onClick={sendQuestionAnswer}>Submit</Button>
         </>
       }
-      <Flex width="100%" alignItems="center"
-        justifyContent="center" flexDirection="column" >
-        {context.userInfo.role == "DOCTOR" &&
-          answers.map((answer, index) => {
-            console.log(answer)
-            return <Answer doctorUsername={answer.doctor.username}
-              doctorProfilePicture={answer.doctor.profilePicture}
-              key={index} id={answer.id} content={answer.content}
-              author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
-              numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()}
-              setQuestionError={(error) => setErrorMessage(error)} />
-          })}
-        {context.userInfo.role == "USER" &&
-          answers.sort((a1, a2) => {
-            return a2.numberOfLikes - a1.numberOfLikes
-          }).slice(0, 3).map((answer, index) => {
-            console.log(answer)
-            return <Answer doctorUsername={answer.doctor.username}
-              doctorProfilePicture={answer.doctor.profilePicture}
-              key={index} id={answer.id} content={answer.content}
-              author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
-              numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()}
-              setQuestionError={(error) => setErrorMessage(error)} />
-          })
-        }
-        {context.userInfo.role == "ADMIN" &&
-          answers.sort((a1, a2) => {
-            return a2.numberOfLikes - a1.numberOfLikes
-          }).map((answer, index) => {
-            console.log(answer)
-            return <Answer doctorUsername={answer.doctor.username}
-              doctorProfilePicture={answer.doctor.profilePicture}
-              key={index} id={answer.id} content={answer.content}
-              author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
-              numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()}
-              setQuestionError={(error) => setErrorMessage(error)} />
-          })
-        }
-        <Text mt="5" color="red.500" fontWeight="bold">{errorMessage}</Text>
-      </Flex>
+      {answer != null &&
+        <>
+          <Flex width="100%" alignItems="center"
+            justifyContent="center" flexDirection="column" >
+            {context.userInfo.role == "DOCTOR" &&
+              <Answer doctorUsername={answer.doctor.username}
+                doctorProfilePicture={answer.doctor.profilePicture}
+                id={answer.id} content={answer.content}
+                author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
+                numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()}
+                setQuestionError={(error) => setErrorMessage(error)} />
+            }
+            {context.userInfo.role == "USER" &&
+              <Answer doctorUsername={answer.doctor.username}
+                doctorProfilePicture={answer.doctor.profilePicture}
+                id={answer.id} content={answer.content}
+                author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
+                numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()}
+                setQuestionError={(error) => setErrorMessage(error)} />
+            }
+
+            {context.userInfo.role == "ADMIN" &&
+              <Answer doctorUsername={answer.doctor.username}
+                doctorProfilePicture={answer.doctor.profilePicture}
+                id={answer.id} content={answer.content}
+                author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
+                numberOfLikes={answer.numberOfLikes} reRenderPage={() => reRenderPage()}
+                setQuestionError={(error) => setErrorMessage(error)} />
+            }
+            <Text mt="5" color="red.500" fontWeight="bold">{errorMessage}</Text>
+          </Flex>
+        </>
+      }
     </Flex>
   )
 }

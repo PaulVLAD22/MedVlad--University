@@ -96,13 +96,13 @@ const Answer = ({ doctorUsername, id, content, doctorProfilePicture, author, num
             className="responsive-flex"
         >
             {console.log(content)}
-            {context.userInfo.role == "DOCTOR" &&
+            {/* {context.userInfo.role == "DOCTOR" &&
                 <Button width="10%" onClick={likeQuestionAnswer}>{numberOfLikes}</Button>
-            }
-            {(context.userInfo.role == "USER" || context.userInfo.role == "ADMIN") &&
+            } */}
+            {/* {(context.userInfo.role == "USER" || context.userInfo.role == "ADMIN") &&
                 <Text width="10%" fontSize="lg">{numberOfLikes}</Text>
-            }
-            <Text width="70%" m="2">{content}</Text>
+            } */}
+            <Text width="80%" m="2">{content}</Text>
             <Text onClick={openDoctorProfile} fontWeight="bold" cursor="pointer">{author}</Text>
             {console.log(doctorProfilePicture)}
             {doctorProfilePicture ?

@@ -78,14 +78,19 @@ const QuestionsBox = () => {
       }).then(
         (response) => {
           console.log(response.data)
-          setSymptoms((old)=>response.data)
+          setSymptoms(response.data)
           setError("")
+          // NU STIU DE CE NU SE SETEAZA SYMPTOS DE LA PRIMUL RENDER
+          if (symptoms.length==0){
+            setRender(render+1)
+          }
+
           if (selectedSymptoms.length == 0) {
             let arrayOfZeros = []
             for (let i = 0; i < symptoms.length; i++) {
               arrayOfZeros.push(0);
             }
-            setSelectedsymptoms([...arrayOfZeros])
+            setSelectedsymptoms((old)=>[...old,...arrayOfZeros])
     
           }
         },
@@ -110,6 +115,16 @@ const QuestionsBox = () => {
 
   const postQuestion = async (e) => {
     e.preventDefault();
+    let noSymptomsSelected = true;
+    for (let i=0;i<selectedSymptoms.length;i++){
+      if (selectedSymptoms[i]==1){
+        noSymptomsSelected=false;
+      }
+    }
+    if (noSymptomsSelected){
+      setPostQuestionResponse("You have to choose a symptom");
+      return;
+    }
 
     if (!postingQuestion.trim() != '') {
       setPostQuestionResponse("Question must not be empty.")
@@ -189,19 +204,18 @@ const QuestionsBox = () => {
   }
   const sortedQuestions = (questions) => {
     if (sortBy == "Most Popular")
-      return (
-        questions.sort((q1, q2) => {
-          return (q2.questionAnswerList.reduce((a, b) => {
-            return a + b.numberOfLikes
-          }, 0)) - (q1.questionAnswerList.reduce((a, b) => {
-            return a + b.numberOfLikes
-          }, 0))
-        }
-        ));
+      return;
     else if (sortBy == "Newest Questions") {
       return (
         questions.sort((q1, q2) => {
           return new Date(q2.postingDate).valueOf() - new Date(q1.postingDate).valueOf();
+        }
+        ));
+    }
+    else if (sortBy == "Oldest Questions") {
+      return (
+        questions.sort((q1, q2) => {
+          return new Date(q1.postingDate).valueOf() - new Date(q2.postingDate).valueOf();
         }
         ));
     }
@@ -254,16 +268,17 @@ const QuestionsBox = () => {
               value={searchWord}
             ></Input>
             <Select mx="2" onChange={sortChanged} placeholder="Sort by...">
-              <option>Most Popular</option>
+              {/* <option>Most Popular</option> */}
               <option>Newest Questions</option>
+              <option>Oldest Questions</option>
             </Select>
-            <Select onChange={filterChanged} placeholder="Filter by...">
+            {/* <Select onChange={filterChanged} placeholder="Filter by...">
               {categories.map((category, index) => {
                 return <option key={index}>{category.name}</option>
               })
               }
               <option>All</option>
-            </Select>
+            </Select> */}
 
           </Flex>
           <Text color="red" fontSize="large"> {error}</Text>
@@ -288,7 +303,7 @@ const QuestionsBox = () => {
                       symptoms = {question.symptoms}
                       author={question.userDto}
                       content={question.content}
-                      answers={question.questionAnswerList}
+                      answer={question.answer}
                       reRenderPage={() => setRender(render + 1)}
                     />
                   );
