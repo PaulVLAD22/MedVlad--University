@@ -17,6 +17,7 @@ import AdminHome from "./components/pages/admin/AdminHome";
 import BanUserPage from "./components/pages/admin/BanUserPage";
 import HistoryPage from "./components/pages/admin/HistoryPage";
 import ChatPage from "./components/pages/ChatPage";
+import DiagnosisPage from "./components/pages/DiagnosisPage";
 import DoctorHome from "./components/pages/doctor/DoctorHome";
 import HomePage from "./components/pages/HomePage";
 import InfostationPage from "./components/pages/InfostationPage";
@@ -59,6 +60,11 @@ function App() {
                     {console.log(!!context.jwt)}
                     {console.log("USER")}
                     <Switch>
+                      <Route exact path ="/diagnosis">
+                        <PageWrapper>
+                          <DiagnosisPage/>
+                        </PageWrapper>
+                      </Route>
                       <Route exact path="/infostation">
                         <PageWrapper>
                           <InfostationPage />

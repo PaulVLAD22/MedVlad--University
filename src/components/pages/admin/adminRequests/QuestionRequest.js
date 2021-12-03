@@ -29,6 +29,7 @@ const QuestionRequest = ({ question,reRenderPage }) => {
       params: {id:question.id, comment:comment, verdict:verdict},
     }).then(
       (response) => {
+        setMessage("")
         console.log(response.data);
         setRender(render + 1);
         console.log("rerender")

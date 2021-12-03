@@ -29,6 +29,7 @@ const UserRequest = ({ user, reRenderPage }) => {
       params: { username: user.username, comment: comment, verdict: verdict },
     }).then(
       (response) => {
+        setMessage("")
         console.log(response.data);
         setRender(render + 1);
         console.log("rerender")

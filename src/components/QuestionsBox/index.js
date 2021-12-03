@@ -24,6 +24,9 @@ const QuestionsBox = () => {
   const [loadingMessage, setLoadingMessage] = useState("")
   const [error, setError] = useState("")
 
+  const [symptoms,setSymptoms] = useState([])
+
+  const [selectedSymptoms, setSelectedsymptoms] = useState([])
 
   //TODO:: adauga si pt admin pagina si fa buton de X ca sa stearga mesaje rapid
   // si sa se adauge la un atribut al User-ilor removed messages si la al 3-lea esti banat
@@ -66,7 +69,7 @@ const QuestionsBox = () => {
         }
       );
 
-      let url2 = "/getCategories"
+      let url2 = "/getSymptoms"
 
       await axios({
         method: "GET",
@@ -75,8 +78,16 @@ const QuestionsBox = () => {
       }).then(
         (response) => {
           console.log(response.data)
-          setCategories(response.data)
+          setSymptoms((old)=>response.data)
           setError("")
+          if (selectedSymptoms.length == 0) {
+            let arrayOfZeros = []
+            for (let i = 0; i < symptoms.length; i++) {
+              arrayOfZeros.push(0);
+            }
+            setSelectedsymptoms([...arrayOfZeros])
+    
+          }
         },
         async (getError) => {
           if (getError.response.status === 401) {
@@ -90,6 +101,8 @@ const QuestionsBox = () => {
         }
       );
       setLoadingMessage("")
+
+      
     }
     loadInfo();
   }, [render]);
@@ -117,7 +130,7 @@ const QuestionsBox = () => {
       method: "POST",
       url: url,
       headers: config.headers,
-      params: { "content": postingQuestion, "category": postingQuestionCategory }
+      data:{content:postingQuestion, selectedSymptoms: selectedSymptoms}
     }).then(
       (response) => {
         console.log(response.data)
@@ -143,13 +156,25 @@ const QuestionsBox = () => {
     setSortBy(choice);
   }
 
-  const changeCategory = (e) => {
+  const toggleSymptom = (e) => {
+
     let id = e.nativeEvent.target.selectedIndex;
     let choice = e.nativeEvent.target[id].text;
-    if (choice == "Choose category...") {
+    console.log(choice)
+    if (choice == "Choose Symptoms...") {
       return
     }
-    setPostingQuestionCategory(choice);
+    console.log(selectedSymptoms)
+    let indexOfSymptom = symptoms.findIndex(symptom => symptom.name == choice)
+
+    let newArray = [...selectedSymptoms]
+    newArray[indexOfSymptom] = 1 - newArray[indexOfSymptom]
+
+    console.log(newArray)
+    setSelectedsymptoms([ ...newArray ])
+
+    const symptomsSelect = document.getElementById("symptomsSelect");
+    symptomsSelect.selectedIndex = 0;
   }
   const filterChanged = (e) => {
     let id = e.nativeEvent.target.selectedIndex;
@@ -258,8 +283,9 @@ const QuestionsBox = () => {
                 if (question.content.includes(searchWord))
                   return (
                     <Question
-                      key={index}
+                      key={question.id}
                       id={question.id}
+                      symptoms = {question.symptoms}
                       author={question.userDto}
                       content={question.content}
                       answers={question.questionAnswerList}
@@ -273,12 +299,16 @@ const QuestionsBox = () => {
               <form onSubmit={postQuestion} onFocus={formFocusHandler}>
                 <Text>Submit Your Own Question</Text>
                 <Input placeholder="content..." margin="2" onChange={(e) => { setPostingQuestion(e.target.value) }} value={postingQuestion}></Input>
-                <Select m="2" mb="5" onChange={changeCategory} placeholder="Choose category...">
-                  {categories.map((category, index) => {
-                    return <option key={index}>{category.name}</option>
+                <Select id="symptomsSelect" m="2" onChange={toggleSymptom} placeholder="Choose Symptoms..." >
+                  {symptoms.map((symptom, index) => {
+                    return <option key={symptom.id} id={"option" + index} style={{ backgroundColor: selectedSymptoms[index] == 1 ? "green" : "" }}>{symptom.name}</option>
                   })
                   }
                 </Select>
+                <Text mb="4">{symptoms.map((symptom,index)=>{
+                  return selectedSymptoms[index]==1 ? symptom.name : ""
+                }).join(' ')}
+                </Text>
                 <Button type="submit">Submit</Button>
                 <Text color="orange.500">{postQuestionResponse}</Text>
               </form>

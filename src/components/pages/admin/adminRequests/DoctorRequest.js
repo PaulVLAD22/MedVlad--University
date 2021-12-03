@@ -30,6 +30,7 @@ const DoctorRequest = ({ user, reRenderPage }) => {
       params: { username: user.username, firstName: firstName, lastName: lastName, comment: comment, verdict: verdict },
     }).then(
       (response) => {
+        setMessage("")
         console.log(response.data);
         setRender(render + 1);
         console.log("rerender")

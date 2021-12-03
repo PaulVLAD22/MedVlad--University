@@ -54,6 +54,9 @@ const Navbar = ({ toggle }) => {
   const goBanUser = () => {
     history.push("/banUser")
   }
+  const goToDiagnosis = () =>{
+    history.push("/diagnosis")
+  }
 
   const handleLogout = () => {
     history.push("/");
@@ -166,6 +169,17 @@ const Navbar = ({ toggle }) => {
               background="white"
 
               mx={3}
+              onClick={goToDiagnosis}
+              fontSize="lg"
+              color="black"
+              letterSpacing="wider"
+            >
+              Diagnosis
+            </Button>
+            <Button
+              background="white"
+
+              mx={3}
               onClick={goToInfostation}
               fontSize="lg"
               color="black"
@@ -173,7 +187,7 @@ const Navbar = ({ toggle }) => {
             >
               Infostation
             </Button>
-            
+
             <Button
               background="white"
 

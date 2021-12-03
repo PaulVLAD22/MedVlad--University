@@ -6,7 +6,7 @@ import { UserContext } from "../../App"
 import { TiDeleteOutline } from "react-icons/ti"
 import axios from 'axios'
 import { FiUser } from "react-icons/fi"
-const Question = ({ id, author, content, answers, reRenderPage }) => {
+const Question = ({ id, symptoms, author, content, answers, reRenderPage }) => {
   const context = useContext(UserContext)
   const history = useHistory();
   const [render, setRender] = useState(0);
@@ -91,10 +91,22 @@ const Question = ({ id, author, content, answers, reRenderPage }) => {
         {author.profilePicture ?
           <Img maxH="50px" src={author.profilePicture}></Img>
           :
-          <FiUser size="50px"/>
+          <FiUser size="50px" />
         }
         <Text onClick={openAuthorProfile} fontWeight="bold" cursor="pointer">{author.username}</Text>
       </Flex>
+      {console.log(symptoms)}
+      <Flex flexDir="column">
+        {symptoms.map((symptom) => {
+          return (
+            <Text color="orange.700">
+              {symptom.name}
+            </Text>
+          )
+        })}
+      </Flex>
+
+
       <Text fontSize="medium" p="2"
         fontWeight="semibold">{content}</Text>
 
