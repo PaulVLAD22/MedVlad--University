@@ -6,7 +6,7 @@ import { TiDeleteOutline } from "react-icons/ti"
 import "../../App"
 import axios from 'axios'
 import { GiPlagueDoctorProfile } from "react-icons/gi"
-const Answer = ({ doctorUsername, id, content, doctorProfilePicture, author, numberOfLikes, reRenderPage, setQuestionError }) => {
+const Answer = ({ doctorUsername, id, content, doctorProfilePicture, author, condition, reRenderPage, setQuestionError }) => {
     const context = useContext(UserContext);
     const [render, setRender] = useState("");
     const history = useHistory();
@@ -102,14 +102,17 @@ const Answer = ({ doctorUsername, id, content, doctorProfilePicture, author, num
             {/* {(context.userInfo.role == "USER" || context.userInfo.role == "ADMIN") &&
                 <Text width="10%" fontSize="lg">{numberOfLikes}</Text>
             } */}
-            <Text width="80%" m="2">{content}</Text>
-            <Text onClick={openDoctorProfile} fontWeight="bold" cursor="pointer">{author}</Text>
-            {console.log(doctorProfilePicture)}
-            {doctorProfilePicture ?
-                <Img height="50px" src={doctorProfilePicture} />
-                :
-                <GiPlagueDoctorProfile size="50px"/>
-            }
+             <Text m="3" fontWeight="500">{condition}</Text>
+            <Text width="70%" m="2">{content}</Text>
+            <Flex width="30%" alignItems="center">
+                <Text  width="80%" onClick={openDoctorProfile} fontWeight="bold" cursor="pointer">{author}</Text>
+                {console.log(doctorProfilePicture)}
+                {doctorProfilePicture ?
+                    <Img height="50px" src={doctorProfilePicture} />
+                    :
+                    <GiPlagueDoctorProfile size="50px" />
+                }
+            </Flex>
             {context.userInfo.role == "ADMIN" &&
                 <Button onClick={() => deleteAnswer(id)}>
                     <TiDeleteOutline />

@@ -133,7 +133,7 @@ const Question = ({ id, symptoms, author, content, answer, reRenderPage }) => {
           <Flex width="100%" alignItems="center"
             justifyContent="center" flexDirection="column" >
             {context.userInfo.role == "DOCTOR" &&
-              <Answer doctorUsername={answer.doctor.username}
+              <Answer condition={answer.condition} doctorUsername={answer.doctor.username}
                 doctorProfilePicture={answer.doctor.profilePicture}
                 id={answer.id} content={answer.content}
                 author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
@@ -141,7 +141,7 @@ const Question = ({ id, symptoms, author, content, answer, reRenderPage }) => {
                 setQuestionError={(error) => setErrorMessage(error)} />
             }
             {context.userInfo.role == "USER" &&
-              <Answer doctorUsername={answer.doctor.username}
+              <Answer condition={answer.condition} doctorUsername={answer.doctor.username}
                 doctorProfilePicture={answer.doctor.profilePicture}
                 id={answer.id} content={answer.content}
                 author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
@@ -150,7 +150,7 @@ const Question = ({ id, symptoms, author, content, answer, reRenderPage }) => {
             }
 
             {context.userInfo.role == "ADMIN" &&
-              <Answer doctorUsername={answer.doctor.username}
+              <Answer condition={answer.condition} doctorUsername={answer.doctor.username}
                 doctorProfilePicture={answer.doctor.profilePicture}
                 id={answer.id} content={answer.content}
                 author={"Doctor " + answer.doctor.firstName + " " + answer.doctor.lastName}
