@@ -4,6 +4,8 @@ import axios from 'axios'
 import { UserContext } from '../../App'
 import SymptomLabel from './SymptomLabel'
 import { Button } from '@chakra-ui/button'
+import { Input } from '@chakra-ui/input'
+import DiagnosisResult from './DiagnosisResult'
 
 const DiagnosisForm = () => {
     const context = useContext(UserContext)
@@ -11,6 +13,8 @@ const DiagnosisForm = () => {
     const [selectedSymptoms, setSelectedSymptoms] = useState([])
     const [error, setError] = useState("")
     const [render, setRender] = useState(0)
+    const [searchWord, setSearchWord] = useState("")
+    const [diagnosisResult,setDiagnosisResult] = useState([])
 
 
 
@@ -32,7 +36,11 @@ const DiagnosisForm = () => {
             }).then(
                 (response) => {
                     console.log(response.data)
-                    setSymptoms(response.data)
+                    setSymptoms(response.data.sort((a, b) => {
+                        if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                        if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                        return 0;
+                    }))
                     setError("")
                     // NU STIU DE CE NU SE SETEAZA SYMPTOS DE LA PRIMUL RENDER
                     if (symptoms.length == 0) {
@@ -42,7 +50,7 @@ const DiagnosisForm = () => {
                     if (selectedSymptoms.length == 0) {
                         let arrayOfZeros = []
                         for (let i = 0; i < symptoms.length; i++) {
-                            arrayOfZeros.push(1);
+                            arrayOfZeros.push(0);
                         }
                         setSelectedSymptoms((old) => [...arrayOfZeros])
                     }
@@ -70,8 +78,8 @@ const DiagnosisForm = () => {
         newArray[index] = 1 - newArray[index];
         setSelectedSymptoms([...newArray])
     }
-    const calculateCondition = async () =>{
-        
+    const calculateCondition = async () => {
+        setDiagnosisResult([])
     }
 
     return (
@@ -79,20 +87,25 @@ const DiagnosisForm = () => {
             <Flex width="100%" position="relative" justifyContent="space-between" className="responsive-flex" height="50%" >
                 <Flex flexDir="column" height="400px" overflowY="auto">
                     <Text m="3" fontSize="lg" letterSpacing="wide" fontWeight="500">Select your Symptoms</Text>
+                    <Input value={searchWord} onChange={(e) => { setSearchWord(e.target.value) }} mb="3"></Input>
                     {console.log(selectedSymptoms)}
                     {symptoms.map((symptom, index) => {
-                        return <SymptomLabel selectSymptom={() => { selectSymptom(index) }} key={symptom.id} name={symptom.name} selected={selectedSymptoms[index] == 1} />
+                        if (symptom.name.includes(searchWord))
+                            return <SymptomLabel selectSymptom={() => { selectSymptom(index) }} key={symptom.id} name={symptom.name} selected={selectedSymptoms[index] == 1} />
                     })}
                 </Flex>
-                <Flex border="1px" flexDir="column" height="40%" p="2" overflowY="auto">
-                    {symptoms.map((symptom, index) => {
-                        return selectedSymptoms[index] == 1 ?
-                            <SymptomLabel key={symptom.id} name={symptom.name} selected={false} /> :
-                            null
-                    })}
-                </Flex>
+                {selectedSymptoms.indexOf(1) != -1 &&
+                    <Flex  flexDir="column" height="100%" p="2" overflowY="auto">
+                        {symptoms.map((symptom, index) => {
+                            return selectedSymptoms[index] == 1 ?
+                                <SymptomLabel key={symptom.id} name={symptom.name} selected={false} /> :
+                                null
+                        })}
+                    </Flex>
+                }
             </Flex>
             <Button width="30%" onClick={calculateCondition}> Calculate Condition</Button>
+            <DiagnosisResult diagnosisResult={diagnosisResult}/>
         </Flex>
     )
 }
