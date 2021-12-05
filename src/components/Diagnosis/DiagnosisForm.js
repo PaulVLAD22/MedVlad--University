@@ -119,16 +119,18 @@ const DiagnosisForm = () => {
     }
 
     return (
-        <Flex width="min(1024px,100%)" height="60%" boxShadow="dark-lg" p="10" flexDir="column" alignItems="center" >
+        <Flex width="min(1024px,100%)" height="80%" boxShadow="dark-lg" p="10" flexDir="column" alignItems="center" >
             <Flex width="100%" position="relative" justifyContent="space-between" className="responsive-flex" height="60%" >
-                <Flex flexDir="column" height="400px" overflowY="auto">
+                <Flex flexDir="column" overflowY="auto">
                     <Text m="3" fontSize="lg" letterSpacing="wide" fontWeight="500">Select your Symptoms</Text>
                     <Input value={searchWord} onChange={(e) => { setSearchWord(e.target.value) }} mb="3"></Input>
                     {console.log(selectedSymptoms)}
+                    <Flex flexDir="column" height="200px" overflowY="auto">
                     {symptoms.map((symptom, index) => {
                         if (symptom.name.includes(searchWord))
                             return <SymptomLabel selectSymptom={() => { selectSymptom(index) }} key={symptom.id} name={symptom.name} selected={selectedSymptoms[index] == 1} />
                     })}
+                    </Flex>
                 </Flex>
                 {selectedSymptoms.indexOf(1) != -1 &&
                     <Flex flexDir="column" height="100%" p="2" overflowY="auto">
@@ -140,8 +142,8 @@ const DiagnosisForm = () => {
                     </Flex>
                 }
             </Flex>
-            <Button width="30%" onClick={resetSelectedSymptoms} mb="3"> Reset Symptomps</Button>
-            <Button width="30%" onClick={calculateCondition}> Calculate Condition</Button>
+            <Button width="auto" px="2" py="1" onClick={resetSelectedSymptoms} mb="3"> Reset Symptomps</Button>
+            <Button width="auto" px="2" py="1" onClick={calculateCondition}> Calculate Condition</Button>
             <DiagnosisResult diagnosisResult={diagnosisResult} />
         </Flex>
     )
