@@ -6,6 +6,7 @@ import axios from 'axios'
 import Question from "../QuestionsBox/Question";
 import { backgroundColorCode, secondaryColor } from "../utils/colors";
 import { FiUser } from "react-icons/fi";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const UserProfile = ({ user, reRenderPage }) => {
     const context = useContext(UserContext)
     const [render, setRender] = useState(0);
@@ -16,12 +17,14 @@ const UserProfile = ({ user, reRenderPage }) => {
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
     const [profilePicture, setProfilePicture] = useState("")
+    const [loading, setLoading] = useState(false)
     // fa folder profile
 
     useEffect(() => {
         //console.log(context.jwt);
         const loadQuestions = async () => {
             console.log("jwt:" + context.jwt)
+            setLoading(true)
             let url = "/getQuestionsForUser";
 
             const config = {
@@ -49,6 +52,7 @@ const UserProfile = ({ user, reRenderPage }) => {
                     }
                 }
             );
+            setLoading(false)
         }
         loadQuestions();
     }, [render]);
@@ -231,21 +235,26 @@ const UserProfile = ({ user, reRenderPage }) => {
                     </Flex>
                     <Flex my="2" flexDir="column" alignItems="start">
                         <Text fontWeight="bold" >Infostation History:</Text>
-                        <Flex flexDir="column" my="1" width="100%">
-
-                            {questions.map((question, index) => {
-                                return (
-                                    <Question
-                                      key={question.id}
-                                      id={question.id}
-                                      symptoms = {question.symptoms}
-                                      author={question.userDto}
-                                      content={question.content}
-                                      answer={question.answer}
-                                      reRenderPage={() => setRender(render + 1)}
-                                    />
-                                  );
-                            })}
+                        <Flex flexDir="column" my="1" width="100%" alignItems="center">
+                            {loading == false ?
+                                questions.map((question, index) => {
+                                    return (
+                                        <Question
+                                            key={question.id}
+                                            id={question.id}
+                                            symptoms={question.symptoms}
+                                            author={question.userDto}
+                                            content={question.content}
+                                            answer={question.answer}
+                                            reRenderPage={() => setRender(render + 1)}
+                                        />
+                                    );
+                                })
+                                :
+                                <Box my="10">
+                                    <AiOutlineLoading3Quarters fontSize="30px" />
+                                </Box>
+                            }
 
                         </Flex>
                     </Flex>

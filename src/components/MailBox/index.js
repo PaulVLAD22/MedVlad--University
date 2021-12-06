@@ -26,6 +26,7 @@ const MailBox = () => {
         //TODO:: iei ultimul mesaj de la fiecare user cu care a conversat
         // in functie de daca l am trimis eu sau el sa fie o iconita jos
         const loadMessages = async () => {
+            setLoading(true)
             let url = "/getLastMessages";
 
             const config = {
@@ -53,6 +54,7 @@ const MailBox = () => {
                     }
                 }
             );
+            setLoading(false)
         }
         loadMessages();
         //console.log(lastMessages)
