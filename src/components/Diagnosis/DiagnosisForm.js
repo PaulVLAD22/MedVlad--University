@@ -119,7 +119,7 @@ const DiagnosisForm = () => {
     return (
         <Flex width="min(1024px,100%)" height="80%" boxShadow="dark-lg" p="10" flexDir="column" alignItems="center" position="relative" >
             <Flex width="100%" position="relative" justifyContent="space-between" className="responsive-flex" height="60%" alignItems="center">
-                <Text width="30%" fontSize="sm" color="yellow.400" fontWeight="500" position="absolute" top="0%" left="50%" transform="translate(-50%,0%)">
+                <Text width="30%" fontSize="sm" color="yellow.400" fontWeight="500" position="absolute" top="0%" left="50%" transform="translate(-50%,0%)" className="hideWhenMobile">
                     A score bellow {symptoms.length*5/3} indicates the fact that you should mesage the doctor!
                 </Text>
                 <Flex flexDir="column" overflowY="auto">

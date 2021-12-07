@@ -59,11 +59,16 @@ export const useUser = () => {
               setError("Wrong Credentials")
             }
             else {
-              setError("Unknown Error")
+              if (error.response.status == 401) {
+                setError("Inactive account")
+              }
+              else {
+                setError("Unknown Error")
+              }
             }
-            return
+            
           })
-
+      console.log(res)
       let token = res.data.access_token;
       console.log(res);
       res.data.userInfo.role = res.data.userInfo.role.name;
@@ -86,7 +91,7 @@ export const useUser = () => {
 
       console.log(userInfo)
     } catch (err) {
-      console.log(err);
+      return;
     }
   };
 

@@ -9,9 +9,13 @@
 .responsive-flex{
   flex-direction: row;
 }
+
 @media screen and (max-width: 624px) {
   .responsive-flex{
     flex-direction: column;
+  }
+  .hideWhenMobile{
+    display:none;
   }
 }
 
@@ -35,6 +39,7 @@
 .App-link {
   color: #61dafb;
 }
+
 
 @keyframes App-logo-spin {
   from {
