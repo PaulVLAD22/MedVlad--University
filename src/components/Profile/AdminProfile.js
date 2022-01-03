@@ -227,18 +227,7 @@ const AdminProfile = ({ user, reRenderPage }) => {
                         </Flex>
                     </Flex>
                     <Flex my="2" flexDir="column" alignItems="start">
-                        <Text>Infostation History:</Text>
-                        <Flex flexDir="column" my="1" width="100%">
-
-                            {questions.map((question, index) => {
-                                return <Question key={index}
-                                    author={question.userDto}
-                                    content={question.content}
-                                    answers={question.questionAnswerList}
-                                />
-                            })}
-
-                        </Flex>
+                        
                     </Flex>
                     {/* <Flex width="50%" my="2">
                         <Text>Doctors user interacted with:</Text>

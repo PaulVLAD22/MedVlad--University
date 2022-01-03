@@ -132,7 +132,7 @@ const DoctorProfile = ({ user, reRenderPage }) => {
                     </Flex>
                     <Flex my="2" flexDir="column" alignItems="start">
                         <Text fontWeight="bold">Infostation History:</Text>
-                        <Flex flexDir="column" my="1" width="100%">
+                        <Flex flexDir="column" my="1" width="100%" alignItems="center">
 
                             {questions.map((question, index) => {
                                 return (
