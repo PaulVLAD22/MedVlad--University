@@ -46,14 +46,17 @@ const MainMailBox = ({ messages, sendMessage, username, setLastMessages, lastMes
         if (document.getElementById('mainDiv'))
             document.getElementById('mainDiv').scrollTop = document.getElementById('mainDiv').scrollHeight;
         console.log(username)
+        console.log(lastMessages)
         const indexCurrentMessage = lastMessages.findIndex(message => message.senderUsername==username || message.receiverUsername == username);
         console.log(indexCurrentMessage)
+        
         const currentMessage = {...messages2[messages2.length-1]}
         console.log(currentMessage)
         const updatedLastMessages = [...lastMessages]
         updatedLastMessages[indexCurrentMessage] = currentMessage
         console.log(updatedLastMessages)
         setLastMessages(updatedLastMessages)
+    
 
 
 

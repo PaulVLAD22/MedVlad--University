@@ -6,7 +6,7 @@ const MiniMailBox = ({updateMainChat,username,message,timeOfSending, senderUsern
         <Flex cursor="pointer" onClick={updateMainChat} display="block" width="100%" flexDirection="column" textAlign="left" borderBottom="1px solid black"
             px="5" py="3"            
             >
-                {console.log(message)}
+                {console.log(message,username,senderUsername,timeOfSending)}
             <Text fontSize="lg" >{username}</Text>
             <Text fontSize="md" textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap" mb="2" >{message}</Text> 
             <Text fontSize="xs" >{(new Date(timeOfSending)).getMonth()+"-"+(new Date(timeOfSending)).getDay() +" "+ (new Date(timeOfSending)).getHours() +":"+ (minutes <10 ? "0"+minutes : minutes)}</Text> 
