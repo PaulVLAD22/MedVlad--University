@@ -43,8 +43,12 @@ const MailBox = () => {
             }).then(
                 (response) => {
                     //console.log(response.data)
-                    setLastMessages(response.data)
-                    //console.log(lastMessages)
+                    
+                    console.log(response.data)
+                    console.log("LAST MESSAGES: SUS")
+                    setLastMessages([...response.data])
+                    // uneori are index -1 un mesaj si sunt probleme
+                    console.log(lastMessages)
                 },
                 async (getError) => {
                     if (getError.response.status === 401) {
@@ -58,6 +62,7 @@ const MailBox = () => {
         }
         loadMessages();
         //console.log(lastMessages)
+        
     }, [render]);
 
     const sendMessage = async (messageContent, receiverUsername) => {
@@ -80,9 +85,10 @@ const MailBox = () => {
             (response) => {
                 console.log(response.data)
                 openChat(receiverUsername)
-                setRender(render + 1)
+                //setRender(render + 1)
             },
             async (getError) => {
+                console.log(getError.response.status)
                 if (getError.response.status === 401) {
                     console.log("SE CHEAMA REFRESH TOKEN")
                     context.refreshAuthToken();
