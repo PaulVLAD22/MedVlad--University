@@ -43,6 +43,7 @@ const MainMailBox = ({ messages, sendMessage, username, setLastMessages, lastMes
             }
         );
         //this may produce a bug
+        // -1 index, fa un caz special
         if (document.getElementById('mainDiv'))
             document.getElementById('mainDiv').scrollTop = document.getElementById('mainDiv').scrollHeight;
         console.log(username)

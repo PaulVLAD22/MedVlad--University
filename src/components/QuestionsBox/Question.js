@@ -58,6 +58,7 @@ const Question = ({ id, symptoms, author, content, answer, reRenderPage }) => {
         Authorization: "Bearer " + context.jwt,
       },
     };
+    console.log(id)
 
     await axios({
       method: "DELETE",

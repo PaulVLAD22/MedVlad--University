@@ -50,38 +50,38 @@ const Answer = ({ doctorUsername, id, content, doctorProfilePicture, author, con
 
     }
 
-    const deleteAnswer = async (id) => {
-        console.log(id)
+    // const deleteAnswer = async (id) => {
+    //     console.log(id)
 
-        let url = "/admin/deleteQuestionAnswer";
+    //     let url = "/admin/deleteQuestionAnswer";
 
-        const config = {
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                Authorization: "Bearer " + context.jwt,
-            },
-        };
+    //     const config = {
+    //         headers: {
+    //             "Access-Control-Allow-Origin": "*",
+    //             Authorization: "Bearer " + context.jwt,
+    //         },
+    //     };
 
-        await axios({
-            method: "DELETE",
-            url: url,
-            headers: config.headers,
-            params: { "questionAnswerId": id }
-        }).then(
-            (response) => {
-                console.log(response.data)
-                reRenderPage()
-                setRender(render + 1)
-            },
-            async (getError) => {
-                if (getError.response.status === 401) {
-                    console.log("SE CHEAMA REFRESH TOKEN")
-                    context.refreshAuthToken();
-                    setRender(render + 1);
-                }
-            }
-        );
-    }
+    //     await axios({
+    //         method: "DELETE",
+    //         url: url,
+    //         headers: config.headers,
+    //         params: { "questionAnswerId": id }
+    //     }).then(
+    //         (response) => {
+    //             console.log(response.data)
+    //             reRenderPage()
+    //             setRender(render + 1)
+    //         },
+    //         async (getError) => {
+    //             if (getError.response.status === 401) {
+    //                 console.log("SE CHEAMA REFRESH TOKEN")
+    //                 context.refreshAuthToken();
+    //                 setRender(render + 1);
+    //             }
+    //         }
+    //     );
+    // }
     const openDoctorProfile = () => {
         history.push("/profile/" + doctorUsername)
     }
@@ -113,11 +113,7 @@ const Answer = ({ doctorUsername, id, content, doctorProfilePicture, author, con
                     <GiPlagueDoctorProfile size="50px" />
                 }
             </Flex>
-            {context.userInfo.role == "ADMIN" &&
-                <Button onClick={() => deleteAnswer(id)}>
-                    <TiDeleteOutline />
-                </Button>
-            }
+            
         </Flex>
     )
 }
