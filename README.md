@@ -1,5 +1,23 @@
 <h1>Pentru facultate</h1>
-Work on profiles
+Descriere:
+Platforma Medicala online cu scopul de a iti calcula pe baza simptomelor si intrebarilor puse de alti useri si raspunse de catre doctori conditia medicala.
+
+Rute publice/ private - https://github.com/PaulVLAD22/MedVlad--University/blob/main/src/App.js
+
+Componente reutilizabile 
+
+Register, Login - https://github.com/PaulVLAD22/MedVlad--University/blob/main/src/components/Auth/useUser.js
+
+Profiles - https://github.com/PaulVLAD22/MedVlad--University/tree/main/src/components/Profile
+
+State management  - Context API - https://github.com/PaulVLAD22/MedVlad--University/blob/main/src/components/Auth/useUser.js
+
+Chat implementata prin request-uri repetate odata la 3 secunde.
+
+Api in Spring Boot
+
+Github : https://github.com/PaulVLAD22/MedVlad--University
+
 <h1>Probleme generale</h1>
 
 <h1>De adaugat:</h1>
