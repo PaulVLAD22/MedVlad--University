@@ -1,3 +1,4 @@
+<h2>Best branch : Main</h2>
 <h1>Pentru facultate</h1>
 Descriere:
 Platforma Medicala online cu scopul de a iti calcula pe baza simptomelor si intrebarilor puse de alti useri si raspunse de catre doctori conditia medicala.
