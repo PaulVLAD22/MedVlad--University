@@ -9,7 +9,7 @@ const AcceptUsersPage = ({ reRenderPage }) => {
   const [requests, setRequests] = useState([]);
   const [render, setRender] = useState(0);
 
-  useEffect(()=> {
+  useEffect(() => {
     const loadUsers = async () => {
       let url = "/admin/getInactiveUsers";
 
@@ -37,26 +37,24 @@ const AcceptUsersPage = ({ reRenderPage }) => {
           }
         }
       );
-    }
+    };
     loadUsers();
   }, [render]);
 
   return (
     <Center width="100%" height="100%" overflow="auto">
-      {requests.length == 0 &&
-        <Text>No User Requests</Text>
-      }
-      {requests.length != 0 &&
+      {requests.length == 0 && <Text>No User Requests</Text>}
+      {requests.length != 0 && (
         <Flex
           flexDir="column"
-          border="1px solid black"
+          px="5"
           width="min(1024px,100%)"
           height="70%"
           overflow="auto"
           alignItems="center"
         >
           {requests.map((user, index) => {
-            console.log(user)
+            console.log(user);
             return (
               <UserRequest
                 key={index}
@@ -66,7 +64,7 @@ const AcceptUsersPage = ({ reRenderPage }) => {
             );
           })}
         </Flex>
-      }
+      )}
     </Center>
   );
 };
