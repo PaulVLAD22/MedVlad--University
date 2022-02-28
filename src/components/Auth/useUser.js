@@ -52,23 +52,19 @@ export const useUser = () => {
     };
 
     try {
-      const res =
-        await axios.post(url, params, config)
-          .catch((error) => {
-            if (error.response.status == 403) {
-              setError("Wrong Credentials")
-            }
-            else {
-              if (error.response.status == 401) {
-                setError("Inactive account")
-              }
-              else {
-                setError("Unknown Error")
-              }
-            }
-            
-          })
-      console.log(res)
+      const res = await axios.post(url, params, config).catch((error) => {
+        if (error.response.status == 403) {
+          setError("Wrong Credentials");
+        } else {
+          if (error.response.status == 401) {
+            setError("Inactive account");
+          } else {
+            console.log(error);
+            setError("Unknown Error");
+          }
+        }
+      });
+      console.log(res);
       let token = res.data.access_token;
       console.log(res);
       res.data.userInfo.role = res.data.userInfo.role.name;
@@ -79,7 +75,7 @@ export const useUser = () => {
 
       const parsedUserObj = JSON.parse(userObj);
 
-      console.log(userObj)
+      console.log(userObj);
       await localStorage.setItem("JWTToken", token);
       await localStorage.setItem("refresh_token", res.data.refresh_token);
       await localStorage.setItem("userInfo", userObj);
@@ -89,7 +85,7 @@ export const useUser = () => {
       setUserInfo(parsedUserObj);
       setJwt(token);
 
-      console.log(userInfo)
+      console.log(userInfo);
     } catch (err) {
       return;
     }
@@ -109,20 +105,19 @@ export const useUser = () => {
       headers: config.headers,
     }).then(
       (response) => {
-        console.log(jwt)
-        console.log("acces:" + response.data.access_token)
-        setJwt(response.data.access_token)
-        setRefreshToken(response.data.refresh_token)
+        console.log(jwt);
+        console.log("acces:" + response.data.access_token);
+        setJwt(response.data.access_token);
+        setRefreshToken(response.data.refresh_token);
         localStorage.setItem("JWTToken", response.data.access_token);
         localStorage.setItem("refresh_token", response.data.refresh_token);
-        console.log(jwt)
-        console.log(response)
-
+        console.log(jwt);
+        console.log(response);
       },
       (getError) => {
         if (getError.response.status == 403) {
           if (jwt !== "" && jwt != null) {
-            history.push("/")
+            history.push("/");
             logOut();
           }
         }
@@ -131,7 +126,6 @@ export const useUser = () => {
   };
 
   const signUp = async (details, role, setMessage, clearDetails) => {
-
     let url = "/register";
 
     const config = {
@@ -146,33 +140,29 @@ export const useUser = () => {
     params.append("email", details.email);
     params.append("username", details.username);
     params.append("password", details.password);
-    params.append("licensePicture", details.licensePicture)
-    params.append("role", role)
+    params.append("licensePicture", details.licensePicture);
+    params.append("role", role);
 
     await axios({
       method: "POST",
       url: url,
       params: params,
-      config: config
+      config: config,
     }).then(
       (response) => {
-        console.log(response.data)
-        setMessage("Request sent to admins")
+        console.log(response.data);
+        setMessage("Request sent to admins");
         clearDetails();
       },
       async (getError) => {
         if (getError.response.status == 409) {
           setMessage("Username Or Email already taken");
-        }
-        else {
-          setMessage("Unknown error")
+        } else {
+          setMessage("Unknown error");
         }
       }
     );
-
-  }
-
-
+  };
 
   const logOut = () => {
     console.log("logging out");
@@ -181,9 +171,9 @@ export const useUser = () => {
     localStorage.removeItem("userInfo");
     setJwt(null);
     setUserInfo(null);
-    setRefreshToken(null)
-    console.log(userInfo)
-    console.log(jwt)
+    setRefreshToken(null);
+    console.log(userInfo);
+    console.log(jwt);
     //window.location.reload()
   };
 
