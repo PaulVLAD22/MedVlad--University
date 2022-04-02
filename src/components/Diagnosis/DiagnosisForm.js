@@ -139,8 +139,8 @@ const DiagnosisForm = () => {
           transform="translate(-50%,0%)"
           className="hideWhenMobile"
         >
-          A score bellow {((symptoms.length * 5) / 3).toFixed(1)} indicates the
-          fact that you should mesage the doctor!
+          A score bellow 50% indicates the fact that you should mesage the
+          doctor!
         </Text>
         <Flex flexDir="column" overflowY="auto">
           <Text m="3" fontSize="lg" letterSpacing="wide" fontWeight="500">

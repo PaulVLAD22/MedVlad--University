@@ -3,13 +3,17 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { useHistory, useLocation } from "react-router";
 import { UserContext } from "../../App";
-import { backgroundImageGradient, primaryColor, secondaryColor } from "../utils/colors";
+import {
+  backgroundImageGradient,
+  primaryColor,
+  secondaryColor,
+} from "../utils/colors";
 import { AiOutlineBars } from "react-icons/ai";
 import { primaryFont } from "../utils/colors";
 const Navbar = ({ toggle }) => {
   const history = useHistory();
   const location = useLocation();
-  console.log(location.pathname)
+  console.log(location.pathname);
 
   const context = useContext(UserContext);
   console.log(context);
@@ -32,8 +36,8 @@ const Navbar = ({ toggle }) => {
     history.push("/acceptUsers");
   };
   const goAccept = () => {
-    history.push("/accept")
-  }
+    history.push("/accept");
+  };
   const goAcceptDoctors = () => {
     history.push("/acceptDoctors");
   };
@@ -47,49 +51,35 @@ const Navbar = ({ toggle }) => {
     history.push("/answerQuestions");
   };
   const goToProfile = () => {
-    history.push("/profile")
-    if (location.pathname.includes("/profile/"))
-      window.location.reload()
-  }
+    history.push("/profile");
+    if (location.pathname.includes("/profile/")) window.location.reload();
+  };
   const goBanUser = () => {
-    history.push("/banUser")
-  }
-  const goToDiagnosis = () =>{
-    history.push("/diagnosis")
-  }
+    history.push("/banUser");
+  };
+  const goToDiagnosis = () => {
+    history.push("/diagnosis");
+  };
 
   const handleLogout = () => {
     history.push("/");
     context.logOut();
   };
   return (
-
     <Flex
       background={primaryColor}
       width="100vw"
       height="70px"
-
       justifyContent="space-between"
       alignItems="center"
       paddingX="5"
     >
       {console.log(context)}
       <LeftNavMenu>
-        <Button
-          background="white"
-          mx={3}
-          onClick={goHome}
-          fontSize="lg"
-          color="black"
-          letterSpacing="wider"
-        >
-          Home
-        </Button>
         {context.userInfo.role == "DOCTOR" && (
           <>
             <Button
               background="white"
-
               mx={3}
               onClick={goAnswerQuestions}
               fontSize="lg"
@@ -101,7 +91,6 @@ const Navbar = ({ toggle }) => {
 
             <Button
               background="white"
-
               mx={3}
               onClick={goToMail}
               fontSize="lg"
@@ -116,7 +105,6 @@ const Navbar = ({ toggle }) => {
           <>
             <Button
               background="white"
-
               mx={3}
               onClick={goAccept}
               fontSize="lg"
@@ -128,7 +116,6 @@ const Navbar = ({ toggle }) => {
 
             <Button
               background="white"
-
               mx={3}
               onClick={goBanUser}
               fontSize="lg"
@@ -140,7 +127,6 @@ const Navbar = ({ toggle }) => {
 
             <Button
               background="white"
-
               mx={3}
               onClick={goAcceptanceHistory}
               fontSize="lg"
@@ -151,7 +137,6 @@ const Navbar = ({ toggle }) => {
             </Button>
             <Button
               background="white"
-
               mx={3}
               onClick={goToInfostation}
               fontSize="lg"
@@ -160,14 +145,12 @@ const Navbar = ({ toggle }) => {
             >
               Infostation
             </Button>
-
           </>
         )}
         {context.userInfo.role == "USER" && (
           <>
             <Button
               background="white"
-
               mx={3}
               onClick={goToDiagnosis}
               fontSize="lg"
@@ -178,7 +161,6 @@ const Navbar = ({ toggle }) => {
             </Button>
             <Button
               background="white"
-
               mx={3}
               onClick={goToInfostation}
               fontSize="lg"
@@ -190,7 +172,6 @@ const Navbar = ({ toggle }) => {
 
             <Button
               background="white"
-
               mx={3}
               onClick={goToMail}
               fontSize="lg"
@@ -205,7 +186,6 @@ const Navbar = ({ toggle }) => {
 
       <Flex justifyContent="space-between" alignItems="center">
         <Flex width="100%" alignItems="center">
-
           <Button
             padding="3"
             px="5"
@@ -213,15 +193,10 @@ const Navbar = ({ toggle }) => {
             letterSpacing="wider"
             onClick={() => goToProfile()}
           >
-            {context.userInfo.role +
-              " " +
-              context.userInfo.username}
+            {context.userInfo.role + " " + context.userInfo.username}
           </Button>
 
-          <Img
-            maxH="50px"
-            src={context.userInfo.profilePicture}
-          />
+          <Img maxH="50px" src={context.userInfo.profilePicture} />
         </Flex>
         <Button
           fontSize="18px"
@@ -263,4 +238,4 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export default React.memo(Navbar)
+export default React.memo(Navbar);
