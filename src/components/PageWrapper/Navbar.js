@@ -1,5 +1,5 @@
 import { Button, Flex, Menu, Text, Box, Img } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { useHistory, useLocation } from "react-router";
 import { UserContext } from "../../App";
@@ -10,9 +10,14 @@ import {
 } from "../utils/colors";
 import { AiOutlineBars } from "react-icons/ai";
 import { primaryFont } from "../utils/colors";
+import { useColorMode } from "@chakra-ui/react";
+import { BsFillCloudMoonFill, BsFillSunFill } from "react-icons/bs";
+
 const Navbar = ({ toggle }) => {
   const history = useHistory();
   const location = useLocation();
+  const [darkColorMode, setDarkColorMode] = useState(false);
+  const { toggleColorMode } = useColorMode();
   console.log(location.pathname);
 
   const context = useContext(UserContext);
@@ -79,22 +84,18 @@ const Navbar = ({ toggle }) => {
         {context.userInfo.role == "DOCTOR" && (
           <>
             <Button
-              background="white"
               mx={3}
               onClick={goAnswerQuestions}
               fontSize="lg"
-              color="black"
               letterSpacing="wider"
             >
               Answer Questions
             </Button>
 
             <Button
-              background="white"
               mx={3}
               onClick={goToMail}
               fontSize="lg"
-              color="black"
               letterSpacing="wider"
             >
               Messages
@@ -104,43 +105,35 @@ const Navbar = ({ toggle }) => {
         {context.userInfo.role == "ADMIN" && (
           <>
             <Button
-              background="white"
               mx={3}
               onClick={goAccept}
               fontSize="lg"
-              color="black"
               letterSpacing="wider"
             >
               Accept
             </Button>
 
             <Button
-              background="white"
               mx={3}
               onClick={goBanUser}
               fontSize="lg"
-              color="black"
               letterSpacing="wider"
             >
               Ban User
             </Button>
 
             <Button
-              background="white"
               mx={3}
               onClick={goAcceptanceHistory}
               fontSize="lg"
-              color="black"
               letterSpacing="wider"
             >
               History
             </Button>
             <Button
-              background="white"
               mx={3}
               onClick={goToInfostation}
               fontSize="lg"
-              color="black"
               letterSpacing="wider"
             >
               Infostation
@@ -150,32 +143,26 @@ const Navbar = ({ toggle }) => {
         {context.userInfo.role == "USER" && (
           <>
             <Button
-              background="white"
               mx={3}
               onClick={goToDiagnosis}
               fontSize="lg"
-              color="black"
               letterSpacing="wider"
             >
               Diagnosis
             </Button>
             <Button
-              background="white"
               mx={3}
               onClick={goToInfostation}
               fontSize="lg"
-              color="black"
               letterSpacing="wider"
             >
               Infostation
             </Button>
 
             <Button
-              background="white"
               mx={3}
               onClick={goToMail}
               fontSize="lg"
-              color="black"
               letterSpacing="wider"
             >
               Messages
@@ -186,6 +173,25 @@ const Navbar = ({ toggle }) => {
 
       <Flex justifyContent="space-between" alignItems="center">
         <Flex width="100%" alignItems="center">
+          {darkColorMode == false ? (
+            <BsFillCloudMoonFill
+              className="cursor-pointer"
+              size="2rem"
+              onClick={() => {
+                toggleColorMode();
+                setDarkColorMode(!darkColorMode);
+              }}
+            />
+          ) : (
+            <BsFillSunFill
+              className="cursor-pointer"
+              size="2rem"
+              onClick={() => {
+                toggleColorMode();
+                setDarkColorMode(!darkColorMode);
+              }}
+            />
+          )}
           <Button
             padding="3"
             px="5"

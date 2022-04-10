@@ -144,7 +144,6 @@ const DoctorProfile = ({ user, reRenderPage }) => {
                 </Flex>
               )}
               <Text>{user.username}</Text>
-              <Text>User Points : {user.points}</Text>
             </Flex>
 
             <Flex flexDir="column" width="50%" my="2">
