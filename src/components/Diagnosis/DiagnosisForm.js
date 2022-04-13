@@ -113,7 +113,6 @@ const DiagnosisForm = () => {
   return (
     <Flex
       width="min(1024px,100%)"
-      height="80%"
       boxShadow="dark-lg"
       p="10"
       flexDir="column"
@@ -124,8 +123,6 @@ const DiagnosisForm = () => {
         width="100%"
         position="relative"
         justifyContent="space-between"
-        className="responsive-flex"
-        height="60%"
         alignItems="center"
       >
         <Text
@@ -137,7 +134,6 @@ const DiagnosisForm = () => {
           top="0%"
           left="50%"
           transform="translate(-50%,0%)"
-          className="hideWhenMobile"
         >
           A score bellow 50% indicates the fact that you should mesage the
           doctor!
@@ -183,7 +179,7 @@ const DiagnosisForm = () => {
 
         <Flex
           flexDir="column"
-          height="100%"
+          height="400px"
           p="2"
           overflowY="auto"
           minWidth="max(20%,200px)"
@@ -207,7 +203,9 @@ const DiagnosisForm = () => {
         {" "}
         Calculate Condition
       </Button>
-      <DiagnosisResult diagnosisResult={diagnosisResult} />
+      {diagnosisResult.map((diagnosis) => {
+        return <DiagnosisResult diagnosisResult={diagnosis} />;
+      })}
     </Flex>
   );
 };
