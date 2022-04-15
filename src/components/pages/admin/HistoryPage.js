@@ -8,12 +8,42 @@ import { ExportExcel } from "./ExportData/ExportExcel";
 
 const HistoryPage = () => {
   const context = useContext(UserContext);
-  const [registrationRequests, setRegistrationRequests] = useState([])
-  const [questionRequests, setQuestionRequests] = useState([])
+  const [registrationRequests, setRegistrationRequests] = useState([]);
+  const [questionRequests, setQuestionRequests] = useState([]);
+  const [bannedUsers, setBannedUsers] = useState([]);
   const [render, setRender] = useState(0);
-  const registrationCsv = "registrationCsv"
+  const registrationCsv = "registrationCsv";
 
   useEffect(() => {
+    const getAdminBannedUsers = async () => {
+      let url = "/admin/getBannedUsersForAdmin";
+
+      const config = {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + context.jwt,
+        },
+      };
+      await axios({
+        method: "GET",
+        url: url,
+        headers: config.headers,
+        params: { username: context.userInfo.username },
+      }).then(
+        (response) => {
+          console.log(response.data);
+          setBannedUsers(response.data);
+        },
+        async (getError) => {
+          if (getError.response.status === 401) {
+            console.log("SE CHEAMA REFRESH TOKEN");
+            context.refreshAuthToken();
+            setRender(render + 1);
+          }
+        }
+      );
+    };
+
     const getAdminHistory = async () => {
       let url = "/admin/getAdminHistory";
 
@@ -31,20 +61,19 @@ const HistoryPage = () => {
       }).then(
         (response) => {
           console.log(response.data.registrationResultList);
-          setRegistrationRequests(response.data.registrationResultList)
+          setRegistrationRequests(response.data.registrationResultList);
           response.data.questions.map((question) => {
             let newQuestion = {
-              "user": question.userDto.username,
-              "content": question.content,
-              "posting_date": question.postingDate,
-              "comment": question.comment,
-              "verdict": question.verdict
-            }
+              user: question.userDto.username,
+              content: question.content,
+              posting_date: question.postingDate,
+              comment: question.comment,
+              verdict: question.verdict,
+            };
 
-            setQuestionRequests(arr => [...arr, newQuestion])
-          })
-          console.log(questionRequests)
-
+            setQuestionRequests((arr) => [...arr, newQuestion]);
+          });
+          console.log(questionRequests);
         },
         async (getError) => {
           if (getError.response.status === 401) {
@@ -54,8 +83,9 @@ const HistoryPage = () => {
           }
         }
       );
-    }
+    };
     getAdminHistory();
+    getAdminBannedUsers();
   }, [render]);
 
   return (
@@ -69,23 +99,34 @@ const HistoryPage = () => {
         alignItems="center"
       >
         {registrationRequests.map((request, index) => {
-          console.log(request)
-          return <AcceptedRequest
-            key={index}
-            request={request} />
+          console.log(request);
+          return <AcceptedRequest key={index} request={request} />;
         })}
         {questionRequests.map((question, index) => {
           return (
-            <Box my="2" key={index} >
+            <Box my="2" key={index}>
               <Text>Question : {question.content}</Text>
               <Text>Comment : {question.comment}</Text>
               <Text>Accepted : {question.verdict == true ? "Yes" : "No"}</Text>
             </Box>
-          )
+          );
         })}
       </Flex>
-      <ExportExcel text={"Export Registration Data"} csvData={registrationRequests} fileName={"RegistrationReport_" + context.userInfo.username} />
-      <ExportExcel text={"Export Question Data"} csvData={questionRequests} fileName={"QuestionsReport_" + context.userInfo.username} />
+      <ExportExcel
+        text={"Export Registration Data"}
+        csvData={registrationRequests}
+        fileName={"RegistrationReport_" + context.userInfo.username}
+      />
+      <ExportExcel
+        text={"Export Question Data"}
+        csvData={questionRequests}
+        fileName={"QuestionsReport_" + context.userInfo.username}
+      />
+      <ExportExcel
+        text={"Export Banned Users Data"}
+        csvData={bannedUsers}
+        fileName={"BannedUsersReport_" + context.userInfo.username}
+      />
     </Center>
   );
 };
