@@ -71,7 +71,12 @@ const MainMailBox = ({
       updatedLastMessages[0] = currentMessage;
     }
     console.log(updatedLastMessages);
-    setLastMessages(updatedLastMessages);
+    updatedLastMessages.filter((message) => {
+      return (
+        message.senderUsername == username ||
+        message.receiverUsername == username
+      );
+    });
 
     setTimeout(() => {
       setRender(render + 1);
@@ -87,6 +92,7 @@ const MainMailBox = ({
         flexDir="column"
         overflowY="auto"
         overflowX="hidden"
+        height={username !== "" ? "80%" : "auto"}
       >
         {messages2
           .sort((a, b) => {
