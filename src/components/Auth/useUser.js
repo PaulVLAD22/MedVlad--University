@@ -38,11 +38,13 @@ export const useUser = () => {
   // }
 
   const logIn = async (details, setError) => {
+    console.log("SALUT")
     let url = "/login";
     const params = new URLSearchParams();
     params.append("grant_type", "password");
     params.append("username", details.username);
     params.append("password", details.password);
+    console.log("login")
 
     const config = {
       headers: {

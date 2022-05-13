@@ -163,7 +163,7 @@ const DoctorSignupForm = () => {
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="licensePicture">
-                Doctor License Picture: (imgur link)
+                Legal Document Picture: (imgur link)
               </FormLabel>
               {/* <Input
                           type="file" id="profilePicture" name="profilePicture" accept="image/png, image/jpeg">

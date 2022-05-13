@@ -54,7 +54,6 @@ const AcceptUsersPage = ({ reRenderPage }) => {
           alignItems="center"
         >
           {requests.map((user, index) => {
-            console.log(user);
             return (
               <UserRequest
                 key={index}
