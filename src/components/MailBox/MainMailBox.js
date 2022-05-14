@@ -48,8 +48,10 @@ const MainMailBox = ({
         }
       }
     );
-    //this may produce a bug
+
+    // this may produce a bug
     // -1 index, fa un caz special
+
     if (document.getElementById("mainDiv"))
       document.getElementById("mainDiv").scrollTop =
         document.getElementById("mainDiv").scrollHeight;
@@ -61,6 +63,8 @@ const MainMailBox = ({
         message.receiverUsername == username
     );
     console.log(indexCurrentMessage);
+    console.log("AICI");
+    console.log(lastMessages);
     console.log(lastMessages[-1]);
 
     const currentMessage = { ...messages2[messages2.length - 1] };
@@ -77,6 +81,7 @@ const MainMailBox = ({
         message.receiverUsername == username
       );
     });
+    setLastMessages(updatedLastMessages);
 
     setTimeout(() => {
       setRender(render + 1);

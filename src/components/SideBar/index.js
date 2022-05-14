@@ -1,69 +1,82 @@
-import React from 'react'
-import  {SidebarContainer,Icon,CloseIcon,SidebarWrapper,SidebarMenu,SidebarLink} from './SidebarElements'
+import React from "react";
+import {
+  SidebarContainer,
+  Icon,
+  CloseIcon,
+  SidebarWrapper,
+  SidebarMenu,
+  SidebarLink,
+} from "./SidebarElements";
 import { useHistory } from "react-router";
-import { useContext } from 'react';
-import { UserContext } from '../../App';
-const SideBar = ({isOpen,toggle}) =>{
+import { useContext } from "react";
+import { UserContext } from "../../App";
+const SideBar = ({ isOpen, toggle }) => {
   const context = useContext(UserContext);
   const history = useHistory();
 
   const goHome = () => {
-		history.push("/");
-	};
-  
+    history.push("/");
+  };
+
   const goToChat = () => {
     history.push("/chat");
-  }
+  };
+  const goToDiagnosis = () => {
+    history.push("/diagnosis");
+  };
   const goToMail = () => {
     history.push("/mail");
-  }
-  const goToInfostation = () =>{
+  };
+  const goToInfostation = () => {
     history.push("/infostation");
-  }
-  const goToAccept = () =>{
-    history.push("/accept")
-  }
-  const goToAcceptanceHistory = () =>{
-    history.push("/acceptanceHistory")
-  }
+  };
+  const goToAccept = () => {
+    history.push("/accept");
+  };
+  const goToAcceptanceHistory = () => {
+    history.push("/acceptanceHistory");
+  };
   const goToAnswerQuestion = () => {
-    history.push("/answerQuestions")
-  }
-  const goToBanUser = () =>{
-    history.push("/banUser")
-  }
+    history.push("/answerQuestions");
+  };
+  const goToBanUser = () => {
+    history.push("/banUser");
+  };
   return (
     <SidebarContainer isOpen={isOpen} onClick={toggle}>
       <Icon onClick={toggle}>
-        <CloseIcon>
-        </CloseIcon>
+        <CloseIcon></CloseIcon>
       </Icon>
       <SidebarWrapper>
         <SidebarMenu>
-        <SidebarLink onClick={goHome}>Home</SidebarLink>
-          {context.userInfo.role=="USER" &&
-          <> 
-          <SidebarLink onClick={goToInfostation}>Infostation</SidebarLink>
-          <SidebarLink onClick={goToMail}>Messages</SidebarLink>
-          </>}
-          {context.userInfo.role=="ADMIN" &&
-          <>
-          <SidebarLink onClick={goToAccept}>Accept</SidebarLink>
-          <SidebarLink onClick={goToAcceptanceHistory}>History</SidebarLink>
-          <SidebarLink onClick={goToBanUser}>Ban User</SidebarLink>
-          <SidebarLink onClick={goToInfostation}>Infostation</SidebarLink>
-          </>}
+          <SidebarLink onClick={goHome}>Home</SidebarLink>
+          {context.userInfo.role == "USER" && (
+            <>
+              <SidebarLink onClick={goToDiagnosis}>Diagnosis</SidebarLink>
+              <SidebarLink onClick={goToInfostation}>Infostation</SidebarLink>
+              <SidebarLink onClick={goToMail}>Messages</SidebarLink>
+            </>
+          )}
+          {context.userInfo.role == "ADMIN" && (
+            <>
+              <SidebarLink onClick={goToAccept}>Accept</SidebarLink>
+              <SidebarLink onClick={goToAcceptanceHistory}>History</SidebarLink>
+              <SidebarLink onClick={goToBanUser}>Ban User</SidebarLink>
+              <SidebarLink onClick={goToInfostation}>Infostation</SidebarLink>
+            </>
+          )}
 
-          {context.userInfo.role=="DOCTOR" &&
-          <>
-          <SidebarLink onClick={goToAnswerQuestion}>Infostation</SidebarLink>
-          <SidebarLink onClick={goToMail}>Messages</SidebarLink>
-          </>
-          }
-          
+          {context.userInfo.role == "DOCTOR" && (
+            <>
+              <SidebarLink onClick={goToAnswerQuestion}>
+                Infostation
+              </SidebarLink>
+              <SidebarLink onClick={goToMail}>Messages</SidebarLink>
+            </>
+          )}
         </SidebarMenu>
       </SidebarWrapper>
     </SidebarContainer>
-  )
-}
-export default React.memo(SideBar)
+  );
+};
+export default React.memo(SideBar);
