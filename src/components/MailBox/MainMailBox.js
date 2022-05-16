@@ -55,33 +55,33 @@ const MainMailBox = ({
     if (document.getElementById("mainDiv"))
       document.getElementById("mainDiv").scrollTop =
         document.getElementById("mainDiv").scrollHeight;
+    reRenderPage();
+    // console.log("MESSAGES 2 SUS");
+    // const indexCurrentMessage = lastMessages.findIndex(
+    //   (message) =>
+    //     message.senderUsername == username ||
+    //     message.receiverUsername == username
+    // );
+    // console.log(indexCurrentMessage);
+    // console.log("AICI");
+    // console.log(lastMessages);
+    // console.log(lastMessages[-1]);
 
-    console.log("MESSAGES 2 SUS");
-    const indexCurrentMessage = lastMessages.findIndex(
-      (message) =>
-        message.senderUsername == username ||
-        message.receiverUsername == username
-    );
-    console.log(indexCurrentMessage);
-    console.log("AICI");
-    console.log(lastMessages);
-    console.log(lastMessages[-1]);
-
-    const currentMessage = { ...messages2[messages2.length - 1] };
-    const updatedLastMessages = [...lastMessages];
-    if (indexCurrentMessage != -1) {
-      updatedLastMessages[indexCurrentMessage] = currentMessage;
-    } else {
-      updatedLastMessages[0] = currentMessage;
-    }
-    console.log(updatedLastMessages);
-    updatedLastMessages.filter((message) => {
-      return (
-        message.senderUsername == username ||
-        message.receiverUsername == username
-      );
-    });
-    setLastMessages(updatedLastMessages);
+    // const currentMessage = { ...messages2[messages2.length - 1] };
+    // const updatedLastMessages = [...lastMessages];
+    // if (indexCurrentMessage != -1) {
+    //   updatedLastMessages[indexCurrentMessage] = currentMessage;
+    // } else {
+    //   updatedLastMessages[0] = currentMessage;
+    // }
+    // console.log(updatedLastMessages);
+    // updatedLastMessages.filter((message) => {
+    //   return (
+    //     message.senderUsername == username ||
+    //     message.receiverUsername == username
+    //   );
+    // });
+    // setLastMessages(updatedLastMessages);
 
     setTimeout(() => {
       setRender(render + 1);

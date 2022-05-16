@@ -38,7 +38,7 @@ const MainMailMessage = ({ side, content, timeOfSending }) => {
           " " +
           hour +
           ":" +
-          (minute < 10 ? "0" + minute : minute)}
+          minute}
       </Text>
     </Flex>
   );
