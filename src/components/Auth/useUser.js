@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { apiClient } from "../utils/apiClient";
+import { useColorMode } from "@chakra-ui/react";
 import axios from "axios";
 import https from "https";
 import { isContext } from "vm";
+import { useColorModeValue } from "@chakra-ui/color-mode";
 
 export const useUser = () => {
   const [jwt, setJwt] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
 
+  const { colorMode, toggleColorMode } = useColorMode();
   const history = useHistory();
 
   const [userInfo, setUserInfo] = useState({});
@@ -38,13 +41,13 @@ export const useUser = () => {
   // }
 
   const logIn = async (details, setError) => {
-    console.log("SALUT")
+    console.log("SALUT");
     let url = "/login";
     const params = new URLSearchParams();
     params.append("grant_type", "password");
     params.append("username", details.username);
     params.append("password", details.password);
-    console.log("login")
+    console.log("login");
 
     const config = {
       headers: {
@@ -55,13 +58,12 @@ export const useUser = () => {
 
     try {
       const res = await axios.post(url, params, config).catch((error) => {
-        if (error.response.status == 403) {
+        if (error.response.status === 403) {
           setError("Wrong Credentials");
         } else {
-          if (error.response.status == 401) {
+          if (error.response.status === 401) {
             setError("Inactive account");
           } else {
-            console.log(error);
             setError("Unknown Error");
           }
         }
@@ -168,6 +170,7 @@ export const useUser = () => {
 
   const logOut = () => {
     console.log("logging out");
+    console.log(colorMode);
     localStorage.removeItem("JWTToken");
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("userInfo");

@@ -12,7 +12,6 @@ const MainMailMessage = ({ side, content, timeOfSending }) => {
 
   let year, month, day, hour, minute;
 
-  console.log(timeOfSending);
   timeOfSending = String(timeOfSending);
   year = timeOfSending.substr(0, 4);
   month = timeOfSending.substr(5, 2);
@@ -23,10 +22,10 @@ const MainMailMessage = ({ side, content, timeOfSending }) => {
     <Flex
       flexDir="column"
       borderColor="#ccc"
-      backgroundColor={side == "left" ? "#dcf5b7" : "#ddd"}
+      backgroundColor={side === "left" ? "#dcf5b7" : "#ddd"}
       borderRadius="md"
-      borderTopLeftRadius={side == "left" ? "3xl" : null}
-      borderTopRightRadius={side == "right" ? "3xl" : null}
+      borderTopLeftRadius={side === "left" ? "3xl" : null}
+      borderTopRightRadius={side === "right" ? "3xl" : null}
       width="100%"
       textAlign={side}
       m="2"

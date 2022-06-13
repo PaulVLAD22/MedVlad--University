@@ -7,17 +7,16 @@ const MiniMailBox = ({
   timeOfSending,
   senderUsername,
 }) => {
-  let year, month, day, hour, minute;
+  let month, day, hour, minute;
 
   timeOfSending = String(timeOfSending);
-  year = timeOfSending.substr(0, 4);
   month = timeOfSending.substr(5, 2);
   day = timeOfSending.substr(8, 2);
   hour = timeOfSending.substr(11, 2);
   minute = timeOfSending.substr(14, 2);
   const conversationPartner = (
     <Text fontSize="xs">
-      {senderUsername == username ? "received" : "sent"}
+      {senderUsername === username ? "received" : "sent"}
     </Text>
   );
 

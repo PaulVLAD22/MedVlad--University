@@ -9,9 +9,9 @@ const DoctorRequest = ({ user, reRenderPage }) => {
   const context = useContext(UserContext);
   const [render, setRender] = useState(0);
   const [comment, setComment] = useState("");
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
-  const [message, setMessage] = useState("")
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [message, setMessage] = useState("");
 
   const sendRequestResponse = async (verdict) => {
     let url = "/admin/acceptDoctorRegistration";
@@ -22,19 +22,25 @@ const DoctorRequest = ({ user, reRenderPage }) => {
         Authorization: "Bearer " + context.jwt,
       },
     };
-    setMessage("sending...")
+    setMessage("sending...");
     await axios({
       method: "POST",
       url: url,
       headers: config.headers,
-      params: { username: user.username, firstName: firstName, lastName: lastName, comment: comment, verdict: verdict },
+      params: {
+        username: user.username,
+        firstName: firstName,
+        lastName: lastName,
+        comment: comment,
+        verdict: verdict,
+      },
     }).then(
       (response) => {
-        setMessage("")
+        setMessage("");
         console.log(response.data);
         setRender(render + 1);
-        console.log("rerender")
-        reRenderPage()
+        console.log("rerender");
+        reRenderPage();
       },
       async (getError) => {
         if (getError.response.status === 401) {
@@ -49,7 +55,7 @@ const DoctorRequest = ({ user, reRenderPage }) => {
   return (
     <Flex height="400px" width="min(100%,720px)" flexDir="column">
       <Flex width="100%" mb="10">
-
+        {console.log(user.licensePicture)}
         <Flex flexDir="row">
           <Text color="red">{message}</Text>
           <Img height="100%" src={user.licensePicture}></Img>
@@ -74,7 +80,7 @@ const DoctorRequest = ({ user, reRenderPage }) => {
             <AiFillStop></AiFillStop>
           </Button>
           <Button onClick={() => sendRequestResponse(true)}>
-            <TiTick ></TiTick>
+            <TiTick></TiTick>
           </Button>
         </Flex>
         <Input

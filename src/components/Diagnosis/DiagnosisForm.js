@@ -79,7 +79,7 @@ const DiagnosisForm = () => {
     setDiagnosisResult([]);
   };
   const calculateCondition = async () => {
-    let url = "/user/calculateDiagnosis";
+    let url = "/user/calculate-diagnosis";
 
     const config = {
       headers: {

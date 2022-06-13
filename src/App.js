@@ -1,8 +1,10 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import React, { createContext, useEffect } from "react";
 import {
-  BrowserRouter as Router, Redirect, Route,
-  Switch
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
 } from "react-router-dom";
 import "./App.css";
 import { NotFoundPage } from "./components/404";
@@ -32,14 +34,14 @@ function App() {
 
   useEffect(() => {
     console.log("USE EFFECT");
-    
+
     let token = localStorage.getItem("JWTToken");
     let refreshToken = localStorage.getItem("refresh_token");
-   
+
     if (token != null) {
-      if (context.jwt=="" || context.jwt==null) {
-        console.log("CONTEXT JWT NU EXISTA")
-        console.log(context.jwt)
+      if (context.jwt == "" || context.jwt == null) {
+        console.log("CONTEXT JWT NU EXISTA");
+        console.log(context.jwt);
         context.setJwt(token);
         context.setRefreshToken(refreshToken);
         context.setUserInfo(JSON.parse(localStorage.getItem("userInfo")));
@@ -51,178 +53,179 @@ function App() {
   return (
     <ChakraProvider>
       <div className="App">
-          <UserContext.Provider value={context}>
-            {context.jwt!="" && context.jwt!=null ? (
-              <>
-                {console.log(context)}
-                {context.userInfo.role == "USER" && (
-                  <>
-                    {console.log(!!context.jwt)}
-                    {console.log("USER")}
-                    <Switch>
-                      <Route exact path ="/diagnosis">
-                        <PageWrapper>
-                          <DiagnosisPage/>
-                        </PageWrapper>
-                      </Route>
-                      <Route exact path="/infostation">
-                        <PageWrapper>
-                          <InfostationPage />
-                        </PageWrapper>
-                      </Route>
-                      <Route exact path="/chat">
-                        <PageWrapper>
-                          <ChatPage />
-                        </PageWrapper>
-                      </Route>
-                      <Route exact path="/mail">
-                        <PageWrapper>
-                          <MailPage />
-                        </PageWrapper>
-                      </Route>
-                      <Route exact path="/">
-                        <PageWrapper>
-                          <HomePage />
-                        </PageWrapper>
-                      </Route>
-                      <Route exact path="/login">
-                        <Redirect
-                          to={{
-                            pathname: "/"
-                          }}
-                        />
-                      </Route>
-                      <Route path="/profile/:username?">
-                        <PageWrapper>
-                          <ProfilePage></ProfilePage>
-                        </PageWrapper>
-                      </Route>
-                      <Route exact path="*">
-                        <PageWrapper>
-                          <NotFoundPage />
-                        </PageWrapper>
-                      </Route>
-                    </Switch>
-                  </>
-                )}
-                {context.userInfo.role == "ADMIN" && (
+        <UserContext.Provider value={context}>
+          {context.jwt != "" && context.jwt != null ? (
+            <>
+              {console.log(context)}
+              {context.userInfo.role == "USER" && (
+                <>
+                  {console.log(!!context.jwt)}
+                  {console.log("USER")}
                   <Switch>
-                    <Route exact path="/accept">
+                    <Route exact path="/diagnosis">
                       <PageWrapper>
-                        <AcceptPage />
-                      </PageWrapper>
-                    </Route>
-                    <Route exact path="/acceptanceHistory">
-                      <PageWrapper>
-                        <HistoryPage />
-                      </PageWrapper>
-                    </Route>
-                    <Route exact path="/banUser">
-                      <PageWrapper>
-                        <BanUserPage />
+                        <DiagnosisPage />
                       </PageWrapper>
                     </Route>
                     <Route exact path="/infostation">
                       <PageWrapper>
-                        <InfostationPage></InfostationPage>
+                        <InfostationPage />
+                      </PageWrapper>
+                    </Route>
+                    <Route exact path="/chat">
+                      <PageWrapper>
+                        <ChatPage />
+                      </PageWrapper>
+                    </Route>
+                    <Route exact path="/mail">
+                      <PageWrapper>
+                        <MailPage />
                       </PageWrapper>
                     </Route>
                     <Route exact path="/">
                       <PageWrapper>
-                        <AdminHome />
-                      </PageWrapper>
-                    </Route>
-                    <Route path="/profile/:username?">
-                      <PageWrapper>
-                        <ProfilePage ></ProfilePage>
+                        <DiagnosisPage />
                       </PageWrapper>
                     </Route>
                     <Route exact path="/login">
                       <Redirect
                         to={{
-                          pathname: "/"
+                          pathname: "/",
                         }}
                       />
-                    </Route>
-                    <Route exact path="*">
-                      <PageWrapper>
-                        <NotFoundPage />
-                      </PageWrapper>
-                    </Route>
-                  </Switch>
-                )}
-                {context.userInfo.role == "DOCTOR" && (
-                  <Switch>
-                    <Route exact path="/answerQuestions">
-                      <PageWrapper>
-                        <InfostationPage></InfostationPage>
-                      </PageWrapper>
-                    </Route>
-                    <Route exact path="/mail">
-                      <PageWrapper>
-                        <MailPage></MailPage>
-                      </PageWrapper>
-                    </Route>
-                    <Route exact path="/chat">
-                      <PageWrapper>
-                        <ChatPage></ChatPage>
-                      </PageWrapper>
                     </Route>
                     <Route path="/profile/:username?">
                       <PageWrapper>
                         <ProfilePage></ProfilePage>
                       </PageWrapper>
                     </Route>
-                    <Route exact path="/">
-                      <PageWrapper>
-                        <DoctorHome />
-                      </PageWrapper>
-                    </Route>
-                    {// redirectionam /login (pus pt ca la inceput se incarca context.jwt==="" si ne redictioneaza la /login si noi tre sa redictionam iar la /)
-                    }
-                    <Route exact path="/login">
-                      <Redirect
-                        to={{
-                          pathname: "/"
-                        }}
-                      />
-                    </Route>
                     <Route exact path="*">
                       <PageWrapper>
                         <NotFoundPage />
                       </PageWrapper>
                     </Route>
                   </Switch>
-                )}
-              </>) :
-              <>
-                {console.log(context)}
+                </>
+              )}
+              {context.userInfo.role == "ADMIN" && (
                 <Switch>
-                  <Route exact path="/login" component={LoginForm} />
-                  <Route exact path="/" component={LoginForm} />
-                  <Route exact path="/register" component={SignupForm} />
-                  <Route path="/resetPassword/:token/:email">
-                    <ResetPasswordForm />
+                  <Route exact path="/accept">
+                    <PageWrapper>
+                      <AcceptPage />
+                    </PageWrapper>
                   </Route>
-                  <Route
-                    exact
-                    path="/doctorSignup"
-                    component={DoctorSignupForm}
-                  />
-                  <Route
-                    exact
-                    path="/forgotPassword"
-                    component={ForgotPasswordForm}
-                  />
+                  <Route exact path="/acceptanceHistory">
+                    <PageWrapper>
+                      <HistoryPage />
+                    </PageWrapper>
+                  </Route>
+                  <Route exact path="/banUser">
+                    <PageWrapper>
+                      <BanUserPage />
+                    </PageWrapper>
+                  </Route>
+                  <Route exact path="/infostation">
+                    <PageWrapper>
+                      <InfostationPage></InfostationPage>
+                    </PageWrapper>
+                  </Route>
+                  <Route exact path="/">
+                    <PageWrapper>
+                      <AdminHome />
+                    </PageWrapper>
+                  </Route>
+                  <Route path="/profile/:username?">
+                    <PageWrapper>
+                      <ProfilePage></ProfilePage>
+                    </PageWrapper>
+                  </Route>
+                  <Route exact path="/login">
+                    <Redirect
+                      to={{
+                        pathname: "/",
+                      }}
+                    />
+                  </Route>
                   <Route exact path="*">
-                    <NotFoundPage />
+                    <PageWrapper>
+                      <NotFoundPage />
+                    </PageWrapper>
                   </Route>
                 </Switch>
-              </>
-            }
-          </UserContext.Provider>
+              )}
+              {context.userInfo.role == "DOCTOR" && (
+                <Switch>
+                  <Route exact path="/answerQuestions">
+                    <PageWrapper>
+                      <InfostationPage></InfostationPage>
+                    </PageWrapper>
+                  </Route>
+                  <Route exact path="/mail">
+                    <PageWrapper>
+                      <MailPage></MailPage>
+                    </PageWrapper>
+                  </Route>
+                  <Route exact path="/chat">
+                    <PageWrapper>
+                      <ChatPage></ChatPage>
+                    </PageWrapper>
+                  </Route>
+                  <Route path="/profile/:username?">
+                    <PageWrapper>
+                      <ProfilePage></ProfilePage>
+                    </PageWrapper>
+                  </Route>
+                  <Route exact path="/">
+                    <PageWrapper>
+                      <DoctorHome />
+                    </PageWrapper>
+                  </Route>
+                  {
+                    // redirectionam /login (pus pt ca la inceput se incarca context.jwt==="" si ne redictioneaza la /login si noi tre sa redictionam iar la /)
+                  }
+                  <Route exact path="/login">
+                    <Redirect
+                      to={{
+                        pathname: "/",
+                      }}
+                    />
+                  </Route>
+                  <Route exact path="*">
+                    <PageWrapper>
+                      <NotFoundPage />
+                    </PageWrapper>
+                  </Route>
+                </Switch>
+              )}
+            </>
+          ) : (
+            <>
+              {console.log(context)}
+              <Switch>
+                <Route exact path="/login" component={LoginForm} />
+                <Route exact path="/" component={LoginForm} />
+                <Route exact path="/register" component={SignupForm} />
+                <Route path="/resetPassword/:token/:email">
+                  <ResetPasswordForm />
+                </Route>
+                <Route
+                  exact
+                  path="/doctorSignup"
+                  component={DoctorSignupForm}
+                />
+                <Route
+                  exact
+                  path="/forgotPassword"
+                  component={ForgotPasswordForm}
+                />
+                <Route exact path="*">
+                  <NotFoundPage />
+                </Route>
+              </Switch>
+            </>
+          )}
+        </UserContext.Provider>
       </div>
-
     </ChakraProvider>
   );
 }

@@ -17,7 +17,7 @@ const Navbar = ({ toggle }) => {
   const history = useHistory();
   const location = useLocation();
   const [darkColorMode, setDarkColorMode] = useState(false);
-  const { toggleColorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
   console.log(location.pathname);
 
   const context = useContext(UserContext);
@@ -209,7 +209,12 @@ const Navbar = ({ toggle }) => {
           width="100px"
           display="flex"
           justifyContent="center"
-          onClick={handleLogout}
+          onClick={() => {
+            if (colorMode === "dark") {
+              toggleColorMode();
+            }
+            handleLogout();
+          }}
         >
           Log out
         </Button>
