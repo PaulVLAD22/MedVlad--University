@@ -131,7 +131,7 @@ function App() {
                   </Route>
                   <Route exact path="/">
                     <PageWrapper>
-                      <AdminHome />
+                      <InfostationPage></InfostationPage>
                     </PageWrapper>
                   </Route>
                   <Route path="/profile/:username?">
@@ -177,7 +177,7 @@ function App() {
                   </Route>
                   <Route exact path="/">
                     <PageWrapper>
-                      <DoctorHome />
+                      <InfostationPage></InfostationPage>
                     </PageWrapper>
                   </Route>
                   {
